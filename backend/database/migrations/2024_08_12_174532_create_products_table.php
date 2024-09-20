@@ -18,7 +18,12 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->string('product_img', 255)->nullable();
             $table->integer('status')->default(0);
+            $table->unsignedBigInteger('category_id'); // Thêm cột category_id
+            $table->unsignedBigInteger('color_id'); // Thêm cột color_id
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('color_id')->references('id')->on('colors')->onDelete('cascade');
         });
     }
 

@@ -18,4 +18,14 @@ class Product extends Model
     {
         return $this->hasMany(ProductExport::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class);
+    }
 }

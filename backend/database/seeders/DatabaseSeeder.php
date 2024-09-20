@@ -2,10 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use App\Models\User;
-use App\Models\Permission;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,40 +11,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
 
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+            CategorySeeder::class,
+            ColorSeeder::class,
+            MaterialSeeder::class,
+            ProductSeeder::class,
 
-        User::factory()->create([
-            'name' => 'Dang',
-            'email' => 'dang@gmail.com',
-            'password' => bcrypt('123456'),
-            'phone' => '0123456789',
         ]);
-
-        $roles = [
-            'Admin',
-            'Manager',
-            'Director',
-            'Employee',
-        ];
-
-        foreach ($roles as $role) {
-            Role::factory()->create([
-                'name' => $role,
-            ]);
-        }
-
-        $permissions = [
-            'Create User',
-            'Read User',
-            'Update User',
-            'Delete User',
-        ];
-
-        foreach ($permissions as $permission) {
-            Permission::factory()->create([
-                'name' => $permission,
-            ]);
-        }
     }
 }

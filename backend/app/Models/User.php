@@ -64,6 +64,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+
+
     public function materialExports()
     {
         return $this->hasMany(MaterialExport::class);
@@ -85,6 +87,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

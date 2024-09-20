@@ -5,14 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+use App\Repositories\Interface\ProductRepositoryInterface;
+
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    protected $productRepository;
+
+    public function __construct(ProductRepositoryInterface $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     public function index()
     {
-        //
+        return $this->productRepository->all();
     }
 
     /**

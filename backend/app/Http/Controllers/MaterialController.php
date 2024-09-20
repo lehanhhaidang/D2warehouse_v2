@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Material;
+use App\Repositories\Interface\MaterialRepositoryInterface;
 use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
+    protected $materialRepository;
+
+    public function __construct(MaterialRepositoryInterface $materialRepository)
+    {
+        $this->materialRepository = $materialRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
+        $result = $this->materialRepository->all();
+        return response()->json($result);
     }
 
     /**
@@ -21,6 +30,7 @@ class MaterialController extends Controller
     public function create()
     {
         //
+
     }
 
     /**

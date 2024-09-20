@@ -9,8 +9,23 @@ class UserRepository implements UserRepositoryInterface
 {
     public function all()
     {
-        return User::all();
+        return User::with('role')->get()->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'phone' => $user->phone,
+                'email' => $user->email,
+                'img_url' => $user->img_url,
+                'status' => $user->status,
+                'email_verified_at' => $user->email_verified_at,
+                'role_name' => $user->role->name, // Chỉ lấy tên vai trò
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+            ];
+        });
     }
+
+
 
     public function find($id)
     {
