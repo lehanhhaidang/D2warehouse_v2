@@ -243,15 +243,18 @@ class UserController extends Controller
             if (!$user) {
                 return response()->json([
                     'message' => 'Không tìm thấy người dùng này',
+                    'status' => 404,
                 ], 404);
             }
 
             return response()->json([
-                'message' => 'Cập nhật người dùng thành công'
+                'message' => 'Cập nhật người dùng thành công',
+                'status' => 200,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Có lỗi xảy ra, vui lòng thử lại sau',
+                'status' => 500,
                 'error' => $e->getMessage(),
             ], 500);
         }

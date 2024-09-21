@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('material_receipt_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('material_receipt_id');
+            $table->unsignedBigInteger('material_id');
+            $table->integer('unit');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

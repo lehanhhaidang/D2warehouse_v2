@@ -25,13 +25,7 @@ class ProductController extends Controller
         return $this->productRepository->all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -55,13 +49,7 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

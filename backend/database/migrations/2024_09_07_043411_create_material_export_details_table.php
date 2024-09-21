@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('material_export_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('material_export_id');
+            $table->unsignedBigInteger('material_id');
+            $table->integer('unit');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

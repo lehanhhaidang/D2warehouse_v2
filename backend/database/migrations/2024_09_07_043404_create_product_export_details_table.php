@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('product_export_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_export_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('unit');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
