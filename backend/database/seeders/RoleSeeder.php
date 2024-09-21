@@ -32,15 +32,44 @@ class RoleSeeder extends Seeder
                 // Gắn tất cả các permission cho Admin
                 $role->permissions()->sync($permissions->pluck('id'));
             } elseif ($roleName == 'Quản lý kho') {
-                // Gắn một số permission cho Manager
+
+                // permission cho Manager
                 $role->permissions()->sync($permissions->whereIn('name', [
-                    'Read User',
-                    'Update User',
+                    'view_warehouse',
+                    'view_products',
+                    'view_materials',
+                    'view_product_receipts',
+                    'view_product_exports',
+                    'view_propose',
+                    'create_propose',
+
                 ])->pluck('id'));
             } elseif ($roleName == 'Nhân viên kho') {
-                // Gắn chỉ một vài permission cho Employee
+
+                //  permission cho Employee
                 $role->permissions()->sync($permissions->whereIn('name', [
-                    'Read User',
+
+                    'view_warehouse',
+                    'view_products',
+                    'view_materials',
+                    'view_product_receipts',
+                    'view_product_exports',
+                    'view_propose',
+                    'create_propose',
+
+                ])->pluck('id'));
+            } elseif ($roleName == 'Giám đốc') {
+
+                // permission cho Employee
+                $role->permissions()->sync($permissions->whereIn('name', [
+
+                    'view_warehouse',
+                    'view_products',
+                    'view_materials',
+                    'view_product_receipts',
+                    'view_product_exports',
+                    'view_propose',
+
                 ])->pluck('id'));
             }
         }

@@ -68,7 +68,8 @@ class UserController extends Controller
      *             @OA\Property(property="name", type="string", example="Dang"),
      *             @OA\Property(property="email", type="string", example="dang@gmail.com"),
      *             @OA\Property(property="password", type="string", example="12345678"),
-     *             @OA\Property(property="role", type="integer", example=1)
+     *             @OA\Property(property="phone", type="string", example="0123456789"),
+     *             @OA\Property(property="role_id", type="integer", example=1)
      *         )
      *     ),
      *     @OA\Response(
@@ -93,12 +94,15 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         try {
-            $this->userRepository->create([
+            // dd($request->all());
+            $data = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'role' => $request->role,
-            ]);
+                'phone' => $request->phone,
+                'role_id' => $request->role_id,
+            ];
+            $this->userRepository->create($data);
 
             return response()->json([
                 'message' => 'Tạo mới người dùng thành công'
@@ -231,6 +235,8 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
+                'phone' => $request->phone,
+                'role_id' => $request->role_id,
 
             ]);
 

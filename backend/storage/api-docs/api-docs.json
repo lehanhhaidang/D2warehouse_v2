@@ -115,7 +115,11 @@
                                         "type": "string",
                                         "example": "12345678"
                                     },
-                                    "role": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "role_id": {
                                         "type": "integer",
                                         "example": 1
                                     }

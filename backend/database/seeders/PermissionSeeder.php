@@ -21,6 +21,14 @@ class PermissionSeeder extends Seeder
             'update_users',
             'delete_users',
 
+
+            //Warehouse
+
+            'view_warehouse',
+            'create_warehouse',
+            'update_warehouse',
+            'delete_warehouse',
+
             //Products
             'view_products',
             'create_products',
@@ -40,6 +48,20 @@ class PermissionSeeder extends Seeder
             'create_product_receipts',
             'update_product_receipts',
             'delete_product_receipts',
+
+            //ProductExports
+
+            'view_product_exports',
+            'create_product_exports',
+            'update_product_exports',
+            'delete_product_exports',
+
+            //Propose
+
+            'view_propose',
+            'create_propose',
+            'update_propose',
+            'delete_propose',
 
         ];
 

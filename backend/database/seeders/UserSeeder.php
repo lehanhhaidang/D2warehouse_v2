@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -12,12 +13,42 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Dang',
-            'email' => 'dang@gmail.com',
-            'password' => bcrypt('123456'),
-            'phone' => '0123456789',
-            'role_id' => 1,
+
+
+        DB::table('users')->insert([
+            [
+                'name' => 'Quản trị viên',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '0123456789',
+                'role_id' => 1,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Lê Hạnh Hải Đăng',
+                'email' => 'dang@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '0833109609',
+                'role_id' => 2,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Bùi Thục Đoan',
+                'email' => 'doan@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '0123456788',
+                'role_id' => 3,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Nguyễn Huỳnh Hương',
+                'email' => 'huong@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '0123456787',
+                'role_id' => 4,
+                'created_at' => now(),
+            ],
+
         ]);
     }
 }

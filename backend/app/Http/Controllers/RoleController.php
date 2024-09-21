@@ -4,15 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use App\Repositories\Interface\RoleRepositoryInterface;
 
 class RoleController extends Controller
 {
+    protected $roleRepository;
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct(RoleRepositoryInterface $roleRepository)
+    {
+        $this->roleRepository = $roleRepository;
+    }
     public function index()
     {
-        //
+        $results = $this->roleRepository->all();
+        return response()->json($results);
     }
 
     /**

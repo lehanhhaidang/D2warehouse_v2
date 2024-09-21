@@ -29,8 +29,26 @@ class UserRepository implements UserRepositoryInterface
 
     public function find($id)
     {
-        return User::find($id);
+        $user = User::with('role')->where('id', $id)->first();
+
+        if ($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'phone' => $user->phone,
+                'email' => $user->email,
+                'img_url' => $user->img_url,
+                'status' => $user->status,
+                'email_verified_at' => $user->email_verified_at,
+                'role_name' => $user->role->name, // Chỉ lấy tên vai trò
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+            ];
+        }
+
+        return null;
     }
+
 
     public function create(array $data)
     {
