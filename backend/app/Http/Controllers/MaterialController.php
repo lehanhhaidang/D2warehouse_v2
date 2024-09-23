@@ -6,6 +6,8 @@ use App\Http\Requests\Material\StoreMaterialRequest;
 use App\Models\Material;
 use App\Repositories\Interface\MaterialRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialController extends Controller
 {
@@ -115,6 +117,17 @@ class MaterialController extends Controller
     public function store(StoreMaterialRequest $request)
     {
         try {
+
+            $directory = 'images/materials';
+            if (!Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory);
+            }
+
+            $imagePath = null;
+            if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
+                $imagePath = $request->file('material_img')->store($directory, 'public');
+            }
+
             $data = [
                 'name' => $request->name,
                 'unit' => $request->unit,
@@ -130,6 +143,7 @@ class MaterialController extends Controller
                 'status' => 200,
             ], 200);
         } catch (\Exception $e) {
+            Log::error('Lỗi khi thêm nguyên vật liệu: ' . $e->getMessage());
             return response()->json([
                 'message' => 'Thêm nguyên vật liệu thất bại',
                 'status' => 500,
@@ -256,7 +270,6 @@ class MaterialController extends Controller
     public function update(StoreMaterialRequest $request, $id)
     {
         try {
-            // Kiểm tra tồn tại nguyên vật liệu trước khi cập nhật
             $material = $this->materialRepository->find($id);
 
             if (!$material) {
@@ -266,17 +279,26 @@ class MaterialController extends Controller
                 ], 404);
             }
 
-            // Cập nhật nguyên vật liệu
-            $this->materialRepository->update(
-                $id,
-                [
-                    'name' => $request->name,
-                    'unit' => $request->unit,
-                    'quantity' => $request->quantity,
-                    'material_img' => $request->material_img,
-                    'status' => $request->status,
-                ]
-            );
+            // Logic xử lý ảnh sản phẩm
+            $imagePath = $material->material_img;
+            if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
+                if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath);
+                }
+                $imagePath = $request->file('material_img')->store('images/materials', 'public');
+            }
+
+            $data = [
+                'name' => $request->name,
+                'category_id' => $request->category_id,
+                'color_id' => $request->color_id,
+                'unit' => $request->unit,
+                'quantity' => $request->quantity,
+                'material_img' => $imagePath,
+                'status' => $request->status,
+            ];
+
+            $this->materialRepository->update($id, $data);
 
             return response()->json([
                 'message' => 'Cập nhật nguyên vật liệu thành công',
@@ -290,7 +312,6 @@ class MaterialController extends Controller
             ], 500);
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

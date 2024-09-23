@@ -27,7 +27,7 @@ class UpdateProductRequest extends FormRequest
             'color_id' => 'required|integer',
             'unit' => 'required|string',
             'quantity' => 'required|integer',
-            'product_img' => 'nullable|string',
+            'product_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|integer',
         ];
     }
@@ -45,6 +45,9 @@ class UpdateProductRequest extends FormRequest
             'quantity.integer' => 'Số lượng sản phẩm phải là số nguyên',
             'status.required' => 'Trạng thái sản phẩm không được để trống',
             'status.integer' => 'Trạng thái sản phẩm phải là số nguyên',
+            'product_img.image' => 'File tải lên phải là hình ảnh hợp lệ',
+            'product_img.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif, svg',
+            'product_img.max' => 'Hình ảnh tải lên không được vượt quá 2MB',
         ];
     }
 }

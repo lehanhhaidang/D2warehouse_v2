@@ -6,6 +6,8 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 use App\Repositories\Interface\ProductRepositoryInterface;
 
@@ -129,16 +131,27 @@ class ProductController extends Controller
      * )
      */
 
+
     public function store(StoreProductRequest $request)
     {
         try {
+            $directory = 'images/products';
+            if (!Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory);
+            }
+
+            $imagePath = null;
+            if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
+                $imagePath = $request->file('product_img')->store($directory, 'public');
+            }
+
             $data = [
                 'name' => $request->name,
                 'category_id' => $request->category_id,
                 'color_id' => $request->color_id,
                 'unit' => $request->unit,
                 'quantity' => $request->quantity,
-                'product_img' => $request->product_img,
+                'product_img' => $imagePath,
                 'status' => $request->status,
             ];
 
@@ -149,6 +162,7 @@ class ProductController extends Controller
                 'status' => 200,
             ], 200);
         } catch (\Exception $e) {
+            Log::error('Lỗi khi thêm thành phẩm: ' . $e->getMessage());
             return response()->json([
                 'message' => 'Thêm thành phẩm thất bại',
                 'status' => 500,
@@ -156,6 +170,9 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+
+
 
 
     /**
@@ -292,19 +309,26 @@ class ProductController extends Controller
                 ], 404);
             }
 
-            // Cập nhật
-            $this->productRepository->update(
-                $id,
-                [
-                    'name' => $request->name,
-                    'category_id' => $request->category_id,
-                    'color_id' => $request->color_id,
-                    'unit' => $request->unit,
-                    'quantity' => $request->quantity,
-                    'product_img' => $request->product_img,
-                    'status' => $request->status,
-                ]
-            );
+            // Logic xử lý ảnh sản phẩm
+            $imagePath = $product->product_img;
+            if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
+                if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath);
+                }
+                $imagePath = $request->file('product_img')->store('images/products', 'public');
+            }
+
+            $data = [
+                'name' => $request->name,
+                'category_id' => $request->category_id,
+                'color_id' => $request->color_id,
+                'unit' => $request->unit,
+                'quantity' => $request->quantity,
+                'product_img' => $imagePath,
+                'status' => $request->status,
+            ];
+
+            $this->productRepository->update($id, $data);
 
             return response()->json([
                 'message' => 'Cập nhật thành phẩm thành công',
@@ -318,6 +342,7 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
 
 
     /**

@@ -25,7 +25,7 @@ class StoreMaterialRequest extends FormRequest
             'name' => 'required|string',
             'unit' => 'required|string',
             'quantity' => 'required|numeric',
-            'material_img' => 'nullable|string',
+            'material_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|numeric',
         ];
     }
@@ -41,6 +41,9 @@ class StoreMaterialRequest extends FormRequest
             'quantity.numeric' => 'Số lượng phải là số',
             'status.required' => 'Trạng thái không được để trống',
             'status.numeric' => 'Trạng thái phải là số',
+            'material_img.image' => 'Ảnh không đúng định dạng',
+            'material_img.mimes' => 'Ảnh phải có định dạng jpeg, png, jpg, gif, svg',
+            'material_img.max' => 'Ảnh không được vượt quá 2048kb',
         ];
     }
 }
