@@ -16,14 +16,13 @@ return new class extends Migration
             $table->string('name', 100);
             $table->timestamp('receive_date');
             $table->integer('status')->default(0);
-            $table->unsignedBigInteger('material_id');
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
         });
+        columns:
     }
 
     /**

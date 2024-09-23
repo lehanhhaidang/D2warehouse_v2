@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MaterialReceipt;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,10 @@ class DatabaseSeeder extends Seeder
             ColorSeeder::class,
             MaterialSeeder::class,
             ProductSeeder::class,
+            ProductReceiptSeeder::class,
+            ProductExportSeeder::class,
+            MaterialReceiptSeeder::class,
+            MaterialExportSeeder::class,
 
         ]);
     }

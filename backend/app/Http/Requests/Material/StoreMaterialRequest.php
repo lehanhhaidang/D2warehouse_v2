@@ -11,7 +11,7 @@ class StoreMaterialRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,25 @@ class StoreMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'unit' => 'required|string',
+            'quantity' => 'required|numeric',
+            'material_img' => 'nullable|string',
+            'status' => 'required|numeric',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Tên nguyên vật liệu không được để trống',
+            'name.string' => 'Tên nguyên vật liệu phải là chuỗi',
+            'unit.required' => 'Đơn vị không được để trống',
+            'unit.string' => 'Đơn vị phải là chuỗi',
+            'quantity.required' => 'Số lượng không được để trống',
+            'quantity.numeric' => 'Số lượng phải là số',
+            'status.required' => 'Trạng thái không được để trống',
+            'status.numeric' => 'Trạng thái phải là số',
         ];
     }
 }

@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_export_id');
             $table->unsignedBigInteger('product_id');
-            $table->integer('unit');
+            $table->string('unit');
             $table->integer('quantity');
-            $table->timestamps();
+
+
+            $table->foreign('product_export_id')->references('id')->on('product_exports')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

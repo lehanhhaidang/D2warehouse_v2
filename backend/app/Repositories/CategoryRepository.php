@@ -17,7 +17,10 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function find($id)
     {
-        return Category::find($id);
+        return Category::select(
+            'categories.id',
+            'categories.name',
+        )->where('categories.id', $id)->first();
     }
 
     public function create(array $data)
@@ -25,7 +28,7 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::create($data);
     }
 
-    public function update($data,  $id)
+    public function update($id,  $data)
     {
         $category = Category::find($id);
         if ($category) {

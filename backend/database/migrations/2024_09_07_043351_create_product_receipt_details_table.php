@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_receipt_id');
             $table->unsignedBigInteger('product_id');
-            $table->integer('unit');
+            $table->string('unit');
             $table->integer('quantity');
-            $table->timestamps();
+
+            $table->foreign('product_receipt_id')->references('id')->on('product_receipts')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

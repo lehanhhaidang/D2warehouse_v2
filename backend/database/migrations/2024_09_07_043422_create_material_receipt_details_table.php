@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('material_receipt_id');
             $table->unsignedBigInteger('material_id');
-            $table->integer('unit');
+            $table->string('unit');
             $table->integer('quantity');
-            $table->timestamps();
+
+
+            $table->foreign('material_receipt_id')->references('id')->on('material_receipts')->onDelete('cascade');
+            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
         });
     }
 

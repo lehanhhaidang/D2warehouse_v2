@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace App\Repositories;
 
@@ -9,12 +9,32 @@ class MaterialRepository implements MaterialRepositoryInterface
 {
     public function all()
     {
-        return Material::all();
+        return Material::select(
+            'materials.id',
+            'materials.name',
+            'materials.unit',
+            'materials.quantity',
+            'materials.material_img',
+            'materials.status',
+            'materials.created_at',
+            'materials.updated_at',
+
+        )->get();
     }
 
     public function find($id)
     {
-        return Material::find($id);
+        return Material::select(
+            'materials.id',
+            'materials.name',
+            'materials.unit',
+            'materials.quantity',
+            'materials.material_img',
+            'materials.status',
+            'materials.created_at',
+            'materials.updated_at',
+
+        )->where('materials.id', $id)->first();
     }
 
     public function create(array $data)

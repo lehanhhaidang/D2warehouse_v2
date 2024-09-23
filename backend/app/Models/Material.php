@@ -9,6 +9,14 @@ class Material extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'unit',
+        'quantity',
+        'material_img',
+        'status',
+    ];
+
     public function receipts()
     {
         return $this->hasMany(MaterialReceipt::class);

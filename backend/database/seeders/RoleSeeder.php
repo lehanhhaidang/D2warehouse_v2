@@ -54,8 +54,14 @@ class RoleSeeder extends Seeder
                     'view_materials',
                     'view_product_receipts',
                     'view_product_exports',
-                    'view_propose',
-                    'create_propose',
+                    'view_proposes',
+                    'create_proposes',
+
+                    //
+                    'create_product_receipts',
+                    'create_product_exports',
+                    'create_material_receipts',
+                    'create_material_exports',
 
                 ])->pluck('id'));
             } elseif ($roleName == 'Giám đốc') {

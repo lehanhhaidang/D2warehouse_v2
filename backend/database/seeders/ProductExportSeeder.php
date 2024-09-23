@@ -4,20 +4,20 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\MaterialExport;
+use App\Models\ProductExport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class MaterialExportSeeder extends Seeder
+class ProductExportSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $materialExport = [
+        $productExport = [
             [
-                'name' => 'Phiếu xuất kho nguyên vật liệu 1',
+                'name' => 'Phiếu xuất kho thành phẩm 1',
                 'export_date' => Carbon::now(),
                 'status' => 1,
                 'user_id' => 3,
@@ -25,7 +25,7 @@ class MaterialExportSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Phiếu xuất kho nguyên vật liệu 2',
+                'name' => 'Phiếu xuất kho thành phẩm 2',
                 'export_date' => Carbon::now(),
                 'status' => 1,
                 'user_id' => 3,
@@ -33,7 +33,7 @@ class MaterialExportSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Phiếu xuất kho nguyên vật liệu 3',
+                'name' => 'Phiếu xuất kho thành phẩm 3',
                 'export_date' => Carbon::now(),
                 'status' => 1,
                 'user_id' => 3,
@@ -41,7 +41,7 @@ class MaterialExportSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Phiếu xuất kho nguyên vật liệu 4',
+                'name' => 'Phiếu xuất kho thành phẩm 4',
                 'export_date' => Carbon::now(),
                 'status' => 1,
                 'user_id' => 3,
@@ -49,7 +49,7 @@ class MaterialExportSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Phiếu xuất kho nguyên vật liệu 5',
+                'name' => 'Phiếu xuất kho thành phẩm 5',
                 'export_date' => Carbon::now(),
                 'status' => 1,
                 'user_id' => 3,
@@ -59,71 +59,71 @@ class MaterialExportSeeder extends Seeder
 
         ];
 
-        DB::table('material_exports')->insert($materialExport);
+        DB::table('product_exports')->insert($productExport);
 
-        $materialExportDetails = [
+        $productExportDetails = [
             [
-                'material_export_id' => 1,
-                'material_id' => 1,
-                'unit' => 'bao',
+                'product_export_id' => 1,
+                'product_id' => 1,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 1,
-                'material_id' => 1,
-                'unit' => 'bao',
+                'product_export_id' => 1,
+                'product_id' => 3,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 2,
-                'material_id' => 2,
-                'unit' => 'bao',
+                'product_export_id' => 2,
+                'product_id' => 2,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 2,
-                'material_id' => 2,
-                'unit' => 'bao',
+                'product_export_id' => 2,
+                'product_id' => 4,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 3,
-                'material_id' => 1,
-                'unit' => 'bao',
+                'product_export_id' => 3,
+                'product_id' => 1,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 3,
-                'material_id' => 1,
-                'unit' => 'bao',
+                'product_export_id' => 3,
+                'product_id' => 3,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 4,
-                'material_id' => 1,
-                'unit' => 'bao',
+                'product_export_id' => 4,
+                'product_id' => 2,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 4,
-                'material_id' => 2,
-                'unit' => 'bao',
+                'product_export_id' => 4,
+                'product_id' => 4,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 5,
-                'material_id' => 1,
-                'unit' => 'bao',
+                'product_export_id' => 5,
+                'product_id' => 1,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
             [
-                'material_export_id' => 5,
-                'material_id' => 1,
-                'unit' => 'bao',
+                'product_export_id' => 5,
+                'product_id' => 3,
+                'unit' => 'chai',
                 'quantity' => 100,
             ],
         ];
 
-        DB::table('material_export_details')->insert($materialExportDetails);
+        DB::table('product_export_details')->insert($productExportDetails);
     }
 }

@@ -9,6 +9,16 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'category_id',
+        'color_id',
+        'unit',
+        'quantity',
+        'product_img',
+        'status',
+    ];
+
     public function receipts()
     {
         return $this->hasMany(ProductReceipt::class);

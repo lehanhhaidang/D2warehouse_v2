@@ -42,6 +42,34 @@ class PermissionSeeder extends Seeder
             'update_materials',
             'delete_materials',
 
+            //Categories
+
+            'view_categories',
+            'create_categories',
+            'update_categories',
+            'delete_categories',
+
+            //Roles
+
+            'view_roles',
+            'create_roles',
+            'update_roles',
+            'delete_roles',
+
+            //Permissions
+
+            'view_permissions',
+            'create_permissions',
+            'update_permissions',
+            'delete_permissions',
+
+            //Colors
+
+            'view_colors',
+            'create_colors',
+            'update_colors',
+            'delete_colors',
+
             //ProductReceipts
 
             'view_product_receipts',

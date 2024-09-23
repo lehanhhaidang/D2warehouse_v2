@@ -16,12 +16,10 @@ return new class extends Migration
             $table->string('name', 100);
             $table->timestamp('export_date');
             $table->integer('status')->default(0);
-            $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

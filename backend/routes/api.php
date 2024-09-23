@@ -8,6 +8,7 @@ use App\Http\Controllers\ChatGPTController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MaterialController;
 
 Route::post('/v1/auth/login', [AuthController::class, 'login'])->middleware('api');
 Route::post('/v1/auth/signup', [AuthController::class, 'signup'])->middleware('api');
@@ -65,13 +66,31 @@ Route::group(
     function ($router) {
         //Product Routes
         Route::get('products', [ProductController::class, 'index'])->middleware('check.permission:view_products');
-        Route::get('product/{id}', [ProductController::class, 'show']);
-        Route::post('product/add', [ProductController::class, 'store']);
-        Route::put('product/update/{id}', [ProductController::class, 'update']);
-        Route::delete('product/delete/{id}', [ProductController::class, 'destroy']);
+        Route::get('product/{id}', [ProductController::class, 'show'])->middleware('check.permission:view_products');
+        Route::post('product/add', action: [ProductController::class, 'store'])->middleware('check.permission:create_products');
+        Route::put('product/update/{id}', action: [ProductController::class, 'update'])->middleware('check.permission:update_products');
+        Route::delete('product/delete/{id}', action: [ProductController::class, 'destroy'])->middleware('check.permission:delete_products');
     }
 );
 
+//Material Routes
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Material Routes
+        Route::get('materials', [MaterialController::class, 'index'])->middleware('check.permission:view_materials');
+        Route::get('material/{id}', [MaterialController::class, 'show'])->middleware('check.permission:view_materials');
+        Route::post('material/add', [MaterialController::class, 'store'])->middleware('check.permission:create_materials');
+        Route::put('material/update/{id}', [MaterialController::class, 'update'])->middleware('check.permission:update_materials');
+        Route::delete('material/delete/{id}', [MaterialController::class, 'destroy'])->middleware('check.permission:delete_materials');
+    }
+);
 
 //Role Routes
 Route::group(
