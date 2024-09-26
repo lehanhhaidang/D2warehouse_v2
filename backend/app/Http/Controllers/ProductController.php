@@ -70,7 +70,6 @@ class ProductController extends Controller
      */
 
 
-
     public function index()
     {
         try {
@@ -96,19 +95,23 @@ class ProductController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/products",
-     *     summary="Thêm thành phẩm mới",
+     *     path="/api/v1/product/add",
+     *     summary="Thêm mới thành phẩm",
      *     tags={"Products"},
-     *     @OA\RequestBody(
+     *      @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="Chai nhựa HDPE 1 lít xanh"),
-     *             @OA\Property(property="category_id", type="integer", example=1),
-     *             @OA\Property(property="color_id", type="integer", example=1),
-     *             @OA\Property(property="unit", type="string", example="chai"),
-     *             @OA\Property(property="quantity", type="integer", example=100),
-     *             @OA\Property(property="product_img", type="string", nullable=true, example=null),
-     *             @OA\Property(property="status", type="integer", example=1)
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={"name", "unit", "quantity", "category_id", "color_id", "shelf_id", "status"},
+     *                 @OA\Property(property="name", type="string", example="Nhựa HDPE"),
+     *                 @OA\Property(property="unit", type="string", example="bao"),
+     *                 @OA\Property(property="quantity", type="integer", example=50),
+     *                 @OA\Property(property="category_id", type="integer", example=3),
+     *                 @OA\Property(property="color_id", type="integer", example=1),
+     *                 @OA\Property(property="material_img", type="string", format="binary" , example="image.jpg"),
+     *                 @OA\Property(property="status", type="integer", example=1)
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -172,33 +175,33 @@ class ProductController extends Controller
     }
 
 
-
-
-
     /**
      * @OA\Get(
-     *     path="/api/v1/products/{id}",
+     *     path="/api/v1/product/{id}",
      *     summary="Lấy thông tin thành phẩm theo ID",
      *     tags={"Products"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
+     *         description="ID của thành phẩm cần lấy thông tin",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Thông tin thành phẩm",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer", example=1),
-     *             @OA\Property(property="name", type="string", example="Chai nhựa HDPE 1 lít xanh"),
-     *             @OA\Property(property="category_name", type="string", example="Chai nhựa PET"),
-     *             @OA\Property(property="color_name", type="string", example="Xanh"),
+     *             @OA\Property(property="id", type="integer", example=2),
+     *             @OA\Property(property="name", type="string", example="Xô nhựa HDPE 1 lít đỏ"),
+     *             @OA\Property(property="category_name", type="string", example="Xô nhựa HDPE"),
+     *             @OA\Property(property="color_name", type="string", example="Đỏ"),
+     *             @OA\Property(property="shelf_name", type="string", example="Kệ 2"),
+     *             @OA\Property(property="warehouse_name", type="string", example="Kho thành phẩm 1"),
      *             @OA\Property(property="unit", type="string", example="chai"),
      *             @OA\Property(property="quantity", type="integer", example=100),
      *             @OA\Property(property="product_img", type="string", nullable=true, example=null),
      *             @OA\Property(property="status", type="integer", example=1),
-     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-21T15:34:21.000000Z"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-25T03:42:10.000000Z"),
      *             @OA\Property(property="updated_at", type="string", format="date-time", nullable=true, example=null)
      *         )
      *     ),
@@ -247,25 +250,25 @@ class ProductController extends Controller
 
 
     /**
-     * @OA\Put(
-     *     path="/api/v1/products/{id}",
-     *     summary="Cập nhật thông tin thành phẩm",
+     * @OA\Patch(
+     *     path="/api/v1/product/update/{id}",
+     *     summary="Cập nhật thành phẩm",
      *     tags={"Products"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string", example="Chai nhựa HDPE 1 lít xanh"),
-     *             @OA\Property(property="category_id", type="integer", example=1),
-     *             @OA\Property(property="color_id", type="integer", example=1),
+     *             @OA\Property(property="category_id", type="integer", example=5),
+     *             @OA\Property(property="color_id", type="integer", example=2),
      *             @OA\Property(property="unit", type="string", example="chai"),
      *             @OA\Property(property="quantity", type="integer", example=100),
-     *             @OA\Property(property="product_img", type="string", nullable=true, example=null),
+     *             @OA\Property(property="product_img", type="string", format="binary", example="file"),
      *             @OA\Property(property="status", type="integer", example=1)
      *         )
      *     ),
@@ -297,7 +300,7 @@ class ProductController extends Controller
      * )
      */
 
-    public function update(UpdateProductRequest $request, $id)
+    public function update(StoreProductRequest $request, $id)
     {
         try {
             $product = $this->productRepository->find($id);
@@ -347,7 +350,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/products/{id}",
+     *     path="/api/v1/product/delete/{id}",
      *     summary="Xóa thành phẩm",
      *     tags={"Products"},
      *     @OA\Parameter(

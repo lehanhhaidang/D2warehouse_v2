@@ -13,9 +13,15 @@ class Material extends Model
         'name',
         'unit',
         'quantity',
+        'category_id',
         'material_img',
         'status',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function receipts()
     {

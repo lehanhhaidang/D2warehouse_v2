@@ -112,7 +112,9 @@ class CategoryController extends Controller
     {
         try {
             $data = [
-                'name' => $request->name
+                'name' => $request->name,
+                'type' => $request->type,
+                'parent_id' => $request->parent_id,
             ];
 
             $this->categoryRepository->create($data);

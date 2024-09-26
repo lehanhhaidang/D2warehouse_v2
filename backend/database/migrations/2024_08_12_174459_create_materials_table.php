@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('unit', 50)->nullable();
             $table->integer('quantity')->default(0);
+            $table->unsignedBigInteger('category_id');
+
             $table->string('material_img', 255)->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

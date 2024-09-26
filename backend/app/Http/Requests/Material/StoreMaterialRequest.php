@@ -4,6 +4,8 @@ namespace App\Http\Requests\Material;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Services\ShelfCategoryChecker;
+
 class StoreMaterialRequest extends FormRequest
 {
     /**
@@ -27,6 +29,7 @@ class StoreMaterialRequest extends FormRequest
             'quantity' => 'required|numeric',
             'material_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|numeric',
+            'category_id' => 'required|integer',
         ];
     }
 
@@ -44,6 +47,24 @@ class StoreMaterialRequest extends FormRequest
             'material_img.image' => 'Ảnh không đúng định dạng',
             'material_img.mimes' => 'Ảnh phải có định dạng jpeg, png, jpg, gif, svg',
             'material_img.max' => 'Ảnh không được vượt quá 2048kb',
+            'category_id.required' => 'Danh mục sản phẩm không được để trống',
+            'category_id.integer' => 'Danh mục sản phẩm phải là số nguyên',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $checker = new ShelfCategoryChecker();
+            if (!$checker->checkShelfBelongsToCategory($this->shelf_id, $this->category_id)) {
+                // Lấy danh sách tên kệ và tên kho phù hợp với category_id
+                $shelves = $checker->getShelvesByCategory($this->category_id);
+                $shelfDetails = $shelves->toArray(); // Chuyển đổi collection thành mảng
+
+                // Tạo thông báo lỗi với gợi ý
+                $errorMessage = 'Kệ không thuộc về loại nguyên vật liệu đã chọn. Các kệ hợp lệ: ' . implode(', ', $shelfDetails);
+                $validator->errors()->add('shelf_id', $errorMessage);
+            }
+        });
     }
 }

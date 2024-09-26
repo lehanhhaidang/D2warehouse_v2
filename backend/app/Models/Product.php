@@ -38,4 +38,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Color::class);
     }
+
+    public function shelfDetails()
+    {
+        return $this->hasMany(ShelfDetail::class);
+    }
 }

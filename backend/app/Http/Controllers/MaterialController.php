@@ -37,23 +37,34 @@ class MaterialController extends Controller
      *                 @OA\Property(property="name", type="string", example="Nhựa HDPE"),
      *                 @OA\Property(property="unit", type="string", example="bao"),
      *                 @OA\Property(property="quantity", type="integer", example=50),
+     *                 @OA\Property(property="warehouse_name", type="string", example="Kho nguyên vật liệu 1"),
      *                 @OA\Property(property="material_img", type="string", nullable=true, example=null),
      *                 @OA\Property(property="status", type="integer", example=1),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-21T15:34:21.000000Z"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-25T03:42:10.000000Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", nullable=true, example=null)
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Không tìm thấy nguyên vật liệu nào",
+     *         description="Không có nguyên vật liệu nào",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Không tìm thấy nguyên vật liệu nào"),
      *             @OA\Property(property="status", type="integer", example=404)
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi khi lấy danh sách nguyên vật liệu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lỗi khi lấy danh sách nguyên vật liệu"),
+     *             @OA\Property(property="status", type="integer", example=500),
+     *             @OA\Property(property="error", type="string", example="Error message here")
+     *         )
      *     )
      * )
      */
+
 
     public function index()
     {
@@ -77,21 +88,23 @@ class MaterialController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    /**
      * @OA\Post(
-     *     path="/api/v1/materials",
-     *     summary="Thêm nguyên vật liệu mới",
+     *     path="/api/v1/material/add",
+     *     summary="Thêm mới nguyên vật liệu",
      *     tags={"Materials"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="Nhựa HDPE"),
-     *             @OA\Property(property="unit", type="string", example="bao"),
-     *             @OA\Property(property="quantity", type="integer", example=50),
-     *             @OA\Property(property="material_img", type="string", nullable=true, example=null),
-     *             @OA\Property(property="status", type="integer", example=1)
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={"name", "unit", "quantity", "category_id", "status"},
+     *                 @OA\Property(property="name", type="string", example="Nhựa HDPE"),
+     *                 @OA\Property(property="unit", type="string", example="bao"),
+     *                 @OA\Property(property="quantity", type="integer", example=50),
+     *                 @OA\Property(property="category_id", type="integer", example=3),
+     *                 @OA\Property(property="material_img", type="string", format="binary" , example="image.jpg"),
+     *                 @OA\Property(property="status", type="integer", example=1)
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -132,7 +145,8 @@ class MaterialController extends Controller
                 'name' => $request->name,
                 'unit' => $request->unit,
                 'quantity' => $request->quantity,
-                'material_img' => $request->material_img,
+                'category_id' => $request->category_id,
+                'material_img' => $imagePath,
                 'status' => $request->status,
             ];
 
@@ -153,30 +167,31 @@ class MaterialController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    /**
      * @OA\Get(
-     *     path="/api/v1/materials/{id}",
+     *     path="/api/v1/material/{id}",
      *     summary="Lấy thông tin nguyên vật liệu",
      *     tags={"Materials"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=3
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Thông tin nguyên vật liệu",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="id", type="integer", example=3),
      *             @OA\Property(property="name", type="string", example="Nhựa HDPE"),
      *             @OA\Property(property="unit", type="string", example="bao"),
-     *             @OA\Property(property="quantity", type="integer", example=50),
+     *             @OA\Property(property="quantity", type="integer", example=100),
+     *             @OA\Property(property="warehouse_name", type="string", example="Kho nguyên vật liệu 1"),
      *             @OA\Property(property="material_img", type="string", nullable=true, example=null),
      *             @OA\Property(property="status", type="integer", example=1),
-     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-21T15:34:21.000000Z"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-25T03:42:10.000000Z"),
      *             @OA\Property(property="updated_at", type="string", format="date-time", nullable=true, example=null)
      *         )
      *     ),
@@ -184,12 +199,23 @@ class MaterialController extends Controller
      *         response=404,
      *         description="Không tìm thấy nguyên vật liệu",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Không tìm thấy nguyên vật liệu"),
+     *             @OA\Property(property="message", type="string", example="Không tim thấy nguyên vật liệu"),
      *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi khi lấy thông tin nguyên vật liệu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lỗi khi lấy thông tin nguyên vật liệu"),
+     *             @OA\Property(property="status", type="integer", example=500),
+     *             @OA\Property(property="error", type="string", example="Error message here")
      *         )
      *     )
      * )
      */
+
+
 
 
     public function show($id)
@@ -216,28 +242,28 @@ class MaterialController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
-     */
-
-    /**
-     * @OA\Put(
-     *     path="/api/v1/materials/{id}",
-     *     summary="Cập nhật thông tin nguyên vật liệu",
+     * @OA\Patch(
+     *     path="/api/v1/material/update/{id}",
+     *     summary="Cập nhật nguyên vật liệu",
      *     tags={"Materials"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=3
+     *         )
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string", example="Nhựa HDPE"),
+     *             @OA\Property(property="category_id", type="integer", example=2),
      *             @OA\Property(property="unit", type="string", example="bao"),
-     *             @OA\Property(property="quantity", type="integer", example=50),
-     *             @OA\Property(property="material_img", type="string", nullable=true, example=null),
-     *             @OA\Property(property="status", type="integer", example=1)
+     *             @OA\Property(property="quantity", type="integer", example=100),
+     *             @OA\Property(property="status", type="integer", example=1),
+     *             @OA\Property(property="material_img", type="string", nullable=true, format="binary")
      *         )
      *     ),
      *     @OA\Response(
@@ -267,6 +293,7 @@ class MaterialController extends Controller
      *     )
      * )
      */
+
     public function update(StoreMaterialRequest $request, $id)
     {
         try {
@@ -291,7 +318,6 @@ class MaterialController extends Controller
             $data = [
                 'name' => $request->name,
                 'category_id' => $request->category_id,
-                'color_id' => $request->color_id,
                 'unit' => $request->unit,
                 'quantity' => $request->quantity,
                 'material_img' => $imagePath,
@@ -314,19 +340,18 @@ class MaterialController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
-
-    /**
      * @OA\Delete(
-     *     path="/api/v1/materials/{id}",
+     *     path="/api/v1/material/delete/{id}",
      *     summary="Xóa nguyên vật liệu",
      *     tags={"Materials"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -338,7 +363,7 @@ class MaterialController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Không tìm thấy nguyên vật liệu",
+     *         description="Không tìm thấy nguyên vật liệu này",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Không tìm thấy nguyên vật liệu này"),
      *             @OA\Property(property="status", type="integer", example=404)
@@ -349,12 +374,13 @@ class MaterialController extends Controller
      *         description="Đã xảy ra lỗi khi xóa nguyên vật liệu",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi xóa nguyên vật liệu"),
-     *             @OA\Property(property="status", type="integer", example=500),
-     *             @OA\Property(property="error", type="string", example="Error message here")
+     *             @OA\Property(property="error", type="string", example="Error message here"),
+     *             @OA\Property(property="status", type="integer", example=500)
      *         )
      *     )
      * )
      */
+
 
     public function destroy($id)
     {

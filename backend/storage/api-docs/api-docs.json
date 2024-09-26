@@ -460,6 +460,14 @@
                                                 "type": "integer",
                                                 "example": 50
                                             },
+                                            "shelf_name": {
+                                                "type": "string",
+                                                "example": "Kệ 1"
+                                            },
+                                            "warehouse_name": {
+                                                "type": "string",
+                                                "example": "Kho nguyên vật liệu 1"
+                                            },
                                             "material_img": {
                                                 "type": "string",
                                                 "example": null,
@@ -472,7 +480,7 @@
                                             "created_at": {
                                                 "type": "string",
                                                 "format": "date-time",
-                                                "example": "2024-09-21T15:34:21.000000Z"
+                                                "example": "2024-09-25T03:42:10.000000Z"
                                             },
                                             "updated_at": {
                                                 "type": "string",
@@ -488,7 +496,7 @@
                         }
                     },
                     "404": {
-                        "description": "Không tìm thấy nguyên vật liệu nào",
+                        "description": "Không có nguyên vật liệu nào",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -506,20 +514,54 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách nguyên vật liệu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách nguyên vật liệu"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error message here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/material/add": {
             "post": {
                 "tags": [
                     "Materials"
                 ],
-                "summary": "Thêm nguyên vật liệu mới",
-                "operationId": "177adaef06b1c2984619e54be93da6e5",
+                "summary": "Thêm mới nguyên vật liệu",
+                "operationId": "de8f69d24efad037f3e5441166754f50",
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "unit",
+                                    "quantity",
+                                    "category_id",
+                                    "shelf_id",
+                                    "status"
+                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
@@ -533,10 +575,18 @@
                                         "type": "integer",
                                         "example": 50
                                     },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "shelf_id": {
+                                        "type": "integer",
+                                        "example": 7
+                                    },
                                     "material_img": {
                                         "type": "string",
-                                        "example": null,
-                                        "nullable": true
+                                        "format": "binary",
+                                        "example": "image.jpg"
                                     },
                                     "status": {
                                         "type": "integer",
@@ -596,20 +646,21 @@
                 }
             }
         },
-        "/api/v1/materials/{id}": {
+        "/api/v1/material/{id}": {
             "get": {
                 "tags": [
                     "Materials"
                 ],
                 "summary": "Lấy thông tin nguyên vật liệu",
-                "operationId": "9afecdf08dbbf71ea98d36b7fbd0570a",
+                "operationId": "c77d3df03ee602c5f1cbdf58737be654",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 3
                         }
                     }
                 ],
@@ -622,7 +673,7 @@
                                     "properties": {
                                         "id": {
                                             "type": "integer",
-                                            "example": 1
+                                            "example": 3
                                         },
                                         "name": {
                                             "type": "string",
@@ -634,7 +685,15 @@
                                         },
                                         "quantity": {
                                             "type": "integer",
-                                            "example": 50
+                                            "example": 100
+                                        },
+                                        "shelf_name": {
+                                            "type": "string",
+                                            "example": "Kệ 3"
+                                        },
+                                        "warehouse_name": {
+                                            "type": "string",
+                                            "example": "Kho nguyên vật liệu 1"
                                         },
                                         "material_img": {
                                             "type": "string",
@@ -648,7 +707,7 @@
                                         "created_at": {
                                             "type": "string",
                                             "format": "date-time",
-                                            "example": "2024-09-21T15:34:21.000000Z"
+                                            "example": "2024-09-25T03:42:10.000000Z"
                                         },
                                         "updated_at": {
                                             "type": "string",
@@ -670,7 +729,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Không tìm thấy nguyên vật liệu"
+                                            "example": "Không tim thấy nguyên vật liệu"
                                         },
                                         "status": {
                                             "type": "integer",
@@ -681,22 +740,49 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy thông tin nguyên vật liệu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy thông tin nguyên vật liệu"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error message here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
-            },
-            "put": {
+            }
+        },
+        "/api/v1/material/update/{id}": {
+            "patch": {
                 "tags": [
                     "Materials"
                 ],
-                "summary": "Cập nhật thông tin nguyên vật liệu",
-                "operationId": "0022d27c2d38552da4e05d874e8cf56e",
+                "summary": "Cập nhật nguyên vật liệu",
+                "operationId": "952b97415ed1969f19d1c9ac62a2aaf3",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 3
                         }
                     }
                 ],
@@ -710,22 +796,30 @@
                                         "type": "string",
                                         "example": "Nhựa HDPE"
                                     },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "shelf_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
                                     "unit": {
                                         "type": "string",
                                         "example": "bao"
                                     },
                                     "quantity": {
                                         "type": "integer",
-                                        "example": 50
-                                    },
-                                    "material_img": {
-                                        "type": "string",
-                                        "example": null,
-                                        "nullable": true
+                                        "example": 100
                                     },
                                     "status": {
                                         "type": "integer",
                                         "example": 1
+                                    },
+                                    "material_img": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -799,20 +893,23 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/material/delete/{id}": {
             "delete": {
                 "tags": [
                     "Materials"
                 ],
                 "summary": "Xóa nguyên vật liệu",
-                "operationId": "9d6db55f4b2e227130a364e9d86b0534",
+                "operationId": "41365ba1ec7fe0a0b3f9cb6a634cd9bd",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
@@ -838,7 +935,7 @@
                         }
                     },
                     "404": {
-                        "description": "Không tìm thấy nguyên vật liệu",
+                        "description": "Không tìm thấy nguyên vật liệu này",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -867,13 +964,13 @@
                                             "type": "string",
                                             "example": "Đã xảy ra lỗi khi xóa nguyên vật liệu"
                                         },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 500
-                                        },
                                         "error": {
                                             "type": "string",
                                             "example": "Error message here"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -996,43 +1093,54 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/product/add": {
             "post": {
                 "tags": [
                     "Products"
                 ],
-                "summary": "Thêm thành phẩm mới",
-                "operationId": "cfdb2a3921bee30f9cad135e1c5f1452",
+                "summary": "Thêm mới thành phẩm",
+                "operationId": "4a27db21910050582b444b2a3d49831c",
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "unit",
+                                    "quantity",
+                                    "category_id",
+                                    "color_id",
+                                    "shelf_id",
+                                    "status"
+                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Chai nhựa HDPE 1 lít xanh"
+                                        "example": "Nhựa HDPE"
+                                    },
+                                    "unit": {
+                                        "type": "string",
+                                        "example": "bao"
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 50
                                     },
                                     "category_id": {
                                         "type": "integer",
-                                        "example": 1
+                                        "example": 3
                                     },
                                     "color_id": {
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "unit": {
+                                    "material_img": {
                                         "type": "string",
-                                        "example": "chai"
-                                    },
-                                    "quantity": {
-                                        "type": "integer",
-                                        "example": 100
-                                    },
-                                    "product_img": {
-                                        "type": "string",
-                                        "example": null,
-                                        "nullable": true
+                                        "format": "binary",
+                                        "example": "image.jpg"
                                     },
                                     "status": {
                                         "type": "integer",
@@ -1092,17 +1200,18 @@
                 }
             }
         },
-        "/api/v1/products/{id}": {
+        "/api/v1/product/{id}": {
             "get": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Lấy thông tin thành phẩm theo ID",
-                "operationId": "1948ab0c6b14a722ad6d1665cd38e1f1",
+                "operationId": "4576535dfeb323e297ec83ea67c18fce",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID của thành phẩm cần lấy thông tin",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1118,19 +1227,27 @@
                                     "properties": {
                                         "id": {
                                             "type": "integer",
-                                            "example": 1
+                                            "example": 2
                                         },
                                         "name": {
                                             "type": "string",
-                                            "example": "Chai nhựa HDPE 1 lít xanh"
+                                            "example": "Xô nhựa HDPE 1 lít đỏ"
                                         },
                                         "category_name": {
                                             "type": "string",
-                                            "example": "Chai nhựa PET"
+                                            "example": "Xô nhựa HDPE"
                                         },
                                         "color_name": {
                                             "type": "string",
-                                            "example": "Xanh"
+                                            "example": "Đỏ"
+                                        },
+                                        "shelf_name": {
+                                            "type": "string",
+                                            "example": "Kệ 2"
+                                        },
+                                        "warehouse_name": {
+                                            "type": "string",
+                                            "example": "Kho thành phẩm 1"
                                         },
                                         "unit": {
                                             "type": "string",
@@ -1139,6 +1256,10 @@
                                         "quantity": {
                                             "type": "integer",
                                             "example": 100
+                                        },
+                                        "shelf_id": {
+                                            "type": "integer",
+                                            "example": 2
                                         },
                                         "product_img": {
                                             "type": "string",
@@ -1152,7 +1273,7 @@
                                         "created_at": {
                                             "type": "string",
                                             "format": "date-time",
-                                            "example": "2024-09-21T15:34:21.000000Z"
+                                            "example": "2024-09-25T03:42:10.000000Z"
                                         },
                                         "updated_at": {
                                             "type": "string",
@@ -1211,20 +1332,23 @@
                         }
                     }
                 }
-            },
-            "put": {
+            }
+        },
+        "/api/v1/product/update/{id}": {
+            "patch": {
                 "tags": [
                     "Products"
                 ],
-                "summary": "Cập nhật thông tin thành phẩm",
-                "operationId": "b9e4a8996649edabc6570985e351fa6b",
+                "summary": "Cập nhật thành phẩm",
+                "operationId": "fb437dc8ef27fab07eee4644ba057b47",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
@@ -1240,11 +1364,11 @@
                                     },
                                     "category_id": {
                                         "type": "integer",
-                                        "example": 1
+                                        "example": 5
                                     },
                                     "color_id": {
                                         "type": "integer",
-                                        "example": 1
+                                        "example": 2
                                     },
                                     "unit": {
                                         "type": "string",
@@ -1256,8 +1380,8 @@
                                     },
                                     "product_img": {
                                         "type": "string",
-                                        "example": null,
-                                        "nullable": true
+                                        "format": "binary",
+                                        "example": "file"
                                     },
                                     "status": {
                                         "type": "integer",
@@ -1335,13 +1459,15 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/product/delete/{id}": {
             "delete": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Xóa thành phẩm",
-                "operationId": "c935132359292f5732d896b035f3f322",
+                "operationId": "45ca9743fa13dd57e9bea25624d27e56",
                 "parameters": [
                     {
                         "name": "id",

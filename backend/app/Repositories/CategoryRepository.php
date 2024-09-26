@@ -12,15 +12,24 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::select(
             'categories.id',
             'categories.name',
-        )->get();
+            'categories.type',
+            'categories.parent_id',
+        )
+            ->whereNotNull('parent_id') // Lọc các bản ghi có parent_id không null
+            ->get();
     }
+
 
     public function find($id)
     {
         return Category::select(
             'categories.id',
             'categories.name',
-        )->where('categories.id', $id)->first();
+            'categories.type',
+            'categories.parent_id',
+        )->whereNotNull('parent_id')
+            ->where('categories.id', $id)
+            ->first();
     }
 
     public function create(array $data)

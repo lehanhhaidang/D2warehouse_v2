@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\ProductReceiptController;
 
 Route::post('/v1/auth/login', [AuthController::class, 'login'])->middleware('api');
 Route::post('/v1/auth/signup', [AuthController::class, 'signup'])->middleware('api');
@@ -68,7 +69,7 @@ Route::group(
         Route::get('products', [ProductController::class, 'index'])->middleware('check.permission:view_products');
         Route::get('product/{id}', [ProductController::class, 'show'])->middleware('check.permission:view_products');
         Route::post('product/add', action: [ProductController::class, 'store'])->middleware('check.permission:create_products');
-        Route::put('product/update/{id}', action: [ProductController::class, 'update'])->middleware('check.permission:update_products');
+        Route::patch('product/update/{id}', action: [ProductController::class, 'update'])->middleware('check.permission:update_products');
         Route::delete('product/delete/{id}', action: [ProductController::class, 'destroy'])->middleware('check.permission:delete_products');
     }
 );
@@ -87,7 +88,7 @@ Route::group(
         Route::get('materials', [MaterialController::class, 'index'])->middleware('check.permission:view_materials');
         Route::get('material/{id}', [MaterialController::class, 'show'])->middleware('check.permission:view_materials');
         Route::post('material/add', [MaterialController::class, 'store'])->middleware('check.permission:create_materials');
-        Route::put('material/update/{id}', [MaterialController::class, 'update'])->middleware('check.permission:update_materials');
+        Route::post('material/update/{id}', [MaterialController::class, 'update'])->middleware('check.permission:update_materials');
         Route::delete('material/delete/{id}', [MaterialController::class, 'destroy'])->middleware('check.permission:delete_materials');
     }
 );
@@ -129,5 +130,26 @@ Route::group(
         Route::post('category/add', [CategoryController::class, 'store']);
         Route::put('category/update/{id}', [CategoryController::class, 'update']);
         Route::delete('category/delete/{id}', [CategoryController::class, 'destroy']);
+    }
+);
+
+
+//Product Receipt Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Product Receipt Routes
+        Route::get('product-receipts', [ProductReceiptController::class, 'index'])->middleware('check.permission:view_product_receipts');
+        Route::get('product-receipt/{id}', [ProductReceiptController::class, 'show'])->middleware('check.permission:view_product_receipts');
+        Route::post('product-receipt/add', [ProductReceiptController::class, 'store'])->middleware('check.permission:create_product_receipts');
+        Route::put('product-receipt/update/{id}', [ProductReceiptController::class, 'update']);
+        Route::delete('product-receipt/delete/{id}', [ProductReceiptController::class, 'destroy']);
     }
 );

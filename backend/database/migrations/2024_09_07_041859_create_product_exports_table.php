@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->timestamp('export_date');
             $table->integer('status')->default(0);
+            $table->string('note')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

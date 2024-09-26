@@ -5,23 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductReceiptDetail extends Model
+class ShelfDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'product_receipt_id',
-        'product_id',
         'shelf_id',
+        'product_id',
         'unit',
         'quantity',
     ];
 
-    public $timestamps = false;
 
-    public function productReceipt()
+
+    public function shelf()
     {
-        return $this->belongsTo(ProductReceipt::class);
+        return $this->belongsTo(Shelf::class);
     }
 
     public function product()
@@ -29,8 +28,5 @@ class ProductReceiptDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function shelf()
-    {
-        return $this->belongsTo(Shelf::class);
-    }
+    public $timestamps = false;
 }

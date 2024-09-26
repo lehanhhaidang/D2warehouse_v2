@@ -9,6 +9,14 @@ class MaterialReceipt extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'receive_date',
+        'status',
+        'note',
+        'user_id',
+    ];
+
     public function material()
     {
         return $this->belongsTo(Material::class);

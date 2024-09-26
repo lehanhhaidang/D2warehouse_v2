@@ -9,6 +9,14 @@ class ProductExport extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'export_date',
+        'status',
+        'note',
+        'user_id',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);

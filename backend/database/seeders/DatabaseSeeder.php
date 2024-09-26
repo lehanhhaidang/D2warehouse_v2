@@ -19,12 +19,15 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             ColorSeeder::class,
+            WarehouseSeeder::class,
             MaterialSeeder::class,
             ProductSeeder::class,
+            ShelfSeeder::class,
             ProductReceiptSeeder::class,
             ProductExportSeeder::class,
             MaterialReceiptSeeder::class,
             MaterialExportSeeder::class,
+
 
         ]);
     }

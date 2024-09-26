@@ -9,6 +9,14 @@ class MaterialExport extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'export_date',
+        'status',
+        'note',
+        'user_id',
+    ];
+
     public function material()
     {
         return $this->belongsTo(Material::class);

@@ -19,7 +19,9 @@ class MaterialRepository implements MaterialRepositoryInterface
             'materials.created_at',
             'materials.updated_at',
 
-        )->get();
+        )->join('categories', 'materials.category_id', '=', 'categories.id')
+
+            ->get();
     }
 
     public function find($id)
@@ -29,12 +31,17 @@ class MaterialRepository implements MaterialRepositoryInterface
             'materials.name',
             'materials.unit',
             'materials.quantity',
+
             'materials.material_img',
             'materials.status',
             'materials.created_at',
             'materials.updated_at',
 
-        )->where('materials.id', $id)->first();
+        )
+            ->join('categories', 'materials.category_id', '=', 'categories.id')
+
+            ->where('materials.id', $id)
+            ->first();
     }
 
     public function create(array $data)

@@ -4,6 +4,8 @@ namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Services\ShelfCategoryChecker;
+
 class StoreProductRequest extends FormRequest
 {
     /**
@@ -53,5 +55,21 @@ class StoreProductRequest extends FormRequest
             'status.integer' => 'Trạng thái sản phẩm phải là số nguyên',
             'status.in' => 'Trạng thái sản phẩm phải là 0 hoặc 1',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $checker = new ShelfCategoryChecker();
+            if (!$checker->checkShelfBelongsToCategory($this->shelf_id, $this->category_id)) {
+                // Lấy danh sách tên kệ và tên kho phù hợp với category_id
+                $shelves = $checker->getShelvesByCategory($this->category_id);
+                $shelfDetails = $shelves->toArray(); // Chuyển đổi collection thành mảng
+
+                // Tạo thông báo lỗi với gợi ý
+                $errorMessage = 'Kệ không thuộc về loại sản phẩm đã chọn. Các kệ hợp lệ: ' . implode(', ', $shelfDetails);
+                $validator->errors()->add('shelf_id', $errorMessage);
+            }
+        });
     }
 }

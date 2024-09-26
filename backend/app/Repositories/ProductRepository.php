@@ -75,4 +75,13 @@ class ProductRepository implements ProductRepositoryInterface
         }
         return false;
     }
+
+
+
+    private function findShelfForProduct($id)
+    {
+        return Product::select('shelf_id')
+            ->where('id', $id)
+            ->first();
+    }
 }

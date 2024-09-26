@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Repositories\CategoryRepository;
 use App\Repositories\Interface\CategoryRepositoryInterface;
 use App\Repositories\Interface\MaterialRepositoryInterface;
+use App\Repositories\Interface\ProductReceiptRepositoryInterface;
 use App\Repositories\Interface\UserRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\Interface\ProductRepositoryInterface;
 use App\Repositories\Interface\RoleRepositoryInterface;
 use App\Repositories\MaterialRepository;
+use App\Repositories\ProductReceiptRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\RoleRepository;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
 
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+
+        $this->app->bind(ProductReceiptRepositoryInterface::class, ProductReceiptRepository::class);
     }
 
     /**
