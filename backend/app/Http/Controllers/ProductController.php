@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreProductRequest;
-use App\Http\Requests\Product\UpdateProductRequest;
+use App\Services\ProductService;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,10 +18,14 @@ class ProductController extends Controller
      */
 
     protected $productRepository;
+    protected $productService;
 
-    public function __construct(ProductRepositoryInterface $productRepository)
-    {
+    public function __construct(
+        ProductRepositoryInterface $productRepository,
+        ProductService $productService
+    ) {
         $this->productRepository = $productRepository;
+        $this->productService = $productService;
     }
 
 
@@ -138,27 +142,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         try {
-            $directory = 'images/products';
-            if (!Storage::disk('public')->exists($directory)) {
-                Storage::disk('public')->makeDirectory($directory);
-            }
-
-            $imagePath = null;
-            if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
-                $imagePath = $request->file('product_img')->store($directory, 'public');
-            }
-
-            $data = [
-                'name' => $request->name,
-                'category_id' => $request->category_id,
-                'color_id' => $request->color_id,
-                'unit' => $request->unit,
-                'quantity' => $request->quantity,
-                'product_img' => $imagePath,
-                'status' => $request->status,
-            ];
-
-            $this->productRepository->create($data);
+            $this->productService->storeProduct($request);
 
             return response()->json([
                 'message' => 'Thêm thành phẩm thành công',
@@ -166,6 +150,7 @@ class ProductController extends Controller
             ], 200);
         } catch (\Exception $e) {
             Log::error('Lỗi khi thêm thành phẩm: ' . $e->getMessage());
+
             return response()->json([
                 'message' => 'Thêm thành phẩm thất bại',
                 'status' => 500,
@@ -303,41 +288,15 @@ class ProductController extends Controller
     public function update(StoreProductRequest $request, $id)
     {
         try {
-            $product = $this->productRepository->find($id);
-
-            if (!$product) {
-                return response()->json([
-                    'message' => 'Không tìm thấy thành phẩm',
-                    'status' => 404,
-                ], 404);
-            }
-
-            // Logic xử lý ảnh sản phẩm
-            $imagePath = $product->product_img;
-            if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
-                if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                    Storage::disk('public')->delete($imagePath);
-                }
-                $imagePath = $request->file('product_img')->store('images/products', 'public');
-            }
-
-            $data = [
-                'name' => $request->name,
-                'category_id' => $request->category_id,
-                'color_id' => $request->color_id,
-                'unit' => $request->unit,
-                'quantity' => $request->quantity,
-                'product_img' => $imagePath,
-                'status' => $request->status,
-            ];
-
-            $this->productRepository->update($id, $data);
+            $this->productService->updateProduct($id, $request);
 
             return response()->json([
                 'message' => 'Cập nhật thành phẩm thành công',
                 'status' => 200,
             ], 200);
         } catch (\Exception $e) {
+            Log::error('Lỗi khi cập nhật thành phẩm: ' . $e->getMessage());
+
             return response()->json([
                 'message' => 'Cập nhật thành phẩm thất bại',
                 'status' => 500,
@@ -345,7 +304,6 @@ class ProductController extends Controller
             ], 500);
         }
     }
-
 
 
     /**

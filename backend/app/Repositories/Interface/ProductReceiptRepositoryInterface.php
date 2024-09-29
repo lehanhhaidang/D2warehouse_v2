@@ -24,4 +24,10 @@ interface ProductReceiptRepositoryInterface
     public function createShelfDetail(array $detail);
 
     public function updateProductQuantity($productId, $quantity);
+
+    public function findShelfDetail($shelf_id, $product_id);
+
+    public function getShelfDetails($shelfId);
+
+    public function updateShelfDetailQuantity($shelf_detail_id, $newQuantity);
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\ChatGPTController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductReceiptController;
 
@@ -51,9 +52,25 @@ Route::group(
     }
 );
 
-//
+//Color Routes
 
-Route::post('/chat', [ChatGPTController::class, 'chat']);
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Color Routes
+        Route::get('colors', [ColorController::class, 'index']);
+        Route::get('color/{id}', [ColorController::class, 'show']);
+        Route::post('color/add', [ColorController::class, 'store']);
+        Route::put('color/update/{id}', [ColorController::class, 'update']);
+        Route::delete('color/delete/{id}', [ColorController::class, 'destroy']);
+    }
+);
 
 //Product Routes
 Route::group(

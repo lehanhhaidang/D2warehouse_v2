@@ -70,7 +70,7 @@ class StoreProductReceiptRequest extends FormRequest
                 $shelf = Shelf::find($detail['shelf_id']);
 
                 if ($product->category_id !== $shelf->category_id) {
-                    $validator->errors()->add('details.' . $detail['product_id'], 'Sản phẩm và kệ không có cùng loại danh mục.');
+                    $validator->errors()->add('details.' . $detail['product_id'], 'Sản phẩm và kệ không có cùng loại danh mục. ');
                 }
             }
         });

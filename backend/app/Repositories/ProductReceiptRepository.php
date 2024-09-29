@@ -55,4 +55,22 @@ class ProductReceiptRepository implements ProductReceiptRepositoryInterface
             $product->save();
         }
     }
+
+    public function findShelfDetail($shelf_id, $product_id)
+    {
+        return ShelfDetail::where('shelf_id', $shelf_id)
+            ->where('product_id', $product_id)
+            ->first();
+    }
+
+    public function getShelfDetails($shelfId)
+    {
+        return ShelfDetail::where('shelf_id', $shelfId)->get();
+    }
+
+    public function updateShelfDetailQuantity($shelf_detail_id, $newQuantity)
+    {
+        return ShelfDetail::where('id', $shelf_detail_id)
+            ->update(['quantity' => $newQuantity]);
+    }
 }

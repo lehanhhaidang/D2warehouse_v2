@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->integer('number_of_levels')->nullable(); //số tầng
+            $table->integer('storage_capacity')->nullable(); //sức chứa
 
 
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');

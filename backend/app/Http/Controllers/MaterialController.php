@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Material\StoreMaterialRequest;
 use App\Models\Material;
 use App\Repositories\Interface\MaterialRepositoryInterface;
+use App\Services\MaterialService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -12,11 +13,15 @@ use Illuminate\Support\Facades\Storage;
 class MaterialController extends Controller
 {
     protected $materialRepository;
+    protected $materialService;
 
-    public function __construct(MaterialRepositoryInterface $materialRepository)
-    {
+    public function __construct(
+        MaterialRepositoryInterface $materialRepository,
+        MaterialService $materialService
+    ) {
 
         $this->materialRepository = $materialRepository;
+        $this->materialService = $materialService;
     }
     /**
      * Display a listing of the resource.
@@ -130,27 +135,7 @@ class MaterialController extends Controller
     public function store(StoreMaterialRequest $request)
     {
         try {
-
-            $directory = 'images/materials';
-            if (!Storage::disk('public')->exists($directory)) {
-                Storage::disk('public')->makeDirectory($directory);
-            }
-
-            $imagePath = null;
-            if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
-                $imagePath = $request->file('material_img')->store($directory, 'public');
-            }
-
-            $data = [
-                'name' => $request->name,
-                'unit' => $request->unit,
-                'quantity' => $request->quantity,
-                'category_id' => $request->category_id,
-                'material_img' => $imagePath,
-                'status' => $request->status,
-            ];
-
-            $this->materialRepository->create($data);
+            $this->materialService->storeMaterial($request);
 
             return response()->json([
                 'message' => 'Thêm nguyên vật liệu thành công',
@@ -158,6 +143,7 @@ class MaterialController extends Controller
             ], 200);
         } catch (\Exception $e) {
             Log::error('Lỗi khi thêm nguyên vật liệu: ' . $e->getMessage());
+
             return response()->json([
                 'message' => 'Thêm nguyên vật liệu thất bại',
                 'status' => 500,
@@ -297,45 +283,20 @@ class MaterialController extends Controller
     public function update(StoreMaterialRequest $request, $id)
     {
         try {
-            $material = $this->materialRepository->find($id);
-
-            if (!$material) {
-                return response()->json([
-                    'message' => 'Không tìm thấy nguyên vật liệu',
-                    'status' => 404,
-                ], 404);
-            }
-
-            // Logic xử lý ảnh sản phẩm
-            $imagePath = $material->material_img;
-            if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
-                if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                    Storage::disk('public')->delete($imagePath);
-                }
-                $imagePath = $request->file('material_img')->store('images/materials', 'public');
-            }
-
-            $data = [
-                'name' => $request->name,
-                'category_id' => $request->category_id,
-                'unit' => $request->unit,
-                'quantity' => $request->quantity,
-                'material_img' => $imagePath,
-                'status' => $request->status,
-            ];
-
-            $this->materialRepository->update($id, $data);
+            $this->materialService->updateMaterial($request, $id);
 
             return response()->json([
                 'message' => 'Cập nhật nguyên vật liệu thành công',
                 'status' => 200,
             ], 200);
         } catch (\Exception $e) {
+            Log::error('Lỗi khi cập nhật nguyên vật liệu: ' . $e->getMessage());
+
             return response()->json([
                 'message' => 'Cập nhật nguyên vật liệu thất bại',
                 'status' => 500,
                 'error' => $e->getMessage(),
-            ], 500);
+            ],  500);
         }
     }
 

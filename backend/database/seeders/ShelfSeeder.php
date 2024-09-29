@@ -17,85 +17,95 @@ class ShelfSeeder extends Seeder
             [
                 'name' => 'Kệ 1',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 2,
                 'category_id' => 5,
                 'created_at' => now(),
-                'updated_at' => null,
+
 
             ],
             [
                 'name' => 'Kệ 2',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 2,
                 'category_id' => 6,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
             [
                 'name' => 'Kệ 3',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 2,
                 'category_id' => 7,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
             [
                 'name' => 'Kệ 4',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 2,
                 'category_id' => 8,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
             [
                 'name' => 'Kệ 5',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 2,
                 'category_id' => 9,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
             [
                 'name' => 'Kệ 6',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 2,
                 'category_id' => 10,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
 
             //Kệ cho kho nguyên vật liệu
             [
                 'name' => 'Kệ 1',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 1,
                 'category_id' => 3,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
             [
                 'name' => 'Kệ 2',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 1,
                 'category_id' => 4,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
             [
                 'name' => 'Kệ 3',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 1,
                 'category_id' => 3,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
             [
                 'name' => 'Kệ 4',
                 'number_of_levels' => 5,
+                'storage_capacity' => 500,
                 'warehouse_id' => 1,
                 'category_id' => 4,
                 'created_at' => now(),
-                'updated_at' => null,
+
             ],
         ];
         DB::table('shelves')->insert($shelves);
