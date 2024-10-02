@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('location', 255);
             $table->string('acreage', 100);
             $table->string('number_of_shelves')->default(20);
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

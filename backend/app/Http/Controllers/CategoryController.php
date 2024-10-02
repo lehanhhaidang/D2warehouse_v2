@@ -77,7 +77,7 @@ class CategoryController extends Controller
 
 
     /**
-     * @OA\Post(
+     * @OA\Post(s
      *     path="/api/v1/category/add",
      *     summary="Thêm danh mục mới",
      *     tags={"Categories"},

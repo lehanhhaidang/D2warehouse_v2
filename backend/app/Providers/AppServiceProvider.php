@@ -12,10 +12,14 @@ use App\Repositories\Interface\UserRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\Interface\ProductRepositoryInterface;
 use App\Repositories\Interface\RoleRepositoryInterface;
+use App\Repositories\Interface\ShelfRepositoryInterface;
+use App\Repositories\Interface\WarehouseRepositoryInterface;
+use App\Repositories\ShelfRepository;
 use App\Repositories\MaterialRepository;
 use App\Repositories\ProductReceiptRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\WarehouseRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,7 +31,11 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
+        $this->app->bind(WarehouseRepositoryInterface::class, WarehouseRepository::class);
+
         $this->app->bind(ColorRepositoryInterface::class, ColorRepository::class);
+
+        $this->app->bind(ShelfRepositoryInterface::class, ShelfRepository::class);
 
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
 

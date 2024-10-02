@@ -3,18 +3,40 @@
 namespace App\Repositories;
 
 use App\Models\Shelf;
+use App\Repositories\Interface\ShelfRepositoryInterface;
 
 
 class ShelfRepository implements ShelfRepositoryInterface
 {
     public function all()
     {
-        return Shelf::all();
+        return Shelf::select(
+            'shelves.id',
+            'shelves.name',
+            'warehouses.name as warehouse_name',
+            'categories.name as category_name',
+            'shelves.created_at',
+            'shelves.updated_at',
+        )
+            ->join('warehouses', 'shelves.warehouse_id', '=', 'warehouses.id')
+            ->join('categories', 'shelves.category_id', '=', 'categories.id')
+            ->get();
     }
 
     public function find($id)
     {
-        return Shelf::find($id);
+        return Shelf::select(
+            'shelves.id',
+            'shelves.name',
+            'warehouses.name as warehouse_name',
+            'categories.name as category_name',
+            'shelves.created_at',
+            'shelves.updated_at',
+        )
+            ->join('warehouses', 'shelves.warehouse_id', '=', 'warehouses.id')
+            ->join('categories', 'shelves.category_id', '=', 'categories.id')
+            ->where('shelves.id', $id)
+            ->first();
     }
 
     public function create(array $data)
@@ -24,7 +46,12 @@ class ShelfRepository implements ShelfRepositoryInterface
 
     public function update(array $data, $id)
     {
-        return Shelf::find($id)->update($data);
+        $product = Shelf::find($id);
+        if ($product) {
+            $product->update($data);
+            return $product;
+        }
+        return null;
     }
 
     public function delete($id)

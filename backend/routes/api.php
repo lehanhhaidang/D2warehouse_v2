@@ -11,6 +11,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductReceiptController;
+use App\Http\Controllers\ShelfController;
+use App\Http\Controllers\WarehouseController;
 
 Route::post('/v1/auth/login', [AuthController::class, 'login'])->middleware('api');
 Route::post('/v1/auth/signup', [AuthController::class, 'signup'])->middleware('api');
@@ -168,5 +170,45 @@ Route::group(
         Route::post('product-receipt/add', [ProductReceiptController::class, 'store'])->middleware('check.permission:create_product_receipts');
         Route::put('product-receipt/update/{id}', [ProductReceiptController::class, 'update']);
         Route::delete('product-receipt/delete/{id}', [ProductReceiptController::class, 'destroy']);
+    }
+);
+
+//Warehouse Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Shelf Routes
+        Route::get('warehouses', [WarehouseController::class, 'index']);
+        Route::get('warehouse/{id}', [WarehouseController::class, 'show']);
+        Route::post('warehouse/add', [WarehouseController::class, 'store']);
+        Route::put('warehouse/update/{id}', [WarehouseController::class, 'update']);
+        Route::delete('warehouse/delete/{id}', [WarehouseController::class, 'destroy']);
+    }
+);
+
+//Shelf Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Shelf Routes
+        Route::get('shelves', [ShelfController::class, 'index']);
+        Route::get('shelf/{id}', [ShelfController::class, 'show']);
+        Route::post('shelf/add', [ShelfController::class, 'store']);
+        Route::put('shelf/update/{id}', [ShelfController::class, 'update']);
+        Route::delete('shelf/delete/{id}', [ShelfController::class, 'destroy']);
     }
 );

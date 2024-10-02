@@ -16,6 +16,7 @@ class WarehouseSeeder extends Seeder
         DB::table('warehouses')->insert([
             [
                 'name' => 'Kho nguyên vật liệu 1',
+                'category_id' => 1,
                 'location' => 'Bình Chánh',
                 'acreage' => 1000,
                 'number_of_shelves' => 100,
@@ -24,6 +25,7 @@ class WarehouseSeeder extends Seeder
             ],
             [
                 'name' => 'Kho thành phẩm 1',
+                'category_id' => 2,
                 'location' => 'Bình Chánh',
                 'acreage' => 100,
                 'number_of_shelves' => 200,

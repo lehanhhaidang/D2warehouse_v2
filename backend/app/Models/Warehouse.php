@@ -9,6 +9,14 @@ class Warehouse extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'location',
+        'acreage',
+        'number_of_shelves',
+        'category_id',
+    ];
+
     public function shelves()
     {
         return $this->hasMany(Shelf::class);
@@ -22,5 +30,10 @@ class Warehouse extends Model
     public function productReceipts()
     {
         return $this->hasMany(ProductReceipt::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
