@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MaterialReceiptController;
 use App\Http\Controllers\ProductReceiptController;
 use App\Http\Controllers\ShelfController;
 use App\Http\Controllers\WarehouseController;
@@ -168,8 +169,23 @@ Route::group(
         Route::get('product-receipts', [ProductReceiptController::class, 'index'])->middleware('check.permission:view_product_receipts');
         Route::get('product-receipt/{id}', [ProductReceiptController::class, 'show'])->middleware('check.permission:view_product_receipts');
         Route::post('product-receipt/add', [ProductReceiptController::class, 'store'])->middleware('check.permission:create_product_receipts');
-        Route::put('product-receipt/update/{id}', [ProductReceiptController::class, 'update']);
-        Route::delete('product-receipt/delete/{id}', [ProductReceiptController::class, 'destroy']);
+    }
+);
+
+//Material Receipt Routes
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Product Receipt Routes
+        Route::get('material-receipts', [MaterialReceiptController::class, 'index']);
+        Route::get('material-receipt/{id}', [MaterialReceiptController::class, 'show'])->middleware('check.permission:view_material_receipts');
+        Route::post('material-receipt/add', [MaterialReceiptController::class, 'store'])->middleware('check.permission:create_material_receipts');
     }
 );
 

@@ -6,6 +6,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ColorRepository;
 use App\Repositories\Interface\CategoryRepositoryInterface;
 use App\Repositories\Interface\ColorRepositoryInterface;
+use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Repositories\Interface\MaterialRepositoryInterface;
 use App\Repositories\Interface\ProductReceiptRepositoryInterface;
 use App\Repositories\Interface\UserRepositoryInterface;
@@ -14,6 +15,7 @@ use App\Repositories\Interface\ProductRepositoryInterface;
 use App\Repositories\Interface\RoleRepositoryInterface;
 use App\Repositories\Interface\ShelfRepositoryInterface;
 use App\Repositories\Interface\WarehouseRepositoryInterface;
+use App\Repositories\MaterialReceiptRepository;
 use App\Repositories\ShelfRepository;
 use App\Repositories\MaterialRepository;
 use App\Repositories\ProductReceiptRepository;
@@ -46,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
 
         $this->app->bind(ProductReceiptRepositoryInterface::class, ProductReceiptRepository::class);
+
+        $this->app->bind(MaterialReceiptRepositoryInterface::class, MaterialReceiptRepository::class);
     }
 
     /**

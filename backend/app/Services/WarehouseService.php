@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Interface\WarehouseRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class WarehouseService
 {
@@ -48,5 +49,39 @@ class WarehouseService
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+
+    public function updateWarehouse($request, $id)
+    {
+        try {
+            // Tìm kho dựa trên id
+            $warehouse = $this->warehouseRepository->find($id);
+            if (!$warehouse) {
+                throw new ModelNotFoundException('Không tìm thấy kho.');
+            }
+
+            // Cập nhật dữ liệu
+            $data = [
+                'name' => $request->name,
+                'location' => $request->location,
+                'acreage' => $request->acreage,
+                'number_of_shelves' => $request->number_of_shelves,
+                'category_id' => $request->category_id,
+            ];
+
+            return $this->warehouseRepository->update($id, $data);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function deleteWarehouse($id)
+    {
+        $warehouse = $this->warehouseRepository->find($id);
+        if (!$warehouse) {
+            throw new ModelNotFoundException('Không tìm thấy kho.');
+        }
+        return $this->warehouseRepository->delete($id);
     }
 }

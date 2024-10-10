@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('material_receipt_id');
             $table->unsignedBigInteger('material_id');
-            $table->string('unit');
+            $table->unsignedBigInteger('shelf_id');
+            $table->string('unit')->nullable();
             $table->integer('quantity');
 
 
             $table->foreign('material_receipt_id')->references('id')->on('material_receipts')->onDelete('cascade');
             $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
+            $table->foreign('shelf_id')->references('id')->on('shelves')->onDelete('cascade');
         });
     }
 

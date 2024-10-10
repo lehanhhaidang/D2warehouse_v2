@@ -44,9 +44,14 @@ class WarehouseRepository implements WarehouseRepositoryInterface
         return Warehouse::create($data);
     }
 
-    public function update($id, $data)
+    public function update(array $data, $id)
     {
-        return Warehouse::find($id)->update($data);
+        $warehouse = Warehouse::find($id);
+        if ($warehouse) {
+            $warehouse->update($data);
+            return $warehouse;
+        }
+        return null;
     }
 
     public function delete($id)

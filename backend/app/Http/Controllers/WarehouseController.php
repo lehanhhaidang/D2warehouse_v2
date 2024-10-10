@@ -74,16 +74,41 @@ class WarehouseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Warehouse $warehouse)
+    public function update(StoreWarehouseRequest $request, $id)
     {
-        //
+        try {
+            $warehouse = $this->warehouseService->updateWarehouse($request, $id);
+            return response()->json([
+                'message' => 'Cập nhật kho thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Cập nhật kho thất bại',
+                'error' => $e->getMessage(),
+                'status' => 500
+            ]);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Warehouse $warehouse)
+    public function destroy($id)
     {
-        //
+        try {
+            $warehouse = $this->warehouseService->deleteWarehouse($id);
+            return response()->json([
+                'message' => 'Xóa kho thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Xóa kho thất bại',
+                'error' => $e->getMessage(),
+                'status' => 500
+            ]);
+        }
     }
 }

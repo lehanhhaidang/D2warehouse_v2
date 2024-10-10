@@ -15,7 +15,7 @@ interface ProductReceiptRepositoryInterface
 
     public function getAllProductReceiptsWithDetails();
 
-    public function getProductReceiptsWithDetails($id);
+    public function getProductReceiptWithDetails($id);
 
     public function createProductReceipt(array $data);
 

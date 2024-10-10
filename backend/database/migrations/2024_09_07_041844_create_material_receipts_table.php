@@ -18,9 +18,10 @@ return new class extends Migration
             $table->integer('status')->default(0);
             $table->string('note')->nullable();
             $table->unsignedBigInteger('user_id');
-
+            $table->unsignedBigInteger('warehouse_id');
             $table->timestamps();
 
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
         columns:

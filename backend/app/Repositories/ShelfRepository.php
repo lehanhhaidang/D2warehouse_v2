@@ -46,10 +46,10 @@ class ShelfRepository implements ShelfRepositoryInterface
 
     public function update(array $data, $id)
     {
-        $product = Shelf::find($id);
-        if ($product) {
-            $product->update($data);
-            return $product;
+        $shelf = Shelf::find($id);
+        if ($shelf) {
+            $shelf->update($data);
+            return $shelf;
         }
         return null;
     }

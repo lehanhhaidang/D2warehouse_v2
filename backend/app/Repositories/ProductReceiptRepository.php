@@ -24,7 +24,7 @@ class ProductReceiptRepository implements ProductReceiptRepositoryInterface
     }
 
 
-    public function getProductReceiptsWithDetails($id)
+    public function getProductReceiptWithDetails($id)
     {
         return ProductReceipt::with(['details.product', 'details.shelf', 'details.product.category', 'warehouse', 'user'])
             ->where('id', $id)

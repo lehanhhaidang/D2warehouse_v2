@@ -3,16 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\MaterialReceipt;
+use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
+use App\Services\MaterialReceiptService;
 use Illuminate\Http\Request;
 
 class MaterialReceiptController extends Controller
 {
+
+    protected $materialReceiptRepository;
+    protected $materialReceiptService;
+
+    public function __construct(
+        MaterialReceiptRepositoryInterface $materialReceiptRepository,
+        MaterialReceiptService $materialReceiptService
+    ) {
+        $this->materialReceiptRepository = $materialReceiptRepository;
+        $this->materialReceiptService = $materialReceiptService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try {
+            $materialReceipts = $this->materialReceiptService->getAllMaterialReceiptsWithDetails();
+
+            return response()->json($materialReceipts, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 
     /**
@@ -28,38 +51,21 @@ class MaterialReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        try {
+            // Tạo phiếu nhập kho và chi tiết
+            $productReceipt = $this->materialReceiptService->createMaterialReceiptWithDetails($request->validated());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MaterialReceipt $materialReceipt)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MaterialReceipt $materialReceipt)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MaterialReceipt $materialReceipt)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MaterialReceipt $materialReceipt)
-    {
-        //
+            return response()->json([
+                'message' => 'Tạo phiếu nhập kho thành công',
+                'status' => 201,
+                'data' => $productReceipt,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra trong quá trình tạo phiếu nhập kho',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 }
