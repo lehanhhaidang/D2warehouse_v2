@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Shelf;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Warehouse;
@@ -23,9 +23,6 @@ class StoreShelfRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
         ];
     }
-
-
-
 
 
 

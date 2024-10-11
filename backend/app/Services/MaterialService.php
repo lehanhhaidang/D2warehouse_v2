@@ -15,6 +15,25 @@ class MaterialService
         $this->materialRepository = $materialRepository;
     }
 
+    public function getAllMaterials()
+    {
+        $products = $this->materialRepository->all();
+        if ($products->isEmpty()) {
+            throw new \Exception('Hiện tại chưa có nguyên vật liệu nào', 404);
+        }
+        return $products;
+    }
+
+
+    public function getMaterial($id)
+    {
+        $product = $this->materialRepository->find($id);
+        if (!$product) {
+            throw new \Exception('Không tìm thấy nguyên vật liệu', 404);
+        }
+        return $product;
+    }
+
     public function storeMaterial($request)
     {
         try {

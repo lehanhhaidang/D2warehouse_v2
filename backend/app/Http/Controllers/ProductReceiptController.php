@@ -71,6 +71,7 @@ class ProductReceiptController extends Controller
 
             return response()->json([
                 'message' => 'Tạo phiếu nhập kho thành công',
+                'status' => 201,
                 'data' => $productReceipt,
             ], 201);
         } catch (\Exception $e) {

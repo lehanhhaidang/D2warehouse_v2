@@ -21,12 +21,12 @@ class ProductController extends Controller
     protected $productService;
 
     public function __construct(
-        ProductRepositoryInterface $productRepository,
         ProductService $productService
     ) {
-        $this->productRepository = $productRepository;
         $this->productService = $productService;
     }
+
+
 
 
     /**
@@ -57,7 +57,8 @@ class ProductController extends Controller
      *         response=404,
      *         description="Không có thành phẩm nào",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Hiện tại chưa có thành phẩm nào"),
+     *            @OA\Property(property="message", type="string", example="Lỗi khi lấy danh sách thành phẩm"),
+     *             @OA\Property(property="error", type="string", example="Hiện tại chưa có thành phẩm nào"),
      *             @OA\Property(property="status", type="integer", example=404)
      *         )
      *     ),
@@ -66,8 +67,8 @@ class ProductController extends Controller
      *         description="Lỗi khi lấy danh sách thành phẩm",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Lỗi khi lấy danh sách thành phẩm"),
+     *             @OA\Property(property="error", type="string", example="Error message here"),
      *             @OA\Property(property="status", type="integer", example=500),
-     *             @OA\Property(property="error", type="string", example="Error message here")
      *         )
      *     )
      * )
@@ -77,21 +78,14 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $products = $this->productRepository->all();
-
-            if (empty($products)) {
-                return response()->json([
-                    'message' => 'Hiện tại chưa có thành phẩm nào',
-                    'status' => 404,
-                ], 404);
-            }
+            $products = $this->productService->getAllProducts();
             return response()->json($products, 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy danh sách thành phẩm',
-                'status' => 500,
                 'error' => $e->getMessage(),
-            ], 500);
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
         }
     }
 
@@ -194,7 +188,8 @@ class ProductController extends Controller
      *         response=404,
      *         description="Không tìm thấy thành phẩm",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Không tìm thấy thành phẩm"),
+     *             @OA\Property(property="message", type="string", example="Lỗi khi lấy thông tin thành phẩm"),
+     *             @OA\Property(property="error", type="string", example="Không tìm thấy thành phẩm"),
      *             @OA\Property(property="status", type="integer", example=404)
      *         )
      *     ),
@@ -213,21 +208,14 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = $this->productRepository->find($id);
-            if (!$product) {
-                return response()->json([
-                    'message' => 'Không tim thấy thành phẩm',
-                    'status' => 404,
-
-                ], 404);
-            }
+            $product = $this->productService->getProduct($id);
             return response()->json($product);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy thông tin thành phẩm',
-                'status' => 500,
                 'error' => $e->getMessage(),
-            ], 500);
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
         }
     }
 

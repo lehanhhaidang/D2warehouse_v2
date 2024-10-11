@@ -15,6 +15,26 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
+    public function getAllProducts()
+    {
+        $products = $this->productRepository->all();
+        if ($products->isEmpty()) {
+            throw new \Exception('Hiện tại chưa có thành phẩm nào', 404);
+        }
+        return $products;
+    }
+
+
+    public function getProduct($id)
+    {
+        $product = $this->productRepository->find($id);
+        if (!$product) {
+            throw new \Exception('Không tìm thấy thành phẩm', 404);
+        }
+        return $product;
+    }
+
+
     public function storeProduct($request)
     {
         try {
@@ -55,7 +75,7 @@ class ProductService
         try {
             $product = $this->productRepository->find($id);
             if (!$product) {
-                throw new \Exception('Không tìm thấy thành phẩm');
+                throw new \Exception('Không tìm thấy thành phẩm', 404);
             }
 
             // Xử lý hình ảnh sản phẩm

@@ -8,13 +8,13 @@
         "/api/v1/categories": {
             "get": {
                 "tags": [
-                    "Categories"
+                    "Category"
                 ],
-                "summary": "Lấy danh sách tất cả danh mục",
+                "summary": "Lấy danh sách tất cả các danh mục",
                 "operationId": "d9bf255011b42d56bf306832dc3366c8",
                 "responses": {
                     "200": {
-                        "description": "Danh sách danh mục",
+                        "description": "Danh sách danh mục đã được lấy thành công",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -23,11 +23,19 @@
                                         "properties": {
                                             "id": {
                                                 "type": "integer",
-                                                "example": 1
+                                                "example": 3
                                             },
                                             "name": {
                                                 "type": "string",
-                                                "example": "Chai nhựa HDPE"
+                                                "example": "Nhựa HDPE"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "material"
+                                            },
+                                            "parent_id": {
+                                                "type": "integer",
+                                                "example": 1
                                             }
                                         },
                                         "type": "object"
@@ -37,18 +45,14 @@
                         }
                     },
                     "404": {
-                        "description": "Không tìm thấy danh mục nào",
+                        "description": "Không có danh mục nào",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Không tìm thấy danh mục nào"
-                                        },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 404
+                                            "example": "Hiện tại không có danh mục nào."
                                         }
                                     },
                                     "type": "object"
@@ -66,6 +70,10 @@
                                             "type": "string",
                                             "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
                                         },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
                                         "status": {
                                             "type": "integer",
                                             "example": 500
@@ -76,28 +84,39 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/category/add": {
             "post": {
                 "tags": [
-                    "Categories"
+                    "Category"
                 ],
-                "summary": "Thêm danh mục mới",
+                "summary": "Tạo mới một danh mục",
                 "operationId": "dc07f16d401a4d7794e899a9e51045de",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name"
-                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Chai nhựa HDPE"
+                                        "example": "Nhựa PP"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "material"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -106,19 +125,40 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Thêm danh mục thành công",
+                    "201": {
+                        "description": "Tạo danh mục thành công",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Thêm danh mục thành công"
+                                            "example": "Tạo danh mục thành công"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 7
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Nhựa PP"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "material"
+                                                },
+                                                "parent_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
                                         },
                                         "status": {
                                             "type": "integer",
-                                            "example": 200
+                                            "example": 201
                                         }
                                     },
                                     "type": "object"
@@ -127,22 +167,22 @@
                         }
                     },
                     "500": {
-                        "description": "Thêm danh mục thất bại",
+                        "description": "Tạo danh mục thất bại",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Thêm danh mục thất bại"
+                                            "example": "Tạo danh mục thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
                                         },
                                         "status": {
                                             "type": "integer",
                                             "example": 500
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Chi tiết lỗi..."
                                         }
                                     },
                                     "type": "object"
@@ -150,41 +190,55 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/category/{id}": {
             "get": {
                 "tags": [
-                    "Categories"
+                    "Category"
                 ],
-                "summary": "Lấy thông tin danh mục theo ID",
+                "summary": "Lấy thông tin chi tiết của một danh mục",
                 "operationId": "eabd5d467c0b1c671acaedf17181501f",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID của danh mục",
+                        "description": "ID của danh mục cần lấy thông tin",
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 3
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Thông tin danh mục",
+                        "description": "Lấy danh mục thành công",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "id": {
                                             "type": "integer",
-                                            "example": 1
+                                            "example": 3
                                         },
                                         "name": {
                                             "type": "string",
-                                            "example": "Chai nhựa HDPE"
+                                            "example": "Nhựa HDPE"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "material"
+                                        },
+                                        "parent_id": {
+                                            "type": "integer",
+                                            "example": 1
                                         }
                                     },
                                     "type": "object"
@@ -200,11 +254,15 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Không tìm thấy danh mục"
+                                            "example": "Lấy danh mục thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy danh mục với ID: 3"
                                         },
                                         "status": {
                                             "type": "integer",
-                                            "example": 404
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -220,15 +278,15 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Lỗi khi lấy thông tin danh mục"
+                                            "example": "Lấy danh mục thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
                                         },
                                         "status": {
                                             "type": "integer",
                                             "example": 500
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Chi tiết lỗi..."
                                         }
                                     },
                                     "type": "object"
@@ -236,25 +294,31 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/category/update/{id}": {
             "put": {
                 "tags": [
-                    "Categories"
+                    "Category"
                 ],
-                "summary": "Cập nhật thông tin danh mục",
+                "summary": "Cập nhật thông tin một danh mục",
                 "operationId": "62acbffa0802970df161f2b61e8e8c90",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID của danh mục",
+                        "description": "ID của danh mục cần cập nhật",
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 3
                     }
                 ],
                 "requestBody": {
@@ -264,9 +328,17 @@
                             "schema": {
                                 "properties": {
                                     "name": {
-                                        "description": "Tên danh mục mới",
                                         "type": "string",
-                                        "example": "Xô nhựa HDPE"
+                                        "example": "Nhựa PP"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "material"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -285,6 +357,27 @@
                                             "type": "string",
                                             "example": "Cập nhật danh mục thành công"
                                         },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Nhựa PP"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "material"
+                                                },
+                                                "parent_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
                                         "status": {
                                             "type": "integer",
                                             "example": 200
@@ -303,11 +396,15 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
+                                            "example": "Cập nhật danh mục thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
                                             "example": "Không tìm thấy danh mục"
                                         },
                                         "status": {
                                             "type": "integer",
-                                            "example": 404
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -325,13 +422,13 @@
                                             "type": "string",
                                             "example": "Cập nhật danh mục thất bại"
                                         },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
                                         "status": {
                                             "type": "integer",
                                             "example": 500
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Chi tiết lỗi..."
                                         }
                                     },
                                     "type": "object"
@@ -339,15 +436,20 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/category/delete/{id}": {
             "delete": {
                 "tags": [
-                    "Categories"
+                    "Category"
                 ],
-                "summary": "Xóa danh mục",
+                "summary": "Xóa một danh mục",
                 "operationId": "c8d38b92325370b0b797ce15752d05c2",
                 "parameters": [
                     {
@@ -357,7 +459,8 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 3
                     }
                 ],
                 "responses": {
@@ -389,11 +492,15 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Không tìm thấy danh mục"
+                                            "example": "Xóa danh mục thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy danh mục với ID: 3"
                                         },
                                         "status": {
                                             "type": "integer",
-                                            "example": 404
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -411,13 +518,13 @@
                                             "type": "string",
                                             "example": "Xóa danh mục thất bại"
                                         },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
                                         "status": {
                                             "type": "integer",
                                             "example": 500
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Chi tiết lỗi..."
                                         }
                                     },
                                     "type": "object"
@@ -425,7 +532,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/materials": {
@@ -459,10 +571,6 @@
                                             "quantity": {
                                                 "type": "integer",
                                                 "example": 50
-                                            },
-                                            "shelf_name": {
-                                                "type": "string",
-                                                "example": "Kệ 1"
                                             },
                                             "warehouse_name": {
                                                 "type": "string",
@@ -503,6 +611,10 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
+                                            "example": "Lỗi khi lấy danh sách nguyên vật liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
                                             "example": "Không tìm thấy nguyên vật liệu nào"
                                         },
                                         "status": {
@@ -525,13 +637,13 @@
                                             "type": "string",
                                             "example": "Lỗi khi lấy danh sách nguyên vật liệu"
                                         },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 500
-                                        },
                                         "error": {
                                             "type": "string",
                                             "example": "Error message here"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -559,7 +671,6 @@
                                     "unit",
                                     "quantity",
                                     "category_id",
-                                    "shelf_id",
                                     "status"
                                 ],
                                 "properties": {
@@ -578,10 +689,6 @@
                                     "category_id": {
                                         "type": "integer",
                                         "example": 3
-                                    },
-                                    "shelf_id": {
-                                        "type": "integer",
-                                        "example": 7
                                     },
                                     "material_img": {
                                         "type": "string",
@@ -687,10 +794,6 @@
                                             "type": "integer",
                                             "example": 100
                                         },
-                                        "shelf_name": {
-                                            "type": "string",
-                                            "example": "Kệ 3"
-                                        },
                                         "warehouse_name": {
                                             "type": "string",
                                             "example": "Kho nguyên vật liệu 1"
@@ -729,6 +832,10 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
+                                            "example": "Lỗi khi lấy thông tin nguyên vật liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
                                             "example": "Không tim thấy nguyên vật liệu"
                                         },
                                         "status": {
@@ -751,13 +858,13 @@
                                             "type": "string",
                                             "example": "Lỗi khi lấy thông tin nguyên vật liệu"
                                         },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 500
-                                        },
                                         "error": {
                                             "type": "string",
                                             "example": "Error message here"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -799,10 +906,6 @@
                                     "category_id": {
                                         "type": "integer",
                                         "example": 2
-                                    },
-                                    "shelf_id": {
-                                        "type": "integer",
-                                        "example": 3
                                     },
                                     "unit": {
                                         "type": "string",
@@ -1056,6 +1159,10 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
+                                            "example": "Lỗi khi lấy danh sách thành phẩm"
+                                        },
+                                        "error": {
+                                            "type": "string",
                                             "example": "Hiện tại chưa có thành phẩm nào"
                                         },
                                         "status": {
@@ -1078,13 +1185,13 @@
                                             "type": "string",
                                             "example": "Lỗi khi lấy danh sách thành phẩm"
                                         },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 500
-                                        },
                                         "error": {
                                             "type": "string",
                                             "example": "Error message here"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -1257,10 +1364,6 @@
                                             "type": "integer",
                                             "example": 100
                                         },
-                                        "shelf_id": {
-                                            "type": "integer",
-                                            "example": 2
-                                        },
                                         "product_img": {
                                             "type": "string",
                                             "example": null,
@@ -1294,6 +1397,10 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy thông tin thành phẩm"
+                                        },
+                                        "error": {
                                             "type": "string",
                                             "example": "Không tìm thấy thành phẩm"
                                         },
@@ -1544,6 +1651,599 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/v1/shelves": {
+            "get": {
+                "tags": [
+                    "Shelf"
+                ],
+                "summary": "Lấy danh sách các kệ hàng",
+                "operationId": "d0ea09eefcb4a18d9f7f3ce7643119d5",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách các kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 7
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Kệ 1"
+                                            },
+                                            "warehouse_name": {
+                                                "type": "string",
+                                                "example": "Kho nguyên vật liệu 1"
+                                            },
+                                            "category_name": {
+                                                "type": "string",
+                                                "example": "Nhựa HDPE"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-10T14:13:35.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": null,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hiện tại không có kệ hàng nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kệ hàng"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại không có kệ hàng nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kệ hàng"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/shelf/add": {
+            "post": {
+                "tags": [
+                    "Shelf"
+                ],
+                "summary": "Tạo một kệ hàng mới",
+                "operationId": "b0f3beb0f7a8ec535b29f76f45871b19",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Test thêm kệ hàng"
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "number_of_levels": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "storage_capacity": {
+                                        "type": "integer",
+                                        "example": 1000
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo kệ hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tạo kệ hàng thành công"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 11
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Test thêm kệ hàng"
+                                                },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "number_of_levels": {
+                                                    "type": "integer",
+                                                    "example": 8
+                                                },
+                                                "storage_capacity": {
+                                                    "type": "integer",
+                                                    "example": 1000
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-11T08:58:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-11T08:58:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Tạo kệ hàng thất bại",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tạo kệ hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/shelf/{id}": {
+            "get": {
+                "tags": [
+                    "Shelf"
+                ],
+                "summary": "Lấy thông tin chi tiết của một kệ hàng",
+                "operationId": "e4c27e1b8c3a5ea78b0aac68dc3e13cd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của kệ hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thông tin chi tiết của kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Kệ 1"
+                                        },
+                                        "warehouse_name": {
+                                            "type": "string",
+                                            "example": "Kho thành phẩm 1"
+                                        },
+                                        "category_name": {
+                                            "type": "string",
+                                            "example": "Chai nhựa HDPE"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-11T08:42:38.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy thông tin kệ hàng"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy kệ hàng với ID: 1111"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy thông tin kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy thông tin kệ hàng"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/shelf/update/{id}": {
+            "put": {
+                "tags": [
+                    "Shelf"
+                ],
+                "summary": "Cập nhật thông tin kệ hàng",
+                "operationId": "985808afe2404f8554d2563d7b8d07b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của kệ hàng cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Kệ hàng mới"
+                                    },
+                                    "number_of_levels": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "storage_capacity": {
+                                        "type": "integer",
+                                        "example": 2000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật kệ hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật kệ hàng thành công"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Kệ hàng mới"
+                                                },
+                                                "number_of_levels": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "storage_capacity": {
+                                                    "type": "integer",
+                                                    "example": 2000
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-11T08:58:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-11T09:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật kệ hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy kệ hàng với ID: 1"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Cập nhật kệ hàng thất bại",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật kệ hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/shelf/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Shelf"
+                ],
+                "summary": "Xóa kệ hàng",
+                "operationId": "f55d0266679e4a63f7c790e07dc5401f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của kệ hàng cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa kệ hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa kệ hàng thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa kệ hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy kệ hàng."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Xóa kệ hàng thất bại",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa kệ hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/users": {
@@ -1981,8 +2681,8 @@
     },
     "tags": [
         {
-            "name": "Categories",
-            "description": "Categories"
+            "name": "Category",
+            "description": "Category"
         },
         {
             "name": "Materials",
@@ -1991,6 +2691,10 @@
         {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "Shelf",
+            "description": "Shelf"
         },
         {
             "name": "User",

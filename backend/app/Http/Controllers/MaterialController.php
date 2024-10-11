@@ -16,11 +16,8 @@ class MaterialController extends Controller
     protected $materialService;
 
     public function __construct(
-        MaterialRepositoryInterface $materialRepository,
         MaterialService $materialService
     ) {
-
-        $this->materialRepository = $materialRepository;
         $this->materialService = $materialService;
     }
     /**
@@ -54,7 +51,8 @@ class MaterialController extends Controller
      *         response=404,
      *         description="Không có nguyên vật liệu nào",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Không tìm thấy nguyên vật liệu nào"),
+     *            @OA\Property(property="message", type="string", example="Lỗi khi lấy danh sách nguyên vật liệu"),
+     *             @OA\Property(property="error", type="string", example="Không tìm thấy nguyên vật liệu nào"),
      *             @OA\Property(property="status", type="integer", example=404)
      *         )
      *     ),
@@ -63,8 +61,8 @@ class MaterialController extends Controller
      *         description="Lỗi khi lấy danh sách nguyên vật liệu",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Lỗi khi lấy danh sách nguyên vật liệu"),
+     *             @OA\Property(property="error", type="string", example="Error message here"),
      *             @OA\Property(property="status", type="integer", example=500),
-     *             @OA\Property(property="error", type="string", example="Error message here")
      *         )
      *     )
      * )
@@ -73,22 +71,15 @@ class MaterialController extends Controller
 
     public function index()
     {
-        //
         try {
-            $materials = $this->materialRepository->all();
-            if (empty($materials)) {
-                return response()->json([
-                    'message' => 'Không tìm thấy nguyên vật liệu nào',
-                    'status' => 404
-                ], 404);
-            }
-            return response()->json($materials);
+            $products = $this->materialService->getAllMaterials();
+            return response()->json($products, 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy danh sách nguyên vật liệu',
-                'status' => 500,
                 'error' => $e->getMessage(),
-            ], 500);
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
         }
     }
 
@@ -185,7 +176,8 @@ class MaterialController extends Controller
      *         response=404,
      *         description="Không tìm thấy nguyên vật liệu",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Không tim thấy nguyên vật liệu"),
+     *            @OA\Property(property="message", type="string", example="Lỗi khi lấy thông tin nguyên vật liệu"),
+     *             @OA\Property(property="error", type="string", example="Không tim thấy nguyên vật liệu"),
      *             @OA\Property(property="status", type="integer", example=404)
      *         )
      *     ),
@@ -194,8 +186,8 @@ class MaterialController extends Controller
      *         description="Lỗi khi lấy thông tin nguyên vật liệu",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Lỗi khi lấy thông tin nguyên vật liệu"),
+     *             @OA\Property(property="error", type="string", example="Error message here"),
      *             @OA\Property(property="status", type="integer", example=500),
-     *             @OA\Property(property="error", type="string", example="Error message here")
      *         )
      *     )
      * )
@@ -207,22 +199,14 @@ class MaterialController extends Controller
     public function show($id)
     {
         try {
-            $material = $this->materialRepository->find($id);
-
-            if (!$material) {
-                return response()->json([
-                    'message' => 'Không tim thấy nguyên vật liệu',
-                    'status' => 404,
-
-                ], 404);
-            }
-            return response()->json($material);
+            $product = $this->materialService->getMaterial($id);
+            return response()->json($product);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy thông tin nguyên vật liệu',
-                'status' => 500,
                 'error' => $e->getMessage(),
-            ], 500);
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
         }
     }
 
@@ -296,7 +280,7 @@ class MaterialController extends Controller
                 'message' => 'Cập nhật nguyên vật liệu thất bại',
                 'status' => 500,
                 'error' => $e->getMessage(),
-            ],  500);
+            ],  $e->getCode() ?: 500);
         }
     }
 

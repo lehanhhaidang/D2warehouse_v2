@@ -55,6 +55,41 @@ class MaterialReceiptService
         }
     }
 
+    public function getMaterialReceiptWithDetails($id)
+    {
+        try {
+            $materialReceipt = $this->materialReceiptRepository->getMaterialReceiptWithDetails($id);
+
+            if (!$materialReceipt) {
+                throw new \Exception('Không tìm thấy phiếu nhập kho này', 404);
+            }
+
+            return [
+                'id' => $materialReceipt->id,
+                'name' => $materialReceipt->name,
+                'warehouse_name' => $materialReceipt->warehouse ? $materialReceipt->warehouse->name : null,
+                'receive_date' => $materialReceipt->receive_date,
+                'status' => $materialReceipt->status,
+                'note' => $materialReceipt->note,
+                'created_by' => $materialReceipt->user ? $materialReceipt->user->name : null,
+                'created_at' => $materialReceipt->created_at,
+                'updated_at' => $materialReceipt->updated_at,
+                'details' => $materialReceipt->details->map(function ($detail) {
+                    return [
+                        'material_receipt_id' => $detail->material_receipt_id,
+                        'unit' => $detail->unit,
+                        'quantity' => $detail->quantity,
+                        'material_name' => $detail->material->name,
+                        'category_name' => $detail->material->category->name,
+                        'shelf_name' => $detail->shelf->name,
+                    ];
+                }),
+            ];
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
 
     // Tách phương thức xử lý từng chi tiết
     protected function processMaterialReceiptDetail($detail, $materialReceiptId)

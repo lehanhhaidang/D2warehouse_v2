@@ -184,9 +184,12 @@ Route::group(
     function ($router) {
         //Product Receipt Routes
         Route::get('material-receipts', [MaterialReceiptController::class, 'index']);
-        Route::get('material-receipt/{id}', [MaterialReceiptController::class, 'show'])->middleware('check.permission:view_material_receipts');
-        Route::post('material-receipt/add', [MaterialReceiptController::class, 'store'])->middleware('check.permission:create_material_receipts');
+        Route::get('material-receipt/{id}', [MaterialReceiptController::class, 'show']);
+        Route::post('material-receipt/add', [MaterialReceiptController::class, 'store']);
     }
+
+    // ->middleware('check.permission:view_material_receipts')
+    // ->middleware('check.permission:create_material_receipts')
 );
 
 //Warehouse Routes

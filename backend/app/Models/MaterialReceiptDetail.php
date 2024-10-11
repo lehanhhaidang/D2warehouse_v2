@@ -13,6 +13,7 @@ class MaterialReceiptDetail extends Model
         'material_receipt_id',
         'material_id',
         'unit',
+        'shelf_id',
         'quantity',
     ];
 

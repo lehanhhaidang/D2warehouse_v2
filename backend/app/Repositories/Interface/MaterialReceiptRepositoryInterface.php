@@ -6,7 +6,7 @@ interface MaterialReceiptRepositoryInterface
 {
     public function getAllMaterialReceiptsWithDetails();
 
-    public function getMaterialReceiptsWithDetails($id);
+    public function getMaterialReceiptWithDetails($id);
 
     public function createMaterialReceipt(array $data);
 

@@ -24,7 +24,7 @@ class MaterialReceiptRepository implements MaterialReceiptRepositoryInterface
     }
 
 
-    public function getMaterialReceiptsWithDetails($id)
+    public function getMaterialReceiptWithDetails($id)
     {
         return MaterialReceipt::with(['details.material', 'details.shelf', 'details.material.category', 'warehouse', 'user'])
             ->where('id', $id)

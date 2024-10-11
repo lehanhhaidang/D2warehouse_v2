@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MaterialReceipt\StoreMaterialReceiptRequest;
 use App\Models\MaterialReceipt;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Services\MaterialReceiptService;
@@ -38,27 +39,33 @@ class MaterialReceiptController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        try {
+            $materialReceipt = $this->materialReceiptService->getMaterialReceiptWithDetails($id);
+
+            return response()->json($materialReceipt, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+
+    public function store(StoreMaterialReceiptRequest $request)
     {
         try {
             // Tạo phiếu nhập kho và chi tiết
-            $productReceipt = $this->materialReceiptService->createMaterialReceiptWithDetails($request->validated());
+            $materialReceipt = $this->materialReceiptService->createMaterialReceiptWithDetails($request->validated());
 
             return response()->json([
                 'message' => 'Tạo phiếu nhập kho thành công',
                 'status' => 201,
-                'data' => $productReceipt,
+                'data' => $materialReceipt,
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
