@@ -23,6 +23,41 @@ class WarehouseRepository implements WarehouseRepositoryInterface
             ->get();
     }
 
+
+    public function allProductWarehouses()
+    {
+        return Warehouse::select(
+            'warehouses.id',
+            'warehouses.name',
+            'warehouses.location',
+            'warehouses.acreage',
+            'warehouses.number_of_shelves',
+            'categories.name as category_name',
+            'warehouses.created_at',
+            'warehouses.updated_at',
+        )
+            ->join('categories', 'warehouses.category_id', '=', 'categories.id')
+            ->where('categories.name', 'Product')
+            ->get();
+    }
+
+    public function allMaterialWarehouses()
+    {
+        return Warehouse::select(
+            'warehouses.id',
+            'warehouses.name',
+            'warehouses.location',
+            'warehouses.acreage',
+            'warehouses.number_of_shelves',
+            'categories.name as category_name',
+            'warehouses.created_at',
+            'warehouses.updated_at',
+        )
+            ->join('categories', 'warehouses.category_id', '=', 'categories.id')
+            ->where('categories.name', 'Material')
+            ->get();
+    }
+
     public function find($id)
     {
         return Warehouse::select(

@@ -20,17 +20,41 @@ class WarehouseService
         $warehouses = $this->warehouseRepository->all();
 
         if ($warehouses->isEmpty()) {
-            throw new \Exception('Hiện tại không có kho nào.');
+            throw new \Exception('Hiện tại không có kho nào.', 404);
         }
 
         return $warehouses;
     }
+
+    public function getProductWarehouses()
+    {
+        $warehouses = $this->warehouseRepository->allProductWarehouses();
+
+        if ($warehouses->isEmpty()) {
+            throw new \Exception('Hiện tại không có kho thành phẩm nào.', 404);
+        }
+
+        return $warehouses;
+    }
+
+    public function getMaterialWarehouses()
+    {
+        $warehouses = $this->warehouseRepository->allMaterialWarehouses();
+
+        if ($warehouses->isEmpty()) {
+            throw new \Exception('Hiện tại không có kho nguyên vật liệu nào.', 404);
+        }
+
+        return $warehouses;
+    }
+
+
     public function getAWarehouse($id)
     {
         $warehouse = $this->warehouseRepository->find($id);
 
         if (!$warehouse) {
-            throw new \Exception('Không tìm thấy kho.');
+            throw new \Exception('Không tìm thấy kho.', 404);
         }
         return $warehouse;
     }
@@ -58,7 +82,7 @@ class WarehouseService
             // Tìm kho dựa trên id
             $warehouse = $this->warehouseRepository->find($id);
             if (!$warehouse) {
-                throw new ModelNotFoundException('Không tìm thấy kho.');
+                throw new ModelNotFoundException('Không tìm thấy kho.', 404);
             }
 
             // Cập nhật dữ liệu
@@ -80,7 +104,7 @@ class WarehouseService
     {
         $warehouse = $this->warehouseRepository->find($id);
         if (!$warehouse) {
-            throw new ModelNotFoundException('Không tìm thấy kho.');
+            throw new ModelNotFoundException('Không tìm thấy kho.', 404);
         }
         return $this->warehouseRepository->delete($id);
     }

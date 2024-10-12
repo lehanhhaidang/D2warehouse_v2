@@ -19,6 +19,42 @@ class CategoryRepository implements CategoryRepositoryInterface
             ->get();
     }
 
+    public function allParentCategory()
+    {
+        return Category::select(
+            'categories.id',
+            'categories.name',
+            'categories.type',
+            'categories.parent_id',
+        )
+            ->whereNull('parent_id') // Lọc các bản ghi có parent_id null
+            ->get();
+    }
+
+    public function allProductCategory()
+    {
+        return Category::select(
+            'categories.id',
+            'categories.name',
+            'categories.type',
+            'categories.parent_id',
+        )
+            ->where('type', 'product')
+            ->get();
+    }
+
+    public function allMaterialCategory()
+    {
+        return Category::select(
+            'categories.id',
+            'categories.name',
+            'categories.type',
+            'categories.parent_id',
+        )
+            ->where('type', 'material')
+            ->get();
+    }
+
 
     public function find($id)
     {

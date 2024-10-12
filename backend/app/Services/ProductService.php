@@ -64,7 +64,6 @@ class ProductService
             // Tạo sản phẩm thông qua repository
             return $this->productRepository->create($data);
         } catch (\Exception $e) {
-            Log::error('Lỗi khi thêm thành phẩm: ' . $e->getMessage());
             throw new \Exception('Thêm thành phẩm thất bại');
         }
     }

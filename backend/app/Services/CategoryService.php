@@ -20,7 +20,49 @@ class CategoryService
         try {
             $categories = $this->categoryRepository->all();
             if ($categories->isEmpty()) {
-                throw new \Exception('Hiện tại không có danh mục nào.');
+                throw new \Exception('Hiện tại không có danh mục nào.', 404);
+            }
+            return $categories;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+
+    public function getAllProductCategories()
+    {
+        try {
+            $categories = $this->categoryRepository->allProductCategory();
+            if ($categories->isEmpty()) {
+                throw new \Exception('Hiện tại không có danh mục nào.', 404);
+            }
+            return $categories;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+
+    public function getAllMaterialCategories()
+    {
+        try {
+            $categories = $this->categoryRepository->allMaterialCategory();
+            if ($categories->isEmpty()) {
+                throw new \Exception('Hiện tại không có danh mục nào.', 404);
+            }
+            return $categories;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+
+    public function getAllParentCategories()
+    {
+        try {
+            $categories = $this->categoryRepository->allParentCategory();
+            if ($categories->isEmpty()) {
+                throw new \Exception('Hiện tại không có danh mục nào.', 404);
             }
             return $categories;
         } catch (\Exception $e) {
@@ -34,7 +76,7 @@ class CategoryService
         try {
             $category = $this->categoryRepository->find($id);
             if (!$category) {
-                throw new ModelNotFoundException('Không tìm thấy danh mục.');
+                throw new ModelNotFoundException('Không tìm thấy danh mục.', 404);
             }
 
             return $category;
@@ -100,7 +142,7 @@ class CategoryService
         try {
             $category = $this->categoryRepository->find($id);
             if (!$category) {
-                throw new ModelNotFoundException('Không tìm thấy danh mục.');
+                throw new ModelNotFoundException('Không tìm thấy danh mục.', 404);
             }
 
             $category->delete();

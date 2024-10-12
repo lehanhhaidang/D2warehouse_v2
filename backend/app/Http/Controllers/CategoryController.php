@@ -45,7 +45,9 @@ class CategoryController extends Controller
      *         response=404,
      *         description="Không có danh mục nào",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Hiện tại không có danh mục nào.")
+     *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi lấy danh sách danh mục"),
+     *             @OA\Property(property="error", type="string", example="Hiện tại không có danh mục nào."),
+     *             @OA\Property(property="status", type="integer", example=404)
      *         )
      *     ),
      *     @OA\Response(
@@ -75,6 +77,175 @@ class CategoryController extends Controller
     }
 
 
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/categories/parent",
+     *     summary="Lấy danh sách tất cả các danh mục cha",
+     *     tags={"Category"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách danh mục đã được lấy thành công",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Material"),
+     *                 @OA\Property(property="type", type="string", example="category"),
+     *                 @OA\Property(property="parent_id", type="integer", example=null),
+     *             )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không có danh mục nào",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi lấy danh sách danh mục"),
+     *             @OA\Property(property="error", type="string", example="Hiện tại không có danh mục nào."),
+     *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi khi lấy danh sách danh mục",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi lấy danh sách danh mục"),
+     *             @OA\Property(property="error", type="string", example="Chi tiết lỗi"),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+
+    public function parentCategory()
+    {
+        try {
+            $categories = $this->categoryService->getAllParentCategories();
+
+            return response()->json($categories, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Đã xảy ra lỗi khi lấy danh sách danh mục',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500
+            ], $e->getCode() ?: 500);
+        }
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/categories/product",
+     *     summary="Lấy danh sách tất cả các danh mục thành phẩm",
+     *     tags={"Category"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách danh mục đã được lấy thành công",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Chai nhựa HDPE"),
+     *                 @OA\Property(property="type", type="string", example="product"),
+     *                 @OA\Property(property="parent_id", type="integer", example=null),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không có danh mục nào",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi lấy danh sách danh mục"),
+     *             @OA\Property(property="error", type="string", example="Hiện tại không có danh mục nào."),
+     *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi khi lấy danh sách danh mục",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi lấy danh sách danh mục"),
+     *             @OA\Property(property="error", type="string", example="Chi tiết lỗi"),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+    public function productCategory()
+    {
+        try {
+            $categories = $this->categoryService->getAllProductCategories();
+
+            return response()->json($categories, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Đã xảy ra lỗi khi lấy danh sách danh mục',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500
+            ], $e->getCode() ?: 500);
+        }
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/categories/material",
+     *     summary="Lấy danh sách tất cả các danh mục nguyên vật liệu",
+     *     tags={"Category"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách danh mục đã được lấy thành công",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Nhựa HDPE"),
+     *                 @OA\Property(property="type", type="string", example="material"),
+     *                 @OA\Property(property="parent_id", type="integer", example=null),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không có danh mục nào",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi lấy danh sách danh mục"),
+     *             @OA\Property(property="error", type="string", example="Hiện tại không có danh mục nào."),
+     *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi khi lấy danh sách danh mục",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đã xảy ra lỗi khi lấy danh sách danh mục"),
+     *             @OA\Property(property="error", type="string", example="Chi tiết lỗi"),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+    public function materialCategory()
+    {
+        try {
+            $categories = $this->categoryService->getAllMaterialCategories();
+
+            return response()->json($categories, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Đã xảy ra lỗi khi lấy danh sách danh mục',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500
+            ], $e->getCode() ?: 500);
+        }
+    }
+
     /**
      * @OA\Post(
      *     path="/api/v1/category/add",
@@ -100,7 +271,7 @@ class CategoryController extends Controller
      *                 property="data",
      *                 type="object",
      *                 @OA\Property(property="id", type="integer", example=7),
-     *                 @OA\Property(property="name", type="string", example="Nhựa PP"),
+     *                 @OA\Property(property="name", type="string", example="Nhựa HDPE"),
      *                 @OA\Property(property="type", type="string", example="material"),
      *                 @OA\Property(property="parent_id", type="integer", example=1)
      *             ),
@@ -118,6 +289,8 @@ class CategoryController extends Controller
      *     )
      * )
      */
+
+
 
     public function store(StoreCategoryRequest $request)
     {

@@ -52,7 +52,300 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
+                                            "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
+                                        },
+                                        "error": {
+                                            "type": "string",
                                             "example": "Hiện tại không có danh mục nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách danh mục",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/categories/parent": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Lấy danh sách tất cả các danh mục cha",
+                "operationId": "bd71d5adc01bc05944cd74355806d4be",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách danh mục đã được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Material"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "category"
+                                            },
+                                            "parent_id": {
+                                                "type": "integer",
+                                                "example": null
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không có danh mục nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại không có danh mục nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách danh mục",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/categories/product": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Lấy danh sách tất cả các danh mục thành phẩm",
+                "operationId": "f8f9ee8c70fb8be64412896497b0b810",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách danh mục đã được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Chai nhựa HDPE"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "product"
+                                            },
+                                            "parent_id": {
+                                                "type": "integer",
+                                                "example": null
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không có danh mục nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại không có danh mục nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách danh mục",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/categories/material": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Lấy danh sách tất cả các danh mục nguyên vật liệu",
+                "operationId": "03b4f4d211cd41655761848f0548122c",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách danh mục đã được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Nhựa HDPE"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "material"
+                                            },
+                                            "parent_id": {
+                                                "type": "integer",
+                                                "example": null
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không có danh mục nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đã xảy ra lỗi khi lấy danh sách danh mục"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại không có danh mục nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
                                         }
                                     },
                                     "type": "object"
@@ -143,7 +436,7 @@
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Nhựa PP"
+                                                    "example": "Nhựa HDPE"
                                                 },
                                                 "type": {
                                                     "type": "string",
@@ -2666,6 +2959,696 @@
                     }
                 }
             }
+        },
+        "/api/v1/warehouses": {
+            "get": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Lấy danh sách kho",
+                "operationId": "16a73a7ebbbb83189c8e626a60dc1168",
+                "responses": {
+                    "200": {
+                        "description": "Lấy danh sách kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Kho nguyên vật liệu 1"
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "example": "Bình Chánh"
+                                            },
+                                            "acreage": {
+                                                "type": "string",
+                                                "example": "1000"
+                                            },
+                                            "number_of_shelves": {
+                                                "type": "string",
+                                                "example": "100"
+                                            },
+                                            "category_name": {
+                                                "type": "string",
+                                                "example": "Material"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-11T08:57:58.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": null
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không có kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không có kho nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/warehouses/product": {
+            "get": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Lấy danh sách kho thành phẩm",
+                "operationId": "c364c5e9e4f971632fe661e31fa1d292",
+                "responses": {
+                    "200": {
+                        "description": "Lấy danh sách kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Kho thành phẩm 1"
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "example": "Bình Chánh"
+                                            },
+                                            "acreage": {
+                                                "type": "string",
+                                                "example": "1000"
+                                            },
+                                            "number_of_shelves": {
+                                                "type": "string",
+                                                "example": "100"
+                                            },
+                                            "category_name": {
+                                                "type": "string",
+                                                "example": "Product"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-11T08:57:58.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": null
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không có kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại không có kho thành phẩm nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/warehouses/material": {
+            "get": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Lấy danh sách kho nguyên vật liệu",
+                "operationId": "3456d9c511fa93d6a2572ca9c69680ba",
+                "responses": {
+                    "200": {
+                        "description": "Lấy danh sách kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Kho nguyên vật liệu 1"
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "example": "Bình Chánh"
+                                            },
+                                            "acreage": {
+                                                "type": "string",
+                                                "example": "1000"
+                                            },
+                                            "number_of_shelves": {
+                                                "type": "string",
+                                                "example": "100"
+                                            },
+                                            "category_name": {
+                                                "type": "string",
+                                                "example": "Material"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-11T08:57:58.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": null
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không có kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại không có kho nguyên vật liệu nào."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy danh sách kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/warehouse/add": {
+            "post": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Thêm kho mới",
+                "operationId": "60dac46dd1c53423680f8adf6986e3b4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "acreage",
+                                    "number_of_shelves",
+                                    "category_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Kho 1"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "Địa điểm 1"
+                                    },
+                                    "acreage": {
+                                        "type": "number",
+                                        "example": 1000
+                                    },
+                                    "number_of_shelves": {
+                                        "type": "integer",
+                                        "example": 20
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tạo kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Kho 1"
+                                                },
+                                                "location": {
+                                                    "type": "string",
+                                                    "example": "Địa điểm 1"
+                                                },
+                                                "acreage": {
+                                                    "type": "number",
+                                                    "example": 1000
+                                                },
+                                                "number_of_shelves": {
+                                                    "type": "integer",
+                                                    "example": 20
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 11
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-11T08:58:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-11T08:58:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi tạo kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi tạo kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/warehouse/{id}": {
+            "get": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Lấy thông tin chi tiết kho",
+                "operationId": "7badfce2841e6c4e8592fa6cd0b6fd08",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của kho",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy thông tin kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Kho nguyên vật liệu 1"
+                                        },
+                                        "location": {
+                                            "type": "string",
+                                            "example": "Bình Chánh"
+                                        },
+                                        "acreage": {
+                                            "type": "string",
+                                            "example": "1000"
+                                        },
+                                        "number_of_shelves": {
+                                            "type": "string",
+                                            "example": "100"
+                                        },
+                                        "category_name": {
+                                            "type": "string",
+                                            "example": "Material"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-11T08:57:58.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi tìm kiếm kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy kho."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi tìm kiếm kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi tìm kiếm kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/warehouse/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Xóa kho",
+                "operationId": "c10770387ca5e77264217648e424ef0e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa kho thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa kho thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy kho."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi xóa kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa kho thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -2699,6 +3682,10 @@
         {
             "name": "User",
             "description": "User"
+        },
+        {
+            "name": "Warehouse",
+            "description": "Warehouse"
         }
     ]
 }

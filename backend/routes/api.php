@@ -146,6 +146,9 @@ Route::group(
     function ($router) {
         //Category Routes
         Route::get('categories', [CategoryController::class, 'index']);
+        Route::get('categories/parent', [CategoryController::class, 'parentCategory']);
+        Route::get('categories/product', [CategoryController::class, 'productCategory']);
+        Route::get('categories/material', [CategoryController::class, 'materialCategory']);
         Route::get('category/{id}', [CategoryController::class, 'show']);
         Route::post('category/add', [CategoryController::class, 'store']);
         Route::put('category/update/{id}', [CategoryController::class, 'update']);
@@ -205,6 +208,8 @@ Route::group(
     function ($router) {
         //Shelf Routes
         Route::get('warehouses', [WarehouseController::class, 'index']);
+        Route::get('warehouses/product', [WarehouseController::class, 'productWarehouses']);
+        Route::get('warehouses/material', [WarehouseController::class, 'materialWarehouses']);
         Route::get('warehouse/{id}', [WarehouseController::class, 'show']);
         Route::post('warehouse/add', [WarehouseController::class, 'store']);
         Route::put('warehouse/update/{id}', [WarehouseController::class, 'update']);
