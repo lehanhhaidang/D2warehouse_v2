@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             MaterialSeeder::class,
             ProductSeeder::class,
             ShelfSeeder::class,
+            ProposeSeeder::class,
             ProductReceiptSeeder::class,
             ProductExportSeeder::class,
             MaterialReceiptSeeder::class,

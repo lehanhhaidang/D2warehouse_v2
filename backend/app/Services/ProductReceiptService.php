@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Shelf;
 use App\Repositories\Interface\ProductReceiptRepositoryInterface;
 use App\Repositories\ProductReceiptRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductReceiptService
@@ -155,6 +156,8 @@ class ProductReceiptService
         DB::beginTransaction();
 
         try {
+
+            $data['user_id'] = Auth::id();
             // Tạo phiếu nhập kho
             $productReceipt = $this->productReceiptRepository->createProductReceipt($data);
 

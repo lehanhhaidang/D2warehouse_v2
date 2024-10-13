@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('propose_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('propose_id');
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('material_id')->nullable();
             $table->string('unit');
             $table->integer('quantity');
 
             $table->timestamps();
+
+            $table->foreign('propose_id')->references('id')->on('proposes');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('material_id')->references('id')->on('materials');
         });
     }
 

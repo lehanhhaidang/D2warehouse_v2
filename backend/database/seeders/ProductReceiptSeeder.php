@@ -20,15 +20,16 @@ class ProductReceiptSeeder extends Seeder
                 'warehouse_id' => 2,
                 'receive_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 4,
+                'created_by' => 3,
                 'created_at' => Carbon::now(),
+
             ],
             [
                 'name' => 'Phiếu nhập kho thành phẩm 2',
                 'warehouse_id' => 2,
                 'receive_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 4,
+                'created_by' => 2,
                 'created_at' => Carbon::now(),
             ],
             [
@@ -36,7 +37,7 @@ class ProductReceiptSeeder extends Seeder
                 'warehouse_id' => 2,
                 'receive_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 4,
+                'created_by' => 4,
                 'created_at' => Carbon::now(),
             ],
             [
@@ -44,7 +45,7 @@ class ProductReceiptSeeder extends Seeder
                 'warehouse_id' => 2,
                 'receive_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 4,
+                'created_by' => 4,
                 'created_at' => Carbon::now(),
             ],
             [
@@ -52,7 +53,7 @@ class ProductReceiptSeeder extends Seeder
                 'warehouse_id' => 2,
                 'receive_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 4,
+                'created_by' => 4,
                 'created_at' => Carbon::now(),
             ]
 

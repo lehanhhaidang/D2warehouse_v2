@@ -15,7 +15,7 @@ class ProductReceipt extends Model
         'status',
         'warehouse_id',
         'note',
-        'user_id',
+        'created_by',
     ];
 
     public function product()
@@ -25,7 +25,7 @@ class ProductReceipt extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function details()
