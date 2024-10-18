@@ -2,64 +2,108 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Propose\StoreProposeRequest;
 use App\Models\Propose;
 use Illuminate\Http\Request;
+use App\Services\ProposeService;
 
 class ProposeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $proposeService;
+
+    public function __construct(ProposeService $proposeService)
+    {
+        $this->proposeService = $proposeService;
+    }
     public function index()
     {
-        //
+        try {
+            $proposes = $this->proposeService->getAllProposeWithDetails();
+
+            return response()->json($proposes, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreProposeRequest $request)
     {
-        //
+        try {
+            $propose = $this->proposeService->createProposeWithDetails($request->all());
+
+            return response()->json([
+                'message' => 'Tạo đề xuất thành công',
+                'data' => $propose,
+                'status' => 201,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi tạo đề xuất',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        try {
+            $propose = $this->proposeService->getProposeWithDetails($id);
+
+            return response()->json($propose, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Propose $propose)
+
+    public function update(StoreProposeRequest $request, $id)
     {
-        //
+        try {
+            $propose = $this->proposeService->updateProposeWithDetails($id, $request->all());
+
+            return response()->json([
+                'message' => 'Cập nhật đề xuất thành công',
+                'data' => $propose,
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi cập nhật đề xuất',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Propose $propose)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Propose $propose)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Propose $propose)
+    public function destroy($id)
     {
-        //
+        try {
+
+            $this->proposeService->deleteProposeWithDetails($id);
+
+            return response()->json([
+                'message' => 'Xóa đề xuất thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi xóa đề xuất',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
     }
 }

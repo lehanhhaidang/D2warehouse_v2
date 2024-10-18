@@ -18,43 +18,48 @@ class MaterialExportSeeder extends Seeder
         $materialExport = [
             [
                 'name' => 'Phiếu xuất kho nguyên vật liệu 1',
+                'warehouse_id' => 1,
                 'export_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 3,
+                'created_by' => 3,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+
             ],
             [
                 'name' => 'Phiếu xuất kho nguyên vật liệu 2',
+                'warehouse_id' => 1,
                 'export_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 3,
+                'created_by' => 3,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+
             ],
             [
                 'name' => 'Phiếu xuất kho nguyên vật liệu 3',
+                'warehouse_id' => 1,
                 'export_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 3,
+                'created_by' => 3,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+
             ],
             [
                 'name' => 'Phiếu xuất kho nguyên vật liệu 4',
+                'warehouse_id' => 1,
                 'export_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 3,
+                'created_by' => 3,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+
             ],
             [
                 'name' => 'Phiếu xuất kho nguyên vật liệu 5',
+                'warehouse_id' => 1,
                 'export_date' => Carbon::now(),
                 'status' => 1,
-                'user_id' => 3,
+                'created_by' => 3,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+
             ]
 
         ];
@@ -65,60 +70,70 @@ class MaterialExportSeeder extends Seeder
             [
                 'material_export_id' => 1,
                 'material_id' => 1,
+                'shelf_id' => 7,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 1,
                 'material_id' => 1,
+                'shelf_id' => 9,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 2,
                 'material_id' => 2,
+                'shelf_id' => 8,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 2,
                 'material_id' => 2,
+                'shelf_id' => 8,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 3,
                 'material_id' => 1,
+                'shelf_id' => 7,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 3,
                 'material_id' => 1,
+                'shelf_id' => 9,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 4,
                 'material_id' => 1,
+                'shelf_id' => 7,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 4,
                 'material_id' => 2,
+                'shelf_id' => 10,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 5,
                 'material_id' => 1,
+                'shelf_id' => 7,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],
             [
                 'material_export_id' => 5,
                 'material_id' => 1,
+                'shelf_id' => 9,
                 'unit' => 'bao',
                 'quantity' => 100,
             ],

@@ -6,6 +6,7 @@ use App\Models\Material;
 use App\Models\Shelf;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Repositories\MaterialReceiptRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MaterialReceiptService
@@ -154,6 +155,7 @@ class MaterialReceiptService
         DB::beginTransaction();
 
         try {
+            $data['created_by'] = Auth::id();
             // Tạo phiếu nhập kho
             $MaterialReceipt = $this->materialReceiptRepository->createMaterialReceipt($data);
 

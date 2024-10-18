@@ -17,12 +17,12 @@ return new class extends Migration
             $table->timestamp('receive_date');
             $table->integer('status')->default(0);
             $table->string('note')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('warehouse_id');
             $table->timestamps();
 
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
         columns:
     }

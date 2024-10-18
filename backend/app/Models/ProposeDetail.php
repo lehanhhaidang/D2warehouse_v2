@@ -13,10 +13,11 @@ class ProposeDetail extends Model
         'propose_id',
         'product_id',
         'quantity',
+        'unit',
         'status',
     ];
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function propose()
     {

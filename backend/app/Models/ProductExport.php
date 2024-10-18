@@ -12,9 +12,10 @@ class ProductExport extends Model
     protected $fillable = [
         'name',
         'export_date',
+        'warehouse_id',
         'status',
         'note',
-        'user_id',
+        'created_by',
     ];
 
     public function product()
@@ -24,6 +25,16 @@ class ProductExport extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function details()
+    {
+        return $this->hasMany(ProductExportDetail::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 }

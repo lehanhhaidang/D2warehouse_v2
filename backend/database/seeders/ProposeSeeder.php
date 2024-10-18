@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\ProposeStatus;
+use App\Enum\ProposeStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

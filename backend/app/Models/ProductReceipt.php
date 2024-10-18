@@ -18,10 +18,6 @@ class ProductReceipt extends Model
         'created_by',
     ];
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
 
     public function user()
     {

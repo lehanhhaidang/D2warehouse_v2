@@ -157,7 +157,7 @@ class ProductReceiptService
 
         try {
 
-            $data['user_id'] = Auth::id();
+            $data['created_by'] = Auth::id();
             // Tạo phiếu nhập kho
             $productReceipt = $this->productReceiptRepository->createProductReceipt($data);
 

@@ -10,8 +10,11 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MaterialExportController;
 use App\Http\Controllers\MaterialReceiptController;
+use App\Http\Controllers\ProductExportController;
 use App\Http\Controllers\ProductReceiptController;
+use App\Http\Controllers\ProposeController;
 use App\Http\Controllers\ShelfController;
 use App\Http\Controllers\WarehouseController;
 
@@ -67,11 +70,11 @@ Route::group(
     ],
     function ($router) {
         //Color Routes
-        Route::get('colors', [ColorController::class, 'index']);
-        Route::get('color/{id}', [ColorController::class, 'show']);
-        Route::post('color/add', [ColorController::class, 'store']);
-        Route::put('color/update/{id}', [ColorController::class, 'update']);
-        Route::delete('color/delete/{id}', [ColorController::class, 'destroy']);
+        Route::get('colors', [ColorController::class, 'index'])->middleware('check.permission:view_colors');
+        Route::get('color/{id}', [ColorController::class, 'show'])->middleware('check.permission:view_colors');
+        Route::post('color/add', [ColorController::class, 'store'])->middleware('check.permission:create_colors');
+        Route::put('color/update/{id}', [ColorController::class, 'update'])->middleware('check.permission:update_colors');
+        Route::delete('color/delete/{id}', [ColorController::class, 'destroy'])->middleware('check.permission:delete_colors');
     }
 );
 
@@ -125,11 +128,11 @@ Route::group(
     ],
     function ($router) {
         //Role Routes
-        Route::get('roles', [RoleController::class, 'index']);
-        Route::get('role/{id}', [RoleController::class, 'show']);
-        Route::post('role/add', [RoleController::class, 'store']);
-        Route::put('role/update/{id}', [RoleController::class, 'update']);
-        Route::delete('role/delete/{id}', [RoleController::class, 'destroy']);
+        Route::get('roles', [RoleController::class, 'index'])->middleware('check.permission:view_roles');
+        Route::get('role/{id}', [RoleController::class, 'show'])->middleware('check.permission:view_roles');
+        Route::post('role/add', [RoleController::class, 'store'])->middleware('check.permission:create_roles');
+        Route::put('role/update/{id}', [RoleController::class, 'update'])->middleware('check.permission:update_roles');
+        Route::delete('role/delete/{id}', [RoleController::class, 'destroy'])->middleware('check.permission:delete_roles');
     }
 );
 
@@ -145,14 +148,14 @@ Route::group(
     ],
     function ($router) {
         //Category Routes
-        Route::get('categories', [CategoryController::class, 'index']);
-        Route::get('categories/parent', [CategoryController::class, 'parentCategory']);
-        Route::get('categories/product', [CategoryController::class, 'productCategory']);
-        Route::get('categories/material', [CategoryController::class, 'materialCategory']);
-        Route::get('category/{id}', [CategoryController::class, 'show']);
-        Route::post('category/add', [CategoryController::class, 'store']);
-        Route::put('category/update/{id}', [CategoryController::class, 'update']);
-        Route::delete('category/delete/{id}', [CategoryController::class, 'destroy']);
+        Route::get('categories', [CategoryController::class, 'index'])->middleware('check.permission:view_categories');
+        Route::get('categories/parent', [CategoryController::class, 'parentCategory'])->middleware('check.permission:view_categories');
+        Route::get('categories/product', [CategoryController::class, 'productCategory'])->middleware('check.permission:view_categories');
+        Route::get('categories/material', [CategoryController::class, 'materialCategory'])->middleware('check.permission:view_categories');
+        Route::get('category/{id}', [CategoryController::class, 'show'])->middleware('check.permission:view_categories');
+        Route::post('category/add', [CategoryController::class, 'store'])->middleware('check.permission:create_categories');
+        Route::put('category/update/{id}', [CategoryController::class, 'update'])->middleware('check.permission:update_categories');
+        Route::delete('category/delete/{id}', [CategoryController::class, 'destroy'])->middleware('check.permission:delete_categories');
     }
 );
 
@@ -186,15 +189,51 @@ Route::group(
     ],
     function ($router) {
         //Product Receipt Routes
-        Route::get('material-receipts', [MaterialReceiptController::class, 'index']);
-        Route::get('material-receipt/{id}', [MaterialReceiptController::class, 'show']);
-        Route::post('material-receipt/add', [MaterialReceiptController::class, 'store']);
+        Route::get('material-receipts', [MaterialReceiptController::class, 'index'])->middleware('check.permission:view_material_receipts');
+        Route::get('material-receipt/{id}', [MaterialReceiptController::class, 'show'])->middleware('check.permission:view_material_receipts');
+        Route::post('material-receipt/add', [MaterialReceiptController::class, 'store'])->middleware('check.permission:create_material_receipts');
     }
 
     // ->middleware('check.permission:view_material_receipts')
     // ->middleware('check.permission:create_material_receipts')
 );
 
+
+//Product Export Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Product Export Routes
+        Route::get('product-exports', [ProductExportController::class, 'index'])->middleware('check.permission:view_product_exports');
+        Route::get('product-export/{id}', [ProductExportController::class, 'show'])->middleware('check.permission:view_product_exports');
+        Route::post('product-export/add', [ProductExportController::class, 'store'])->middleware('check.permission:create_product_exports');
+    }
+);
+
+//Material Export Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Material Export Routes
+        Route::get('material-exports', [MaterialExportController::class, 'index'])->middleware('check.permission:view_material_exports');
+        Route::get('material-export/{id}', [MaterialExportController::class, 'show'])->middleware('check.permission:view_material_exports');
+        Route::post('material-export/add', [MaterialExportController::class, 'store'])->middleware('check.permission:create_material_exports');
+    }
+);
 //Warehouse Routes
 
 Route::group(
@@ -207,13 +246,13 @@ Route::group(
     ],
     function ($router) {
         //Shelf Routes
-        Route::get('warehouses', [WarehouseController::class, 'index']);
-        Route::get('warehouses/product', [WarehouseController::class, 'productWarehouses']);
-        Route::get('warehouses/material', [WarehouseController::class, 'materialWarehouses']);
-        Route::get('warehouse/{id}', [WarehouseController::class, 'show']);
-        Route::post('warehouse/add', [WarehouseController::class, 'store']);
-        Route::put('warehouse/update/{id}', [WarehouseController::class, 'update']);
-        Route::delete('warehouse/delete/{id}', [WarehouseController::class, 'destroy']);
+        Route::get('warehouses', [WarehouseController::class, 'index'])->middleware('check.permission:view_warehouses');
+        Route::get('warehouses/product', [WarehouseController::class, 'productWarehouses'])->middleware('check.permission:view_warehouses');
+        Route::get('warehouses/material', [WarehouseController::class, 'materialWarehouses'])->middleware('check.permission:view_warehouses');
+        Route::get('warehouse/{id}', [WarehouseController::class, 'show'])->middleware('check.permission:view_warehouses');
+        Route::post('warehouse/add', [WarehouseController::class, 'store'])->middleware('check.permission:create_warehouses');
+        Route::put('warehouse/update/{id}', [WarehouseController::class, 'update'])->middleware('check.permission:update_warehouses');
+        Route::delete('warehouse/delete/{id}', [WarehouseController::class, 'destroy'])->middleware('check.permission:delete_warehouses');
     }
 );
 
@@ -229,10 +268,31 @@ Route::group(
     ],
     function ($router) {
         //Shelf Routes
-        Route::get('shelves', [ShelfController::class, 'index']);
-        Route::get('shelf/{id}', [ShelfController::class, 'show']);
-        Route::post('shelf/add', [ShelfController::class, 'store']);
-        Route::put('shelf/update/{id}', [ShelfController::class, 'update']);
-        Route::delete('shelf/delete/{id}', [ShelfController::class, 'destroy']);
+        Route::get('shelves', [ShelfController::class, 'index'])->middleware('check.permission:view_shelves');
+        Route::get('shelf/{id}', [ShelfController::class, 'show'])->middleware('check.permission:view_shelves');
+        Route::post('shelf/add', [ShelfController::class, 'store'])->middleware('check.permission:create_shelves');
+        Route::put('shelf/update/{id}', [ShelfController::class, 'update'])->middleware('check.permission:update_shelves');
+        Route::delete('shelf/delete/{id}', [ShelfController::class, 'destroy'])->middleware('check.permission:delete_shelves');
+    }
+);
+
+
+//Propose Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Propose Routes
+        Route::get('proposes', [ProposeController::class, 'index'])->middleware('check.permission:view_proposes');
+        Route::get('propose/{id}', [ProposeController::class, 'show'])->middleware('check.permission:view_proposes');
+        Route::post('propose/add', [ProposeController::class, 'store'])->middleware('check.permission:create_proposes');
+        Route::put('propose/update/{id}', [ProposeController::class, 'update'])->middleware('check.permission:update_proposes');
+        Route::delete('propose/delete/{id}', [ProposeController::class, 'destroy'])->middleware('check.permission:delete_proposes');
     }
 );

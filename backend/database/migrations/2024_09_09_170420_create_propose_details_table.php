@@ -21,9 +21,9 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('propose_id')->references('id')->on('proposes');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('material_id')->references('id')->on('materials');
+            $table->foreign('propose_id')->references('id')->on('proposes')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
         });
     }
 

@@ -21,13 +21,18 @@ class PermissionSeeder extends Seeder
             'update_users',
             'delete_users',
 
-
             //Warehouse
 
             'view_warehouse',
             'create_warehouse',
             'update_warehouse',
             'delete_warehouse',
+
+            //Shelves
+            'view_shelves',
+            'create_shelves',
+            'update_shelves',
+            'delete_shelves',
 
             //Products
             'view_products',
@@ -49,6 +54,13 @@ class PermissionSeeder extends Seeder
             'update_categories',
             'delete_categories',
 
+            //Colors
+
+            'view_colors',
+            'create_colors',
+            'update_colors',
+            'delete_colors',
+
             //Roles
 
             'view_roles',
@@ -63,12 +75,6 @@ class PermissionSeeder extends Seeder
             'update_permissions',
             'delete_permissions',
 
-            //Colors
-
-            'view_colors',
-            'create_colors',
-            'update_colors',
-            'delete_colors',
 
             //ProductReceipts
 
@@ -84,12 +90,27 @@ class PermissionSeeder extends Seeder
             'update_product_exports',
             'delete_product_exports',
 
+            //MaterialReceipts
+
+            'view_material_receipts',
+            'create_material_receipts',
+            'update_material_receipts',
+            'delete_material_receipts',
+
+            //MaterialExports
+
+            'view_material_exports',
+            'create_material_exports',
+            'update_material_exports',
+            'delete_material_exports',
+
             //Propose
 
-            'view_propose',
-            'create_propose',
-            'update_propose',
-            'delete_propose',
+            'view_proposes',
+            'create_proposes',
+            'update_proposes',
+            'delete_proposes',
+
 
         ];
 

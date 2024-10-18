@@ -1,6 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Enum;
+
 
 enum ProposeStatus: string
 {

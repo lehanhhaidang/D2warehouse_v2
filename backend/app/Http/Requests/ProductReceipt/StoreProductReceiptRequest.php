@@ -32,9 +32,19 @@ class StoreProductReceiptRequest extends FormRequest
             'details.*.product_id' => 'required|exists:products,id',
             'details.*.shelf_id' => 'required|exists:shelves,id',
             'details.*.unit' => 'required|string',
-            'details.*.quantity' => 'required|integer|min:1',
+            'details.*.quantity' => [
+                'required',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    if ($value % 100 !== 0) {
+                        $fail('Số lượng sản phẩm phải là bội số của 100.');
+                    }
+                }
+            ],
         ];
     }
+
 
     public function messages()
     {

@@ -2,62 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductExport\StoreProductExportRequest;
 use App\Models\ProductExport;
 use Illuminate\Http\Request;
+use App\Services\ProductExportService;
+
 
 class ProductExportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $productExportService;
+
+    public function __construct(ProductExportService $productExportService)
+    {
+        $this->productExportService = $productExportService;
+    }
+
+
     public function index()
     {
-        //
+        try {
+
+            $productExports = $this->productExportService->getAllProductExportsWithDetails();
+
+            return response()->json(
+                $productExports,
+                200
+            );
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Không thể lấy dữ liệu',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function store(StoreProductExportRequest $request)
     {
-        //
+        try {
+            // Tạo phiếu xuất kho và chi tiết
+            $productExport = $this->productExportService->createProductExportWithDetails($request->validated());
+
+            return response()->json([
+                'message' => 'Tạo phiếu xuất kho thành công',
+                'status' => 201,
+                'data' => $productExport,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra trong quá trình tạo phiếu xuất kho',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+
+    public function show($id)
     {
-        //
+        try {
+            $productExport = $this->productExportService->getProductExportWithDetails($id);
+
+            return response()->json(
+                $productExport,
+                200
+            );
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Không thể lấy dữ liệu',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProductExport $productExport)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ProductExport $productExport)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ProductExport $productExport)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ProductExport $productExport)
     {
         //

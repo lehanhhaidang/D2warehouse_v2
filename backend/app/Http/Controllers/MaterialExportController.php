@@ -2,64 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MaterialExport\StoreMaterialExportRequest;
 use App\Models\MaterialExport;
+use App\Services\MaterialExportService;
 use Illuminate\Http\Request;
 
 class MaterialExportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $materialExportService;
+
+    public function __construct(MaterialExportService $materialExportService)
+    {
+        $this->materialExportService = $materialExportService;
+    }
     public function index()
     {
-        //
+        try {
+
+            $materialExports = $this->materialExportService->getAllMaterialExportsWithDetails();
+
+            return response()->json(
+                $materialExports,
+                200
+            );
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Không thể lấy dữ liệu',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function store(StoreMaterialExportRequest $request)
     {
-        //
+        try {
+            // Tạo phiếu xuất kho và chi tiết
+            $materialExport = $this->materialExportService->creatematerialExportWithDetails($request->validated());
+
+            return response()->json([
+                'message' => 'Tạo phiếu xuất kho thành công',
+                'status' => 201,
+                'data' => $materialExport,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra trong quá trình tạo phiếu xuất kho',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MaterialExport $materialExport)
+    public function show($id)
     {
-        //
-    }
+        try {
+            $materialExport = $this->materialExportService->getMaterialExportWithDetails($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MaterialExport $materialExport)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MaterialExport $materialExport)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MaterialExport $materialExport)
-    {
-        //
+            return response()->json(
+                $materialExport,
+                200
+            );
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Không thể lấy dữ liệu',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

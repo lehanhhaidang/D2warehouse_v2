@@ -14,7 +14,7 @@ class MaterialReceipt extends Model
         'receive_date',
         'status',
         'note',
-        'user_id',
+        'created_by',
         'warehouse_id',
 
     ];
@@ -26,7 +26,7 @@ class MaterialReceipt extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function details()
