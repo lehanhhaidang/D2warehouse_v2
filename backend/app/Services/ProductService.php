@@ -99,10 +99,23 @@ class ProductService
                 'status' => $request->status,
             ];
 
-            return $this->productRepository->update($id, $data);
+            return $product->update($data);
         } catch (\Exception $e) {
-            Log::error('Lỗi khi cập nhật thành phẩm: ' . $e->getMessage());
-            throw new \Exception('Cập nhật thành phẩm thất bại');
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function deleteProduct($id)
+    {
+        try {
+            $product = $this->productRepository->find($id);
+
+            if (!$product) {
+                throw new \Exception('Không tìm thấy thành phẩm này', 404);
+            }
+            return $this->productRepository->delete($id);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }

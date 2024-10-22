@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -273,10 +274,11 @@ class ProductController extends Controller
      * )
      */
 
-    public function update(StoreProductRequest $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
         try {
             $this->productService->updateProduct($id, $request);
+
 
             return response()->json([
                 'message' => 'Cập nhật thành phẩm thành công',
@@ -336,15 +338,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $delete = $this->productRepository->delete($id);
-
-            if (!$delete) {
-                return response()->json([
-                    'message' => 'Không tìm thấy thành phẩm này',
-                    'status' => 404,
-                ], 404);
-            }
-
+            $this->productService->deleteProduct($id);
             return response()->json([
                 'message' => 'Xóa thành phẩm thành công',
                 'status' => 200,
@@ -352,9 +346,9 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Đã xảy ra lỗi khi xóa thành phẩm',
-                'status' => 500,
                 'error' => $e->getMessage(),
-            ], 500);
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
         }
     }
 }

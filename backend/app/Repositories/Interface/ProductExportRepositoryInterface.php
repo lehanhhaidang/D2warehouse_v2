@@ -20,4 +20,6 @@ interface ProductExportRepositoryInterface
     public function updateShelfDetailQuantity($shelf_detail_id, $newQuantity);
 
     public function createShelfDetail(array $detail);
+
+    public function deleteShelfDetail($id);
 }

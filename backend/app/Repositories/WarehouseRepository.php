@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Warehouse;
 use App\Repositories\Interface\WarehouseRepositoryInterface;
+use App\Models\Material;
+use App\Models\Product;
 
 class WarehouseRepository implements WarehouseRepositoryInterface
 {
@@ -73,6 +75,8 @@ class WarehouseRepository implements WarehouseRepositoryInterface
             ->join('categories', 'warehouses.category_id', '=', 'categories.id')
             ->find($id);
     }
+
+
 
     public function create($data)
     {

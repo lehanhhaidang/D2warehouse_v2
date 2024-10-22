@@ -331,18 +331,9 @@ class MaterialController extends Controller
     {
         try {
             // Kiểm tra tồn tại nguyên vật liệu trước khi xóa
-            $material = $this->materialRepository->find($id);
-
-            if (!$material) {
-                return response()->json([
-                    'message' => 'Không tìm thấy nguyên vật liệu này',
-                    'status' => 404,
-                ], 404);
-            }
 
             // Tiến hành xóa nguyên vật liệu
-            $this->materialRepository->delete($id);
-
+            $this->materialService->deleteMaterial($id);
             return response()->json([
                 'message' => 'Xóa nguyên vật liệu thành công',
                 'status' => 200,

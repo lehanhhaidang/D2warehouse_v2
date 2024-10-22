@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Material;
+use App\Models\Product;
+use App\Models\Warehouse;
 use App\Repositories\Interface\WarehouseRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -107,5 +110,25 @@ class WarehouseService
             throw new ModelNotFoundException('Không tìm thấy kho.', 404);
         }
         return $this->warehouseRepository->delete($id);
+    }
+
+
+    public function showProductOrMaterialByWarehouse($id)
+    {
+        $warehouse = Warehouse::find($id);
+
+        if (!$warehouse) {
+            throw new \Exception('Warehouse not found', 404);
+        }
+
+        if ($warehouse->category_id == 1) {
+            $materials = Material::all(['id', 'name', 'unit']);
+            return $materials;
+        } elseif ($warehouse->category_id == 2) {
+            $products = Product::all(['id', 'name', 'unit']);
+            return $products;
+        } else {
+            throw new \Exception('Invalid warehouse category', 400);
+        }
     }
 }

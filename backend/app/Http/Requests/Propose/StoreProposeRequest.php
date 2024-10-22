@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\Propose;
 
+use App\Enum\ProposeStatus;
 use App\Models\Warehouse;
-use App\ProposeStatus;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProposeRequest extends FormRequest

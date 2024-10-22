@@ -112,14 +112,19 @@ class ProductExportService
             ];
 
             // Tạo chi tiết sản phẩm trên kệ
-            $this->productExportRepository->createShelfDetail($shelfDetails);
+            // $this->productExportRepository->createShelfDetail($shelfDetails);
+
+            $newQuantity = $existingShelfDetail->quantity - $detail['quantity'];
+
+            if ($newQuantity > 0) {
+                $this->productExportRepository->updateShelfDetailQuantity($existingShelfDetail->id, $newQuantity);
+            } else {
+                $this->productExportRepository->deleteShelfDetail($existingShelfDetail->id);
+            }
         }
 
         // Tính toán số lượng sau khi xuất
-        $newQuantity = $existingShelfDetail->quantity - $detail['quantity'];
 
-        // Cập nhật chi tiết sản phẩm trên kệ
-        $this->productExportRepository->updateShelfDetailQuantity($existingShelfDetail->id, $newQuantity);
 
         // Thêm chi tiết phiếu xuất kho vào bảng product_export_details
         $detail['product_export_id'] = $productExportId;

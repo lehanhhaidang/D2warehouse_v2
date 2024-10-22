@@ -53,7 +53,7 @@ Route::group(
         Route::get('users', [UserController::class, 'index']);
         Route::get('user/{id}', [UserController::class, 'show']);
         Route::post('user/add', [UserController::class, 'store']);
-        Route::put('user/update/{id}', [UserController::class, 'update']);
+        Route::patch('user/update/{id}', [UserController::class, 'update']);
         Route::delete('user/delete/{id}', [UserController::class, 'destroy']);
     }
 );
@@ -73,7 +73,7 @@ Route::group(
         Route::get('colors', [ColorController::class, 'index'])->middleware('check.permission:view_colors');
         Route::get('color/{id}', [ColorController::class, 'show'])->middleware('check.permission:view_colors');
         Route::post('color/add', [ColorController::class, 'store'])->middleware('check.permission:create_colors');
-        Route::put('color/update/{id}', [ColorController::class, 'update'])->middleware('check.permission:update_colors');
+        Route::patch('color/update/{id}', [ColorController::class, 'update'])->middleware('check.permission:update_colors');
         Route::delete('color/delete/{id}', [ColorController::class, 'destroy'])->middleware('check.permission:delete_colors');
     }
 );
@@ -131,7 +131,7 @@ Route::group(
         Route::get('roles', [RoleController::class, 'index'])->middleware('check.permission:view_roles');
         Route::get('role/{id}', [RoleController::class, 'show'])->middleware('check.permission:view_roles');
         Route::post('role/add', [RoleController::class, 'store'])->middleware('check.permission:create_roles');
-        Route::put('role/update/{id}', [RoleController::class, 'update'])->middleware('check.permission:update_roles');
+        Route::patch('role/update/{id}', [RoleController::class, 'update'])->middleware('check.permission:update_roles');
         Route::delete('role/delete/{id}', [RoleController::class, 'destroy'])->middleware('check.permission:delete_roles');
     }
 );
@@ -154,7 +154,7 @@ Route::group(
         Route::get('categories/material', [CategoryController::class, 'materialCategory'])->middleware('check.permission:view_categories');
         Route::get('category/{id}', [CategoryController::class, 'show'])->middleware('check.permission:view_categories');
         Route::post('category/add', [CategoryController::class, 'store'])->middleware('check.permission:create_categories');
-        Route::put('category/update/{id}', [CategoryController::class, 'update'])->middleware('check.permission:update_categories');
+        Route::patch('category/update/{id}', [CategoryController::class, 'update'])->middleware('check.permission:update_categories');
         Route::delete('category/delete/{id}', [CategoryController::class, 'destroy'])->middleware('check.permission:delete_categories');
     }
 );
@@ -245,14 +245,14 @@ Route::group(
         'prefix' => 'v1'
     ],
     function ($router) {
-        //Shelf Routes
         Route::get('warehouses', [WarehouseController::class, 'index'])->middleware('check.permission:view_warehouses');
         Route::get('warehouses/product', [WarehouseController::class, 'productWarehouses'])->middleware('check.permission:view_warehouses');
         Route::get('warehouses/material', [WarehouseController::class, 'materialWarehouses'])->middleware('check.permission:view_warehouses');
         Route::get('warehouse/{id}', [WarehouseController::class, 'show'])->middleware('check.permission:view_warehouses');
         Route::post('warehouse/add', [WarehouseController::class, 'store'])->middleware('check.permission:create_warehouses');
-        Route::put('warehouse/update/{id}', [WarehouseController::class, 'update'])->middleware('check.permission:update_warehouses');
+        Route::patch('warehouse/update/{id}', [WarehouseController::class, 'update'])->middleware('check.permission:update_warehouses');
         Route::delete('warehouse/delete/{id}', [WarehouseController::class, 'destroy'])->middleware('check.permission:delete_warehouses');
+        Route::get('warehouse-items/{id}', [WarehouseController::class, 'showProductOrMaterialByWarehouse'])->middleware('check.permission:view_warehouses');
     }
 );
 
@@ -271,8 +271,9 @@ Route::group(
         Route::get('shelves', [ShelfController::class, 'index'])->middleware('check.permission:view_shelves');
         Route::get('shelf/{id}', [ShelfController::class, 'show'])->middleware('check.permission:view_shelves');
         Route::post('shelf/add', [ShelfController::class, 'store'])->middleware('check.permission:create_shelves');
-        Route::put('shelf/update/{id}', [ShelfController::class, 'update'])->middleware('check.permission:update_shelves');
+        Route::patch('shelf/update/{id}', [ShelfController::class, 'update'])->middleware('check.permission:update_shelves');
         Route::delete('shelf/delete/{id}', [ShelfController::class, 'destroy'])->middleware('check.permission:delete_shelves');
+        Route::get('/shelves/filter', [ShelfController::class, 'filterShelves'])->middleware('check.permission:view_shelves');
     }
 );
 
@@ -292,7 +293,7 @@ Route::group(
         Route::get('proposes', [ProposeController::class, 'index'])->middleware('check.permission:view_proposes');
         Route::get('propose/{id}', [ProposeController::class, 'show'])->middleware('check.permission:view_proposes');
         Route::post('propose/add', [ProposeController::class, 'store'])->middleware('check.permission:create_proposes');
-        Route::put('propose/update/{id}', [ProposeController::class, 'update'])->middleware('check.permission:update_proposes');
+        Route::patch('propose/update/{id}', [ProposeController::class, 'update'])->middleware('check.permission:update_proposes');
         Route::delete('propose/delete/{id}', [ProposeController::class, 'destroy'])->middleware('check.permission:delete_proposes');
     }
 );

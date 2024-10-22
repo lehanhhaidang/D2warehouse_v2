@@ -596,12 +596,12 @@
             }
         },
         "/api/v1/category/update/{id}": {
-            "put": {
+            "patch": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Cập nhật thông tin một danh mục",
-                "operationId": "62acbffa0802970df161f2b61e8e8c90",
+                "operationId": "c016be522836d6ed26d203c6f8dd2545",
                 "parameters": [
                     {
                         "name": "id",
@@ -1946,6 +1946,850 @@
                 }
             }
         },
+        "/api/v1/proposes": {
+            "get": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Lấy danh sách các đề xuất",
+                "description": "Trả về danh sách các đề xuất kèm chi tiết về sản phẩm và nguyên vật liệu.",
+                "operationId": "getProposes",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer {access_token}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Danh sách đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Phiếu đề xuất 2"
+                                            },
+                                            "warehouse_name": {
+                                                "type": "string",
+                                                "example": "Kho thành phẩm 1"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "example": "Đã duyệt"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Đề xuất xuất thành phẩm cho kho thành phẩm 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu."
+                                            },
+                                            "created_by": {
+                                                "type": "string",
+                                                "example": "Lê Hạnh Hải Đăng"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-21T13:44:09.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": null
+                                            },
+                                            "details": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "propose_id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "product_name": {
+                                                            "type": "string",
+                                                            "example": "Chai nhựa HDPE 1 lít trắng"
+                                                        },
+                                                        "material_name": {
+                                                            "type": "string",
+                                                            "example": null
+                                                        },
+                                                        "unit": {
+                                                            "type": "string",
+                                                            "example": "Chai"
+                                                        },
+                                                        "quantity": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hiện tại chưa có đề xuất nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại chưa có đề xuất nào"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Có lỗi xảy ra khi lấy dữ liệu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/propose/add": {
+            "post": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Tạo mới đề xuất",
+                "description": "Tạo một đề xuất mới cùng với chi tiết sản phẩm và nguyên vật liệu.",
+                "operationId": "createPropose",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer {access_token}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Phiếu đề xuất 3"
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "Đang chờ duyệt"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Đề xuất nhập nguyên vật liệu cho kho 1"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "DXNNVL"
+                                    },
+                                    "details": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "material_id": {
+                                                    "type": "integer",
+                                                    "example": 1,
+                                                    "nullable": true
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "example": "Chai"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Đề xuất được tạo thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Phiếu đề xuất 3"
+                                        },
+                                        "warehouse_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Đang chờ duyệt"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Đề xuất nhập nguyên vật liệu cho kho 1"
+                                        },
+                                        "created_by": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-22T10:23:45.000000Z"
+                                        },
+                                        "details": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "propose_id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "material_id": {
+                                                        "type": "integer",
+                                                        "example": 1,
+                                                        "nullable": true
+                                                    },
+                                                    "unit": {
+                                                        "type": "string",
+                                                        "example": "Chai"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Có lỗi xảy ra khi tạo đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi tạo đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/propose/{id}": {
+            "get": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Lấy chi tiết đề xuất theo ID",
+                "description": "Trả về chi tiết đề xuất kèm thông tin sản phẩm và nguyên vật liệu dựa trên ID đề xuất.",
+                "operationId": "getProposeById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đề xuất",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer {access_token}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chi tiết đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Phiếu đề xuất 2"
+                                        },
+                                        "warehouse_name": {
+                                            "type": "string",
+                                            "example": "Kho thành phẩm 1"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Đã duyệt"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Đề xuất xuất thành phẩm cho kho thành phẩm 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu."
+                                        },
+                                        "created_by": {
+                                            "type": "string",
+                                            "example": "Lê Hạnh Hải Đăng"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-21T13:44:09.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": null
+                                        },
+                                        "details": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "propose_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "product_name": {
+                                                        "type": "string",
+                                                        "example": "Chai nhựa HDPE 1 lít trắng"
+                                                    },
+                                                    "material_name": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "unit": {
+                                                        "type": "string",
+                                                        "example": "Chai"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đề xuất"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Có lỗi xảy ra khi lấy dữ liệu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/propose/update/{id}": {
+            "patch": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Cập nhật đề xuất",
+                "description": "Cập nhật thông tin của một đề xuất đã tồn tại, bao gồm thông tin chi tiết về sản phẩm và nguyên vật liệu.",
+                "operationId": "updatePropose",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đề xuất cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 8
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Test"
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "Chờ gửi"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "ddddd"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "DXNTP"
+                                    },
+                                    "details": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "product_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "example": "chai"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 1000
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật đề xuất thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật đề xuất thành công"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 8
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Test"
+                                                },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "Chờ gửi"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "ddddd"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "DXNTP"
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-22T19:50:48.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-23T12:30:00.000000Z"
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "product_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 1000
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Không có quyền chỉnh sửa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi cập nhật đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Bạn không có quyền chỉnh sửa đề xuất này"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 403
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi cập nhật đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đề xuất"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Có lỗi xảy ra khi cập nhật đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi cập nhật đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/propose/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Xóa đề xuất",
+                "description": "Xóa một đề xuất đã tồn tại, bao gồm tất cả các chi tiết liên quan.",
+                "operationId": "deletePropose",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đề xuất cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 8
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa đề xuất thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa đề xuất thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Không có quyền xóa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi xóa đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Bạn không có quyền xóa đề xuất này"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 403
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi xóa đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đề xuất"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Có lỗi xảy ra khi xóa đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi xóa đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/shelves": {
             "get": {
                 "tags": [
@@ -2299,12 +3143,12 @@
             }
         },
         "/api/v1/shelf/update/{id}": {
-            "put": {
+            "patch": {
                 "tags": [
                     "Shelf"
                 ],
                 "summary": "Cập nhật thông tin kệ hàng",
-                "operationId": "985808afe2404f8554d2563d7b8d07b7",
+                "operationId": "a53c90eb8b3cb5e5b06afd6901c44a5c",
                 "parameters": [
                     {
                         "name": "id",
@@ -3674,6 +4518,10 @@
         {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "Propose",
+            "description": "Propose"
         },
         {
             "name": "Shelf",

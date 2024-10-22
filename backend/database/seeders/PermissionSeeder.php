@@ -23,7 +23,7 @@ class PermissionSeeder extends Seeder
 
             //Warehouse
 
-            'view_warehouse',
+            'view_warehouses',
             'create_warehouse',
             'update_warehouse',
             'delete_warehouse',

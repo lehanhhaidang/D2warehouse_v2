@@ -218,7 +218,7 @@ class ShelfController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Patch(
      *     path="/api/v1/shelf/update/{id}",
      *     summary="Cập nhật thông tin kệ hàng",
      *     tags={"Shelf"},
@@ -362,5 +362,18 @@ class ShelfController extends Controller
                 'status' => $e->getCode() ?: 500,
             ], $e->getCode() ?: 500);
         }
+    }
+
+
+    public function filterShelves(Request $request)
+    {
+        $warehouseId = $request->input('warehouse_id');
+        $productId = $request->input('product_id');
+        $materialId = $request->input('material_id');
+
+        // Gọi service để lọc kệ
+        $shelves = $this->shelfService->filterShelves($warehouseId, $productId, $materialId);
+
+        return response()->json($shelves);
     }
 }

@@ -375,7 +375,7 @@ class CategoryController extends Controller
 
 
     /**
-     * @OA\Put(
+     * @OA\Patch(
      *     path="/api/v1/category/update/{id}",
      *     summary="Cập nhật thông tin một danh mục",
      *     tags={"Category"},

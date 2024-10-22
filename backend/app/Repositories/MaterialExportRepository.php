@@ -61,4 +61,9 @@ class MaterialExportRepository implements MaterialExportRepositoryInterface
     {
         return ShelfDetail::create($detail);
     }
+
+    public function deleteShelfDetail($id)
+    {
+        return ShelfDetail::where('id', $id)->delete();
+    }
 }

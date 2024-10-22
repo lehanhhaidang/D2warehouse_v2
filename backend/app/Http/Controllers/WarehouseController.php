@@ -418,4 +418,19 @@ class WarehouseController extends Controller
             ], $e->getCode() ?: 500);
         }
     }
+
+
+    public function showProductOrMaterialByWarehouse($id)
+    {
+        try {
+            $productsOrMaterials = $this->warehouseService->showProductOrMaterialByWarehouse($id);
+            return response()->json([$productsOrMaterials, 200]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Lỗi khi lấy danh sách sản phẩm hoặc nguyên vật liệu',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500
+            ], $e->getCode() ?: 500);
+        }
+    }
 }

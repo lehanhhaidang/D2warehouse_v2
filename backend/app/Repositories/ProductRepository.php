@@ -68,12 +68,7 @@ class ProductRepository implements ProductRepositoryInterface
     }
     public function delete($id)
     {
-        $product = Product::find($id);
-        if ($product) {
-            $product->delete();
-            return true;
-        }
-        return false;
+        Product::destroy($id);
     }
 
 

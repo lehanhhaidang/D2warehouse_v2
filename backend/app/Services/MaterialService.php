@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Material;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\MaterialRepository;
 use Illuminate\Support\Facades\Log;
@@ -96,10 +97,24 @@ class MaterialService
             ];
 
             // Cập nhật nguyên vật liệu thông qua repository
-            return $this->materialRepository->update($id, $data);
+            return $material->update($data);
         } catch (\Exception $e) {
-            Log::error('Lỗi khi cập nhật nguyên vật liệu: ' . $e->getMessage());
-            throw new \Exception('Cập nhật nguyên vật liệu thất bại');
+            throw new \Exception($e->getMessage(), $e->getCode() ?: 500);
+        }
+    }
+
+
+    public function deleteMaterial($id)
+    {
+        try {
+            $material = $this->materialRepository->find($id);
+
+            if (!$material) {
+                throw new \Exception('Không tìm thấy nguyên vật liệu', 404);
+            }
+            return $this->materialRepository->delete($id);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode() ?: 500);
         }
     }
 }

@@ -58,4 +58,12 @@ class ShelfRepository implements ShelfRepositoryInterface
     {
         return Shelf::destroy($id);
     }
+
+    public function filterShelves($warehouseId, $categoryId)
+    {
+        return Shelf::where('warehouse_id', $warehouseId)
+            ->where('category_id', $categoryId)
+            ->select('id', 'name') // Chỉ lấy id và name
+            ->get();
+    }
 }

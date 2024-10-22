@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Material;
+use App\Models\Product;
 use App\Repositories\Interface\ShelfRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Shelf;
@@ -9,16 +11,16 @@ use App\Models\Shelf;
 class ShelfService
 {
 
-    protected $ShelfRepository;
+    protected $shelfRepository;
 
-    public function __construct(ShelfRepositoryInterface $ShelfRepository)
+    public function __construct(ShelfRepositoryInterface $shelfRepository)
     {
-        $this->ShelfRepository = $ShelfRepository;
+        $this->shelfRepository = $shelfRepository;
     }
 
     public function getAllShelf()
     {
-        $shelves = $this->ShelfRepository->all();
+        $shelves = $this->shelfRepository->all();
         if ($shelves->isEmpty()) {
             throw new \Exception('Hiện tại không có kệ hàng nào.', 404);
         }
@@ -28,7 +30,7 @@ class ShelfService
     public function findAShelf($id)
     {
         try {
-            $shelf = $this->ShelfRepository->find($id);
+            $shelf = $this->shelfRepository->find($id);
             if (!$shelf) {
                 throw new ModelNotFoundException('Không tìm thấy kệ hàng.', 404);
             }
@@ -56,7 +58,7 @@ class ShelfService
                 'category_id' => $request->category_id,
             ];
 
-            $shelf = $this->ShelfRepository->create($data);
+            $shelf = $this->shelfRepository->create($data);
 
             if (!$shelf) {
                 throw new \Exception('Tạo kệ hàng thất bại.');
@@ -73,7 +75,7 @@ class ShelfService
     {
         try {
             // Tìm kệ hàng dựa trên id
-            $shelf = $this->ShelfRepository->find($id);
+            $shelf = $this->shelfRepository->find($id);
             if (!$shelf) {
                 throw new ModelNotFoundException('Không tìm thấy kệ hàng.', 404);
             }
@@ -101,14 +103,43 @@ class ShelfService
     {
         try {
             // Tìm kệ hàng dựa trên id
-            $shelf = $this->ShelfRepository->find($id);
+            $shelf = $this->shelfRepository->find($id);
             if (!$shelf) {
                 throw new ModelNotFoundException('Không tìm thấy kệ hàng.', 404);
             }
             // Xóa kệ hàng
-            return $this->ShelfRepository->delete($id);
+            return $this->shelfRepository->delete($id);
         } catch (\Exception $e) {
             throw new \Exception('Xóa kệ hàng thất bại: ' . $e->getMessage());
         }
+    }
+
+    public function filterShelves($warehouseId, $productId = null, $materialId = null)
+    {
+        $categoryId = null;
+
+        // Kiểm tra product_id để lấy category_id
+        if ($productId) {
+            $product = Product::find($productId);
+            if ($product) {
+                $categoryId = $product->category_id;
+            }
+        }
+
+        // Kiểm tra material_id để lấy category_id
+        if ($materialId) {
+            $material = Material::find($materialId);
+            if ($material) {
+                $categoryId = $material->category_id;
+            }
+        }
+
+        // Nếu không tìm thấy category_id từ cả product và material thì return null
+        if (!$categoryId) {
+            return [];
+        }
+
+        // Gọi repository để lọc kệ dựa trên warehouse_id và category_id
+        return $this->shelfRepository->filterShelves($warehouseId, $categoryId);
     }
 }

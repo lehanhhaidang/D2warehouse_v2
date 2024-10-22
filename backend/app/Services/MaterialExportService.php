@@ -112,11 +112,19 @@ class MaterialExportService
             ];
 
             // Tạo chi tiết sản phẩm trên kệ
-            $this->materialExportRepository->createShelfDetail($shelfDetails);
+            // $this->materialExportRepository->createShelfDetail($shelfDetails);
+
+            $newQuantity = $existingShelfDetail->quantity - $detail['quantity'];
+
+            if ($newQuantity > 0) {
+                $this->materialExportRepository->updateShelfDetailQuantity($existingShelfDetail->id, $newQuantity);
+            } else {
+                $this->materialExportRepository->deleteShelfDetail($existingShelfDetail->id);
+            }
         }
 
         // Tính toán số lượng sau khi xuất
-        $newQuantity = $existingShelfDetail->quantity - $detail['quantity'];
+        // $newQuantity = $existingShelfDetail->quantity - $detail['quantity'];
 
         // Cập nhật chi tiết sản phẩm trên kệ
         $this->materialExportRepository->updateShelfDetailQuantity($existingShelfDetail->id, $newQuantity);

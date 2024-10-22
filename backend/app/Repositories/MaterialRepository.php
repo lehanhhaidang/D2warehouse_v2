@@ -61,11 +61,6 @@ class MaterialRepository implements MaterialRepositoryInterface
 
     public function delete($id)
     {
-        $material = Material::find($id);
-        if ($material) {
-            $material->delete();
-            return true;
-        }
-        return false;
+        Material::destroy($id);
     }
 }
