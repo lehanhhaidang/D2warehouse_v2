@@ -71,7 +71,10 @@ class WarehouseController extends Controller
     {
         try {
             $warehouses = $this->warehouseService->getAllWarehouses();
-            return response()->json([$warehouses, 200]);
+            return response()->json([
+                'data' => $warehouses,
+                'status' => 200
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy danh sách kho',
@@ -325,7 +328,13 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = $this->warehouseService->getAWarehouse($id);
-            return response()->json([$warehouse, 200]);
+            return response()->json(
+                [
+                    'data' => $warehouse,
+                    'status' => 200
+                ],
+                200
+            );
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi tìm kiếm kho',
