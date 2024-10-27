@@ -15,6 +15,8 @@ class ShelfRepository implements ShelfRepositoryInterface
             'shelves.name',
             'warehouses.name as warehouse_name',
             'categories.name as category_name',
+            'shelves.number_of_levels',
+            'shelves.storage_capacity',
             'shelves.created_at',
             'shelves.updated_at',
         )
@@ -30,6 +32,8 @@ class ShelfRepository implements ShelfRepositoryInterface
             'shelves.name',
             'warehouses.name as warehouse_name',
             'categories.name as category_name',
+            'shelves.number_of_levels',
+            'shelves.storage_capacity',
             'shelves.created_at',
             'shelves.updated_at',
         )
