@@ -111,6 +111,13 @@ class PermissionSeeder extends Seeder
             'update_proposes',
             'delete_proposes',
 
+            //Order
+
+            'view_orders',
+            'create_orders',
+            'update_orders',
+            'delete_orders',
+
 
         ];
 

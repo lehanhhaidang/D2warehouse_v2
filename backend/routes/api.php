@@ -12,6 +12,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialExportController;
 use App\Http\Controllers\MaterialReceiptController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductExportController;
 use App\Http\Controllers\ProductReceiptController;
 use App\Http\Controllers\ProposeController;
@@ -274,6 +275,7 @@ Route::group(
         Route::patch('shelf/update/{id}', [ShelfController::class, 'update'])->middleware('check.permission:update_shelves');
         Route::delete('shelf/delete/{id}', [ShelfController::class, 'destroy'])->middleware('check.permission:delete_shelves');
         Route::get('/shelves/filter', [ShelfController::class, 'filterShelves'])->middleware('check.permission:view_shelves');
+        Route::get('/shelves/items/{warehouseId}', [ShelfController::class, 'getShelfItemsByWarehouseId'])->middleware('check.permission:view_shelves');
     }
 );
 
@@ -295,5 +297,26 @@ Route::group(
         Route::post('propose/add', [ProposeController::class, 'store'])->middleware('check.permission:create_proposes');
         Route::patch('propose/update/{id}', [ProposeController::class, 'update'])->middleware('check.permission:update_proposes');
         Route::delete('propose/delete/{id}', [ProposeController::class, 'destroy'])->middleware('check.permission:delete_proposes');
+    }
+);
+
+
+//Order Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Order Routes
+        Route::get('orders', [OrderController::class, 'index'])->middleware('check.permission:view_orders');
+        Route::get('order/{id}', [OrderController::class, 'show'])->middleware('check.permission:view_orders');
+        Route::post('order/add', [OrderController::class, 'store'])->middleware('check.permission:create_orders');
+        Route::patch('order/update/{id}', [OrderController::class, 'update'])->middleware('check.permission:update_orders');
+        Route::delete('order/delete/{id}', [OrderController::class, 'destroy'])->middleware('check.permission:delete_orders');
     }
 );

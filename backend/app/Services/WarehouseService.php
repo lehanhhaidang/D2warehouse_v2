@@ -117,6 +117,7 @@ class WarehouseService
     {
         $warehouse = Warehouse::find($id);
 
+
         if (!$warehouse) {
             throw new \Exception('Warehouse not found', 404);
         }

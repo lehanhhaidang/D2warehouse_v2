@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             ProductExportSeeder::class,
             MaterialReceiptSeeder::class,
             MaterialExportSeeder::class,
+            OrderSeeder::class,
 
 
         ]);

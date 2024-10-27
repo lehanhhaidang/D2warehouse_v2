@@ -5,23 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShelfDetail extends Model
+class InventoryReportDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'shelf_id',
         'product_id',
-        'unit',
-        'quantity',
+        'material_id',
+        'inventory_report_id',
+        'shelf_id',
+        'actual_quantity',
+        'note',
     ];
 
-
-
-    public function shelf()
-    {
-        return $this->belongsTo(Shelf::class);
-    }
+    public $timestamps = false;
 
     public function product()
     {
@@ -33,5 +30,13 @@ class ShelfDetail extends Model
         return $this->belongsTo(Material::class);
     }
 
-    public $timestamps = false;
+    public function inventoryReport()
+    {
+        return $this->belongsTo(InventoryReport::class);
+    }
+
+    public function shelf()
+    {
+        return $this->belongsTo(Shelf::class);
+    }
 }

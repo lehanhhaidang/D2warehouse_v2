@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Shelf;
 use App\Repositories\Interface\ShelfRepositoryInterface;
-
+use Illuminate\Support\Facades\DB;
 
 class ShelfRepository implements ShelfRepositoryInterface
 {
@@ -64,6 +64,39 @@ class ShelfRepository implements ShelfRepositoryInterface
         return Shelf::where('warehouse_id', $warehouseId)
             ->where('category_id', $categoryId)
             ->select('id', 'name') // Chỉ lấy id và name
+            ->get();
+    }
+
+    public function getShelvesWithProductsByWarehouseId($id)
+    {
+        return DB::table('shelves')
+            ->join('shelf_details', 'shelves.id', '=', 'shelf_details.shelf_id')
+            ->join('products', 'products.id', '=', 'shelf_details.product_id')
+            ->where('shelves.warehouse_id', $id)
+            ->select(
+                'shelves.*',
+                'products.name as product_name',
+                'shelves.name as shelf_name',
+                'products.unit',
+                'shelf_details.quantity'
+            )
+            ->get();
+    }
+
+    public function getShelvesWithMaterialsByWarehouseId($id)
+    {
+
+        return DB::table('shelves')
+            ->join('shelf_details', 'shelves.id', '=', 'shelf_details.shelf_id')
+            ->join('materials', 'materials.id', '=', 'shelf_details.material_id')
+            ->where('shelves.warehouse_id', $id)
+            ->select(
+                'shelves.*',
+                'materials.name as material_name',
+                'shelves.name as shelf_name',
+                'materials.unit',
+                'shelf_details.quantity'
+            )
             ->get();
     }
 }

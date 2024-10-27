@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Repositories\Interface\ShelfRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Shelf;
+use App\Models\Warehouse;
 
 class ShelfService
 {
@@ -141,5 +142,23 @@ class ShelfService
 
         // Gọi repository để lọc kệ dựa trên warehouse_id và category_id
         return $this->shelfRepository->filterShelves($warehouseId, $categoryId);
+    }
+
+    public function getShelfItemsByWarehouseId($id)
+    {
+        $warehouse = Warehouse::find($id);
+        if (!$warehouse) {
+            throw new \Exception('Không tìm thấy kho hàng.', 404);
+        }
+
+        if ($warehouse->category_id == 1) {
+            $materials = $this->shelfRepository->getShelvesWithMaterialsByWarehouseId($id);
+            return $materials;
+        } elseif ($warehouse->category_id == 2) {
+            $products = $this->shelfRepository->getShelvesWithProductsByWarehouseId($id);
+            return $products;
+        } else {
+            throw new \Exception('Invalid warehouse category', 400);
+        }
     }
 }

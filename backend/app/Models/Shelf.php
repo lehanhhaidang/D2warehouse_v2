@@ -24,8 +24,14 @@ class Shelf extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class)->where('category_id', $this->category_id);
     }
+
+    public function materials()
+    {
+        return $this->hasMany(Material::class)->where('category_id', $this->category_id);
+    }
+
 
     public function cateogy()
     {

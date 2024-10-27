@@ -12,6 +12,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "php-open-source-saver/jwt-auth": "^2.3",
+        "pusher/pusher-php-server": "^7.2",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {

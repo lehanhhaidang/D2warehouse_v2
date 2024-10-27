@@ -376,4 +376,20 @@ class ShelfController extends Controller
 
         return response()->json($shelves);
     }
+
+
+    public function getShelfItemsByWarehouseId($warehouseId)
+    {
+        try {
+            $shelfItems = $this->shelfService->getShelfItemsByWarehouseId($warehouseId);
+
+            return response()->json($shelfItems);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Lỗi khi lấy thông tin kệ hàng',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ],  500);
+        }
+    }
 }
