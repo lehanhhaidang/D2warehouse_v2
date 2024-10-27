@@ -27,8 +27,8 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|string|max:255', // Giới hạn độ dài tên sản phẩm
             'category_id' => 'required|integer|exists:categories,id', // Kiểm tra xem danh mục sản phẩm có tồn tại không
             'color_id' => 'required|integer',
-            'unit' => 'required|string|max:100',
-            'quantity' => 'required|integer|min:1', // Số lượng tối thiểu là 1
+            'unit' => 'required|string',
+            'quantity' => 'required|integer', // Số lượng tối thiểu là 1
             // 'product_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'product_img' => 'string|nullable',
             'status' => 'required|integer|in:0,1', // Trạng thái phải là 0 hoặc 1
@@ -49,7 +49,6 @@ class StoreProductRequest extends FormRequest
             'unit.max' => 'Đơn vị sản phẩm không được vượt quá 100 ký tự',
             'quantity.required' => 'Số lượng sản phẩm không được để trống',
             'quantity.integer' => 'Số lượng sản phẩm phải là số nguyên',
-            'quantity.min' => 'Số lượng sản phẩm phải lớn hơn hoặc bằng 1',
             // 'product_img.image' => 'File tải lên phải là hình ảnh hợp lệ',
             // 'product_img.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif, svg',
             // 'product_img.max' => 'Hình ảnh tải lên không được vượt quá 2MB',

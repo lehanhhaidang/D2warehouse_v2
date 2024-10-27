@@ -23,7 +23,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'category_id' => 'required|integer',
+            'category_id' => 'required|integer|exists:categories,id',
             'color_id' => 'required|integer',
             'unit' => 'required|string',
             'quantity' => 'required|integer',
@@ -39,6 +39,7 @@ class UpdateProductRequest extends FormRequest
             'name.required' => 'Tên sản phẩm không được để trống',
             'category_id.required' => 'Danh mục sản phẩm không được để trống',
             'category_id.integer' => 'Danh mục sản phẩm phải là số nguyên',
+            'category_id.exists' => 'Danh mục sản phẩm không tồn tại',
             'color_id.required' => 'Màu sắc sản phẩm không được để trống',
             'color_id.integer' => 'Màu sắc sản phẩm phải là số nguyên',
             'unit.required' => 'Đơn vị sản phẩm không được để trống',

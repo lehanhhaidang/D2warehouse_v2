@@ -39,16 +39,16 @@ class MaterialService
     {
         try {
             // Tạo thư mục chứa ảnh nguyên vật liệu nếu chưa tồn tại
-            $directory = 'images/materials';
-            if (!Storage::disk('public')->exists($directory)) {
-                Storage::disk('public')->makeDirectory($directory);
-            }
+            // $directory = 'images/materials';
+            // if (!Storage::disk('public')->exists($directory)) {
+            //     Storage::disk('public')->makeDirectory($directory);
+            // }
 
-            // Xử lý lưu ảnh
-            $imagePath = null;
-            if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
-                $imagePath = $request->file('material_img')->store($directory, 'public');
-            }
+            // // Xử lý lưu ảnh
+            // $imagePath = null;
+            // if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
+            //     $imagePath = $request->file('material_img')->store($directory, 'public');
+            // }
 
             // Dữ liệu nguyên vật liệu
             $data = [
@@ -56,7 +56,7 @@ class MaterialService
                 'unit' => $request->unit,
                 'quantity' => $request->quantity,
                 'category_id' => $request->category_id,
-                'material_img' => $imagePath,
+                'material_img' => $request->material_img,
                 'status' => $request->status,
             ];
 
@@ -77,14 +77,14 @@ class MaterialService
                 throw new \Exception('Không tìm thấy nguyên vật liệu', 404);
             }
 
-            // Logic xử lý ảnh nguyên vật liệu
-            $imagePath = $material->material_img;
-            if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
-                if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                    Storage::disk('public')->delete($imagePath);
-                }
-                $imagePath = $request->file('material_img')->store('images/materials', 'public');
-            }
+            // // Logic xử lý ảnh nguyên vật liệu
+            // $imagePath = $material->material_img;
+            // if ($request->hasFile('material_img') && $request->file('material_img')->isValid()) {
+            //     if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+            //         Storage::disk('public')->delete($imagePath);
+            //     }
+            //     $imagePath = $request->file('material_img')->store('images/materials', 'public');
+            // }
 
             // Dữ liệu cập nhật
             $data = [
@@ -92,7 +92,7 @@ class MaterialService
                 'category_id' => $request->category_id,
                 'unit' => $request->unit,
                 'quantity' => $request->quantity,
-                'material_img' => $imagePath,
+                'material_img' => $request->material_img,
                 'status' => $request->status,
             ];
 

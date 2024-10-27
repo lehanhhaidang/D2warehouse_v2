@@ -278,14 +278,11 @@ class ProductController extends Controller
     {
         try {
             $this->productService->updateProduct($id, $request);
-
-
             return response()->json([
                 'message' => 'Cập nhật thành phẩm thành công',
                 'status' => 200,
             ], 200);
         } catch (\Exception $e) {
-            Log::error('Lỗi khi cập nhật thành phẩm: ' . $e->getMessage());
 
             return response()->json([
                 'message' => 'Cập nhật thành phẩm thất bại',

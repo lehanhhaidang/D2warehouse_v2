@@ -99,6 +99,7 @@ class ProductService
                 'status' => $request->status,
             ];
 
+
             return $product->update($data);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

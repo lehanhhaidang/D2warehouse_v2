@@ -112,7 +112,7 @@ Route::group(
         Route::get('materials', [MaterialController::class, 'index'])->middleware('check.permission:view_materials');
         Route::get('material/{id}', [MaterialController::class, 'show'])->middleware('check.permission:view_materials');
         Route::post('material/add', [MaterialController::class, 'store'])->middleware('check.permission:create_materials');
-        Route::post('material/update/{id}', [MaterialController::class, 'update'])->middleware('check.permission:update_materials');
+        Route::patch('material/update/{id}', [MaterialController::class, 'update'])->middleware('check.permission:update_materials');
         Route::delete('material/delete/{id}', [MaterialController::class, 'destroy'])->middleware('check.permission:delete_materials');
     }
 );
