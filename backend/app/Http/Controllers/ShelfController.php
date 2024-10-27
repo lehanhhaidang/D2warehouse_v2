@@ -365,16 +365,88 @@ class ShelfController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/shelves/filter",
+     *     tags={"Shelf"},
+     *     summary="Lọc kệ hàng",
+     *     description="Lọc danh sách các kệ hàng dựa trên kho hàng, sản phẩm, hoặc nguyên vật liệu.",
+     *     operationId="filterShelves",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="warehouse_id",
+     *         in="query",
+     *         description="ID của kho hàng",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=2
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="product_id",
+     *         in="query",
+     *         description="ID của sản phẩm (tùy chọn, nếu có)",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="material_id",
+     *         in="query",
+     *         description="ID của nguyên vật liệu (tùy chọn, nếu có)",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=null
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lọc kệ thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                 @OA\Property(property="id", type="integer", example=2),
+     *                 @OA\Property(property="name", type="string", example="Kệ 2")
+     *             )),
+     *             @OA\Property(property="status", type="integer", example=200)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi khi lọc kệ hàng",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lỗi khi lọc kệ hàng"),
+     *             @OA\Property(property="error", type="string", example="Chi tiết lỗi"),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+
     public function filterShelves(Request $request)
     {
-        $warehouseId = $request->input('warehouse_id');
-        $productId = $request->input('product_id');
-        $materialId = $request->input('material_id');
+        try {
+            $warehouseId = $request->input('warehouse_id');
+            $productId = $request->input('product_id');
+            $materialId = $request->input('material_id');
 
-        // Gọi service để lọc kệ
-        $shelves = $this->shelfService->filterShelves($warehouseId, $productId, $materialId);
+            // Gọi service để lọc kệ
+            $shelves = $this->shelfService->filterShelves($warehouseId, $productId, $materialId);
 
-        return response()->json($shelves);
+            return response()->json([
+                'data' => $shelves,
+                'status' => 200
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Lỗi khi lọc kệ hàng',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ],  500);
+        }
     }
 
 

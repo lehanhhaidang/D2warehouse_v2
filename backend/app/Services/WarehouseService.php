@@ -123,10 +123,10 @@ class WarehouseService
         }
 
         if ($warehouse->category_id == 1) {
-            $materials = Material::all(['id', 'name', 'unit']);
+            $materials = Material::all(['id', 'name', 'unit', 'category_id']);
             return $materials;
         } elseif ($warehouse->category_id == 2) {
-            $products = Product::all(['id', 'name', 'unit']);
+            $products = Product::all(['id', 'name', 'unit', 'category_id']);
             return $products;
         } else {
             throw new \Exception('Invalid warehouse category', 400);

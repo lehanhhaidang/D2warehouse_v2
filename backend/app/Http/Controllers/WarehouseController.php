@@ -432,11 +432,75 @@ class WarehouseController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/warehouse-items/{id}",
+     *     tags={"Warehouse"},
+     *     summary="Lấy danh sách sản phẩm hoặc nguyên vật liệu trong kho",
+     *     description="Trả về danh sách sản phẩm hoặc nguyên vật liệu dựa trên `category_id` của kho hàng",
+     *     operationId="showProductOrMaterialByWarehouse",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID của kho hàng",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=2
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Product Name"),
+     *                 @OA\Property(property="unit", type="string", example="piece")
+     *             )),
+     *             @OA\Property(property="status", type="integer", example=200)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kho hàng không tìm thấy",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi lấy danh sách sản phẩm hoặc nguyên vật liệu"),
+     *             @OA\Property(property="error", type="string", example="Warehouse not found"),
+     *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Danh mục kho hàng không hợp lệ",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi lấy danh sách sản phẩm hoặc nguyên vật liệu"),
+     *             @OA\Property(property="error", type="string", example="Invalid warehouse category"),
+     *             @OA\Property(property="status", type="integer", example=400)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi xử lý yêu cầu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi lấy danh sách sản phẩm hoặc nguyên vật liệu"),
+     *             @OA\Property(property="error", type="string", example="Chi tiết lỗi"),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+
+
     public function showProductOrMaterialByWarehouse($id)
     {
         try {
             $productsOrMaterials = $this->warehouseService->showProductOrMaterialByWarehouse($id);
-            return response()->json([$productsOrMaterials, 200]);
+            return response()->json([
+                'data' => $productsOrMaterials,
+                'status' => 200
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy danh sách sản phẩm hoặc nguyên vật liệu',

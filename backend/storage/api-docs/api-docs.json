@@ -3383,6 +3383,111 @@
                 ]
             }
         },
+        "/api/v1/shelves/filter": {
+            "get": {
+                "tags": [
+                    "Shelf"
+                ],
+                "summary": "Lọc kệ hàng",
+                "description": "Lọc danh sách các kệ hàng dựa trên kho hàng, sản phẩm, hoặc nguyên vật liệu.",
+                "operationId": "filterShelves",
+                "parameters": [
+                    {
+                        "name": "warehouse_id",
+                        "in": "query",
+                        "description": "ID của kho hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "product_id",
+                        "in": "query",
+                        "description": "ID của sản phẩm (tùy chọn, nếu có)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "material_id",
+                        "in": "query",
+                        "description": "ID của nguyên vật liệu (tùy chọn, nếu có)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": null
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lọc kệ thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Kệ 2"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lọc kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lọc kệ hàng"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/users": {
             "get": {
                 "tags": [
@@ -4471,6 +4576,143 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Xóa kho thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/warehouse-items/{id}": {
+            "get": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Lấy danh sách sản phẩm hoặc nguyên vật liệu trong kho",
+                "description": "Trả về danh sách sản phẩm hoặc nguyên vật liệu dựa trên `category_id` của kho hàng",
+                "operationId": "showProductOrMaterialByWarehouse",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của kho hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Product Name"
+                                                    },
+                                                    "unit": {
+                                                        "type": "string",
+                                                        "example": "piece"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kho hàng không tìm thấy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy danh sách sản phẩm hoặc nguyên vật liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Warehouse not found"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Danh mục kho hàng không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy danh sách sản phẩm hoặc nguyên vật liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid warehouse category"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 400
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi xử lý yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy danh sách sản phẩm hoặc nguyên vật liệu"
                                         },
                                         "error": {
                                             "type": "string",
