@@ -39,16 +39,16 @@ class ProductService
     {
         try {
             // Tạo thư mục chứa ảnh sản phẩm nếu chưa tồn tại
-            $directory = 'images/products';
-            if (!Storage::disk('public')->exists($directory)) {
-                Storage::disk('public')->makeDirectory($directory);
-            }
+            // $directory = 'images/products';
+            // if (!Storage::disk('public')->exists($directory)) {
+            //     Storage::disk('public')->makeDirectory($directory);
+            // }
 
-            // Xử lý lưu ảnh
-            $imagePath = null;
-            if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
-                $imagePath = $request->file('product_img')->store($directory, 'public');
-            }
+            // // Xử lý lưu ảnh
+            // $imagePath = null;
+            // if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
+            //     $imagePath = $request->file('product_img')->store($directory, 'public');
+            // }
 
             // Dữ liệu sản phẩm
             $data = [
@@ -57,7 +57,7 @@ class ProductService
                 'color_id' => $request->color_id,
                 'unit' => $request->unit,
                 'quantity' => $request->quantity,
-                'product_img' => $imagePath,
+                'product_img' => $request->product_img,
                 'status' => $request->status,
             ];
 
@@ -78,15 +78,15 @@ class ProductService
             }
 
             // Xử lý hình ảnh sản phẩm
-            $imagePath = $product->product_img;
-            if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
-                // Xóa ảnh cũ nếu có
-                if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                    Storage::disk('public')->delete($imagePath);
-                }
-                // Lưu ảnh mới
-                $imagePath = $request->file('product_img')->store('images/products', 'public');
-            }
+            // $imagePath = $product->product_img;
+            // if ($request->hasFile('product_img') && $request->file('product_img')->isValid()) {
+            //     // Xóa ảnh cũ nếu có
+            //     if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+            //         Storage::disk('public')->delete($imagePath);
+            //     }
+            //     // Lưu ảnh mới
+            //     $imagePath = $request->file('product_img')->store('images/products', 'public');
+            // }
 
             // Cập nhật dữ liệu sản phẩm
             $data = [
@@ -95,7 +95,7 @@ class ProductService
                 'color_id' => $request->color_id,
                 'unit' => $request->unit,
                 'quantity' => $request->quantity,
-                'product_img' => $imagePath,
+                'product_img' => $request->product_img,
                 'status' => $request->status,
             ];
 
