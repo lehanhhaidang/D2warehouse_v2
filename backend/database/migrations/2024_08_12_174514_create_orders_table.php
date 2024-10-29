@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('customer_address');
             $table->timestamp('order_date');
             $table->timestamp('delivery_date')->nullable();
-            $table->integer('status');
+            $table->integer('status')->default(0); //0: Chưa xử lý, 1: Đang xử lý, 2: Đã xử lý, 3: Đã hủy
             $table->string('note')->nullable();
             $table->unsignedInteger('total_price');
             $table->timestamps();

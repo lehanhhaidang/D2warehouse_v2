@@ -16,12 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('name');
-            $table->enum('status', [
-                ProposeStatus::PENDING_SEND->value,
-                ProposeStatus::PENDING->value,
-                ProposeStatus::APPROVED->value,
-                ProposeStatus::REJECTED->value,
-            ])->default(ProposeStatus::PENDING_SEND->value);
+            $table->integer('status')->default(0); //0: Chờ gửi, 1: Chờ duyệt, 2: Đã duyệt, 3: Đã từ chối
             $table->string('description');
             $table->unsignedbigInteger('warehouse_id');
             $table->unsignedBigInteger('created_by');

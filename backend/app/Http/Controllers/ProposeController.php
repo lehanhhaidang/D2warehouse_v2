@@ -88,7 +88,10 @@ class ProposeController extends Controller
         try {
             $proposes = $this->proposeService->getAllProposeWithDetails();
 
-            return response()->json($proposes, 200);
+            return response()->json([
+                'data' => $proposes,
+                'status' => 200,
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
@@ -468,6 +471,203 @@ class ProposeController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Có lỗi xảy ra khi xóa đề xuất',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
+    }
+
+
+    /**
+     * @OA\Patch(
+     *     path="/api/v1/propose/send/{id}",
+     *     tags={"Propose"},
+     *     summary="Gửi đề xuất",
+     *     description="Cập nhật trạng thái của đề xuất để đánh dấu là đã gửi",
+     *     operationId="sendPropose",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID của đề xuất cần gửi",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Gửi đề xuất thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Gửi đề xuất thành công"),
+     *             @OA\Property(property="status", type="integer", example=200)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy đề xuất",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi gửi đề xuất"),
+     *             @OA\Property(property="error", type="string", example="Không tìm thấy đề xuất"),
+     *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi xử lý yêu cầu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi gửi đề xuất"),
+     *             @OA\Property(property="error", type="string", example="Error details..."),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+
+
+    public function sendPropose($id)
+    {
+        try {
+            $this->proposeService->sendPropose($id);
+
+            return response()->json([
+                'message' => 'Gửi đề xuất thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi gửi đề xuất',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
+    }
+
+
+    /**
+     * @OA\Patch(
+     *     path="/api/v1/propose/accept/{id}",
+     *     tags={"Propose"},
+     *     summary="Duyệt đề xuất",
+     *     description="Cập nhật trạng thái của đề xuất để đánh dấu là đã duyệt",
+     *     operationId="acceptPropose",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID của đề xuất cần duyệt",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Duyệt đề xuất thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Duyệt đề xuất thành công"),
+     *             @OA\Property(property="status", type="integer", example=200)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy đề xuất",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi duyệt đề xuất"),
+     *             @OA\Property(property="error", type="string", example="Không tìm thấy đề xuất"),
+     *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi xử lý yêu cầu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi duyệt đề xuất"),
+     *             @OA\Property(property="error", type="string", example="Error details..."),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+    public function acceptPropose($id)
+    {
+        try {
+            $this->proposeService->acceptPropse($id);
+
+            return response()->json([
+                'message' => 'Duyệt đề xuất thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi duyệt đề xuất',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
+        }
+    }
+
+
+    /**
+     * @OA\Patch(
+     *     path="/api/v1/propose/reject/{id}",
+     *     tags={"Propose"},
+     *     summary="Từ chối đề xuất",
+     *     description="Cập nhật trạng thái của đề xuất để đánh dấu là đã từ chối",
+     *     operationId="rejectPropose",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID của đề xuất cần từ chối",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Từ chối đề xuất thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Từ chối đề xuất thành công"),
+     *             @OA\Property(property="status", type="integer", example=200)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy đề xuất",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi từ chối đề xuất"),
+     *             @OA\Property(property="error", type="string", example="Không tìm thấy đề xuất"),
+     *             @OA\Property(property="status", type="integer", example=404)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi xử lý yêu cầu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi từ chối đề xuất"),
+     *             @OA\Property(property="error", type="string", example="Error details..."),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+    public function rejectPropose($id)
+    {
+        try {
+            $this->proposeService->rejectPropose($id);
+
+            return response()->json([
+                'message' => 'Từ chối đề xuất thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi từ chối đề xuất',
                 'error' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
             ], $e->getCode() ?: 500);

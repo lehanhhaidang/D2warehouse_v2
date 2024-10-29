@@ -18,7 +18,7 @@ class ProposeSeeder extends Seeder
             [
                 'name' => "Phiếu đề xuất 1",
                 'type' => "DXNTP",
-                'status' => ProposeStatus::PENDING_SEND->value,
+                'status' => 1,
                 'warehouse_id' => 2,
                 'description' => "Đề xuất nhập thành phẩm cho kho thành phẩm 1. Các sản phẩm cần nhập được liệt kê chi tiết trong phiếu.",
                 'created_by' => 3,
@@ -27,7 +27,7 @@ class ProposeSeeder extends Seeder
             [
                 'name' => "Phiếu đề xuất 2",
                 'type' => "DXXTP",
-                'status' => ProposeStatus::APPROVED->value,
+                'status' => 0,
                 'warehouse_id' => 2,
                 'description' => "Đề xuất xuất thành phẩm cho kho thành phẩm 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu.",
                 'created_by' => 2,
@@ -37,7 +37,7 @@ class ProposeSeeder extends Seeder
             [
                 'name' => "Phiếu đề xuất 3",
                 'type' => "DXNNVL",
-                'status' => ProposeStatus::PENDING->value,
+                'status' => 2,
                 'warehouse_id' => 2,
                 'description' => "Đề xuất nhập nguyên vật liệu cho kho nguyên vật liệu 1. Các sản phẩm cần nhập được liệt kê chi tiết trong phiếu.",
                 'created_by' => 3,
@@ -47,7 +47,7 @@ class ProposeSeeder extends Seeder
             [
                 'name' => "Phiếu đề xuất 4",
                 'type' => "DXXNVL",
-                'status' => ProposeStatus::REJECTED->value,
+                'status' => 3,
                 'warehouse_id' => 2,
                 'description' => "Đề xuất xuất nguyên vật liệu cho kho nguyên vật liệu 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu.",
                 'created_by' => 2,

@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Propose;
 use App\Models\ProposeDetail;
 use App\Repositories\Interface\ProposeRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProposeService
 {
@@ -217,6 +219,52 @@ class ProposeService
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
+        }
+    }
+
+
+    public function sendPropose($id)
+    {
+        try {
+            $propose = Propose::find($id);
+
+            if (!$propose) {
+                throw new \Exception('Không tìm thấy đề xuất', 404);
+            }
+            $propose = $this->proposeRepository->updatePropose($id, ['status' => 1]);
+            return $propose;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function acceptPropse($id)
+    {
+        try {
+            $propose = Propose::find($id);
+
+            if (!$propose) {
+                throw new \Exception('Không tìm thấy đề xuất', 404);
+            }
+            $propose = $this->proposeRepository->updatePropose($id, ['status' => 2]);
+            return $propose;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function rejectPropose($id)
+    {
+        try {
+            $propose = Propose::find($id);
+
+            if (!$propose) {
+                throw new \Exception('Không tìm thấy đề xuất', 404);
+            }
+            $propose = $this->proposeRepository->updatePropose($id, ['status' => 3]);
+            return $propose;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
         }
     }
 }

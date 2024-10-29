@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-
+use App\Models\Order;
 use App\Repositories\Interface\OrderRepositoryInterface;
 
 class OrderService
@@ -88,5 +88,57 @@ class OrderService
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode());
         }
+    }
+
+
+    public function confirmOrder($id)
+    {
+        try {
+            $order = $this->findOrder($id);
+
+            $order = $this->orderRepository->update($id, ['status' => 1]);
+
+            return $order;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function completeOrder($id)
+    {
+        try {
+            $order = $this->findOrder($id);
+
+            $order = $this->orderRepository->update($id, ['status' => 2]);
+
+            return $order;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function cancelOrder($id)
+    {
+        try {
+            $order = $this->findOrder($id);
+
+            $order = $this->orderRepository->update($id, ['status' => 3]);
+
+            return $order;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+    private function findOrder($id)
+    {
+        $order = Order::find($id);
+
+        if (!$order) {
+            throw new \Exception('Không tìm thấy đơn hàng', 404);
+        }
+
+        return $order;
     }
 }

@@ -22,9 +22,9 @@ class OrderRepository implements OrderRepositoryInterface
         return Order::create($attributes);
     }
 
-    public function update($id, array $attributes)
+    public function update($id, array $data)
     {
-        return Order::find($id)->update($attributes);
+        return Order::find($id)->update($data);
     }
 
     public function delete($id)

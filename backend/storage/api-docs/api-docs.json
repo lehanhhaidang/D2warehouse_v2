@@ -1377,6 +1377,1675 @@
                 }
             }
         },
+        "/api/v1/material-exports": {
+            "get": {
+                "tags": [
+                    "Material Export"
+                ],
+                "summary": "Lấy danh sách phiếu xuất kho nguyên vật liệu",
+                "description": "Lấy danh sách tất cả các phiếu xuất kho nguyên vật liệu cùng với thông tin chi tiết của từng phiếu",
+                "operationId": "getAllMaterialExportsWithDetails",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách phiếu xuất kho nguyên vật liệu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Phiếu xuất kho nguyên vật liệu 1"
+                                                    },
+                                                    "warehouse_name": {
+                                                        "type": "string",
+                                                        "example": "Kho nguyên vật liệu 1"
+                                                    },
+                                                    "export_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28 18:35:58"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "note": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "created_by": {
+                                                        "type": "string",
+                                                        "example": "Bùi Thục Đoan"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28T11:35:58.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": null
+                                                    },
+                                                    "details": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "material_export_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "unit": {
+                                                                    "type": "string",
+                                                                    "example": "bao"
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "material_name": {
+                                                                    "type": "string",
+                                                                    "example": "Nhựa HDPE"
+                                                                },
+                                                                "category_name": {
+                                                                    "type": "string",
+                                                                    "example": "Nhựa HDPE"
+                                                                },
+                                                                "shelf_name": {
+                                                                    "type": "string",
+                                                                    "example": "Kệ 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu xuất kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại chưa có phiếu xuất kho nào"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách phiếu xuất kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/material-export/add": {
+            "post": {
+                "tags": [
+                    "Material Export"
+                ],
+                "summary": "Tạo phiếu xuất kho mới",
+                "description": "Tạo một phiếu xuất kho mới cùng với chi tiết của nó",
+                "operationId": "createMaterialExport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Test"
+                                    },
+                                    "export_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-09-24 10:22:21"
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": null
+                                    },
+                                    "details": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "material_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "shelf_id": {
+                                                    "type": "integer",
+                                                    "example": 7
+                                                },
+                                                "color_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "example": "chai"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo phiếu xuất kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tạo phiếu xuất kho thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Test"
+                                                },
+                                                "export_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24 10:22:21"
+                                                },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24T10:22:21.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "material_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 7
+                                                            },
+                                                            "color_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi tạo phiếu xuất kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra trong quá trình tạo phiếu xuất kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/material-export/{id}": {
+            "get": {
+                "tags": [
+                    "Material Export"
+                ],
+                "summary": "Lấy chi tiết phiếu xuất kho nguyên vật liệu",
+                "description": "Lấy thông tin chi tiết của một phiếu xuất kho nguyên vật liệu cùng với các chi tiết của nó",
+                "operationId": "getMaterialExportWithDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của phiếu xuất kho nguyên vật liệu",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy thông tin chi tiết phiếu xuất kho nguyên vật liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Phiếu xuất kho nguyên vật liệu 1"
+                                                },
+                                                "warehouse_name": {
+                                                    "type": "string",
+                                                    "example": "Kho nguyên vật liệu 1"
+                                                },
+                                                "export_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28 18:35:58"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_by": {
+                                                    "type": "string",
+                                                    "example": "Bùi Thục Đoan"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28T11:35:58.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "material_export_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "bao"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            },
+                                                            "material_name": {
+                                                                "type": "string",
+                                                                "example": "Nhựa HDPE"
+                                                            },
+                                                            "category_name": {
+                                                                "type": "string",
+                                                                "example": "Nhựa HDPE"
+                                                            },
+                                                            "shelf_name": {
+                                                                "type": "string",
+                                                                "example": "Kệ 1"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu xuất kho này",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy phiếu xuất kho này"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy chi tiết phiếu xuất kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/material-receipts": {
+            "get": {
+                "tags": [
+                    "Material Receipt"
+                ],
+                "summary": "Lấy danh sách phiếu nhập kho nguyên vật liệu",
+                "description": "Lấy danh sách tất cả các phiếu nhập kho nguyên vật liệu cùng với thông tin chi tiết của từng phiếu",
+                "operationId": "getAllMaterialReceiptsWithDetails",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách phiếu nhập kho nguyên vật liệu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Phiếu nhập kho nguyên vật liệu 1"
+                                                    },
+                                                    "warehouse_name": {
+                                                        "type": "string",
+                                                        "example": "Kho nguyên vật liệu 1"
+                                                    },
+                                                    "receive_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28 18:35:58"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "note": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "created_by": {
+                                                        "type": "string",
+                                                        "example": "Nguyễn Huỳnh Hương"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28T11:35:58.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": null
+                                                    },
+                                                    "details": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "material_receipt_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "unit": {
+                                                                    "type": "string",
+                                                                    "example": "kg"
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 200
+                                                                },
+                                                                "material_name": {
+                                                                    "type": "string",
+                                                                    "example": "Nhựa HDPE"
+                                                                },
+                                                                "category_name": {
+                                                                    "type": "string",
+                                                                    "example": "Nguyên vật liệu nhựa"
+                                                                },
+                                                                "shelf_name": {
+                                                                    "type": "string",
+                                                                    "example": "Kệ 2"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu nhập kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại chưa có phiếu nhập kho nguyên vật liệu nào"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách phiếu nhập kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/material-receipt/{id}": {
+            "get": {
+                "tags": [
+                    "Material Receipt"
+                ],
+                "summary": "Lấy chi tiết phiếu nhập kho nguyên vật liệu",
+                "description": "Lấy thông tin chi tiết của một phiếu nhập kho nguyên vật liệu cùng với các chi tiết của nó",
+                "operationId": "getMaterialReceiptWithDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của phiếu nhập kho nguyên vật liệu",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy thông tin chi tiết phiếu nhập kho nguyên vật liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Phiếu nhập kho nguyên vật liệu 2"
+                                                },
+                                                "warehouse_name": {
+                                                    "type": "string",
+                                                    "example": "Kho nguyên vật liệu 1"
+                                                },
+                                                "receive_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28 18:35:58"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_by": {
+                                                    "type": "string",
+                                                    "example": "Nguyễn Huỳnh Hương"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28T11:35:58.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28T11:35:58.000000Z"
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "material_receipt_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "bao"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            },
+                                                            "material_name": {
+                                                                "type": "string",
+                                                                "example": "Nhựa PET"
+                                                            },
+                                                            "category_name": {
+                                                                "type": "string",
+                                                                "example": "Nhựa PET"
+                                                            },
+                                                            "shelf_name": {
+                                                                "type": "string",
+                                                                "example": "Kệ 2"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu nhập kho này",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy phiếu nhập kho này"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy chi tiết phiếu nhập kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/material-receipt/add": {
+            "post": {
+                "tags": [
+                    "Material Receipt"
+                ],
+                "summary": "Tạo phiếu nhập kho mới",
+                "description": "Tạo một phiếu nhập kho mới cùng với chi tiết của nó",
+                "operationId": "createMaterialReceipt",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Test material"
+                                    },
+                                    "receive_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-09-24 10:22:21"
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": null
+                                    },
+                                    "details": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "material_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "shelf_id": {
+                                                    "type": "integer",
+                                                    "example": 7
+                                                },
+                                                "color_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "example": "chai"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo phiếu nhập kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tạo phiếu nhập kho thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Test material"
+                                                },
+                                                "receive_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24 10:22:21"
+                                                },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24T10:22:21.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "material_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 7
+                                                            },
+                                                            "color_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi tạo phiếu nhập kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra trong quá trình tạo phiếu nhập kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orders": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Lấy danh sách đơn hàng",
+                "description": "Trả về danh sách các đơn hàng cùng với thông tin chi tiết của từng đơn hàng",
+                "operationId": "getOrders",
+                "responses": {
+                    "200": {
+                        "description": "Lấy thông tin đơn hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "customer_name": {
+                                                    "type": "string",
+                                                    "example": "Châu Hoàng Khải Long"
+                                                },
+                                                "customer_email": {
+                                                    "type": "string",
+                                                    "example": "longchau@yahoo.com"
+                                                },
+                                                "customer_phone": {
+                                                    "type": "string",
+                                                    "example": "0987654321"
+                                                },
+                                                "customer_address": {
+                                                    "type": "string",
+                                                    "example": "Hà Nội"
+                                                },
+                                                "order_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28 21:09:59"
+                                                },
+                                                "delivery_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-12 17:45:14"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": "Giao hàng sớm"
+                                                },
+                                                "total_price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 6550000
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "order_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "product_name": {
+                                                                "type": "string",
+                                                                "example": "Chai nhựa HDPE 1 lít xanh"
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 10000
+                                                            },
+                                                            "price": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 500
+                                                            },
+                                                            "total_price": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 5000000
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hiện tại chưa có đơn hàng nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy thông tin đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại chưa có đơn hàng nào"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy thông tin đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy thông tin đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error details..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/order/{id}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Lấy thông tin chi tiết đơn hàng",
+                "description": "Trả về thông tin chi tiết của một đơn hàng bao gồm các sản phẩm trong đơn hàng",
+                "operationId": "getOrderById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đơn hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy thông tin đơn hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "customer_name": {
+                                                    "type": "string",
+                                                    "example": "Châu Hoàng Khải Long"
+                                                },
+                                                "customer_email": {
+                                                    "type": "string",
+                                                    "example": "longchau@yahoo.com"
+                                                },
+                                                "customer_phone": {
+                                                    "type": "string",
+                                                    "example": "0987654321"
+                                                },
+                                                "customer_address": {
+                                                    "type": "string",
+                                                    "example": "Hà Nội"
+                                                },
+                                                "order_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28 21:09:59"
+                                                },
+                                                "delivery_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-12 17:45:14"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": "Giao hàng sớm"
+                                                },
+                                                "total_price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 6550000
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "order_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "product_name": {
+                                                                "type": "string",
+                                                                "example": "Chai nhựa HDPE 1 lít xanh"
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 10000
+                                                            },
+                                                            "price": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 500
+                                                            },
+                                                            "total_price": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 5000000
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy thông tin đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đơn hàng"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy thông tin đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy thông tin đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/order/confirm/{id}": {
+            "patch": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Xác nhận đơn hàng",
+                "description": "Xác nhận trạng thái đơn hàng dựa trên ID",
+                "operationId": "confirmOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đơn hàng cần xác nhận",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xác nhận đơn hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xác nhận đơn hàng thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xác nhận đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đơn hàng"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi xác nhận đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xác nhận đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/order/complete/{id}": {
+            "patch": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Hoàn thành đơn hàng",
+                "description": "Hoàn thành trạng thái đơn hàng dựa trên ID",
+                "operationId": "completeOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đơn hàng cần hoàn thành",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hoàn thành đơn hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hoàn thành đơn hàng thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "hoàn thành đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đơn hàng"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi hoàn thành đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xác nhận đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/order/cancel/{id}": {
+            "patch": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Hủy đơn hàng",
+                "description": "Hủy trạng thái đơn hàng dựa trên ID",
+                "operationId": "cancelOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đơn hàng cần hủy",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hủy đơn hàng thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hủy đơn hàng thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hủy đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đơn hàng"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi hủy đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hủy đơn hàng thất bại"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/products": {
             "get": {
                 "tags": [
@@ -1944,6 +3613,1042 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/v1/product-exports": {
+            "get": {
+                "tags": [
+                    "Product Export"
+                ],
+                "summary": "Lấy danh sách phiếu xuất kho thành phẩm",
+                "description": "Lấy danh sách tất cả các phiếu xuất kho thành phẩm cùng với thông tin chi tiết của từng phiếu",
+                "operationId": "getAllProductExportsWithDetails",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách phiếu xuất kho thành phẩm",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Phiếu xuất kho thành phẩm 1"
+                                                    },
+                                                    "warehouse_name": {
+                                                        "type": "string",
+                                                        "example": "Kho thành phẩm 1"
+                                                    },
+                                                    "export_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28 18:35:58"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "note": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "created_by": {
+                                                        "type": "string",
+                                                        "example": "Bùi Thục Đoan"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28T11:35:58.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": null
+                                                    },
+                                                    "details": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "product_export_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "unit": {
+                                                                    "type": "string",
+                                                                    "example": "chai"
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "product_name": {
+                                                                    "type": "string",
+                                                                    "example": "Chai nhựa HDPE 1 lít xanh"
+                                                                },
+                                                                "category_name": {
+                                                                    "type": "string",
+                                                                    "example": "Chai nhựa HDPE"
+                                                                },
+                                                                "shelf_name": {
+                                                                    "type": "string",
+                                                                    "example": "Kệ 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu xuất kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại chưa có phiếu xuất kho nào"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách phiếu xuất kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/product-export/add": {
+            "post": {
+                "tags": [
+                    "Product Export"
+                ],
+                "summary": "Tạo phiếu xuất kho mới",
+                "description": "Tạo một phiếu xuất kho mới cùng với chi tiết của nó",
+                "operationId": "createProductExport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Test"
+                                    },
+                                    "export_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-09-24 10:22:21"
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": null
+                                    },
+                                    "details": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "product_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "shelf_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "color_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "example": "chai"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo phiếu xuất kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tạo phiếu xuất kho thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Test"
+                                                },
+                                                "export_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24 10:22:21"
+                                                },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24T10:22:21.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "product_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "color_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi tạo phiếu xuất kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra trong quá trình tạo phiếu xuất kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/product-excport/{id}": {
+            "get": {
+                "tags": [
+                    "Product Export"
+                ],
+                "summary": "Lấy chi tiết phiếu xuất kho",
+                "description": "Lấy thông tin chi tiết của một phiếu xuất kho thành phẩm cùng với các chi tiết của nó",
+                "operationId": "getProductExportWithDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của phiếu xuất kho thành phẩm",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy thông tin chi tiết phiếu xuất kho thành phẩm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Phiếu xuất kho thành phẩm 1"
+                                                },
+                                                "warehouse_name": {
+                                                    "type": "string",
+                                                    "example": "Kho thành phẩm 1"
+                                                },
+                                                "export_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28 18:35:58"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_by": {
+                                                    "type": "string",
+                                                    "example": "Bùi Thục Đoan"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28T11:35:58.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "product_export_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            },
+                                                            "product_name": {
+                                                                "type": "string",
+                                                                "example": "Chai nhựa HDPE 1 lít xanh"
+                                                            },
+                                                            "category_name": {
+                                                                "type": "string",
+                                                                "example": "Chai nhựa HDPE"
+                                                            },
+                                                            "shelf_name": {
+                                                                "type": "string",
+                                                                "example": "Kệ 1"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu xuất kho này",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy phiếu xuất kho này"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy chi tiết phiếu xuất kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/product-receipts": {
+            "get": {
+                "tags": [
+                    "Product Receipt"
+                ],
+                "summary": "Lấy danh sách phiếu nhập kho thành phẩm",
+                "description": "Lấy danh sách tất cả các phiếu nhập kho thành phẩm cùng với thông tin chi tiết của từng phiếu",
+                "operationId": "getAllProductReceiptsWithDetails",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách phiếu nhập kho thành phẩm",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Phiếu nhập kho thành phẩm 1"
+                                                    },
+                                                    "warehouse_name": {
+                                                        "type": "string",
+                                                        "example": "Kho thành phẩm 1"
+                                                    },
+                                                    "receive_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28 18:35:58"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "note": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "created_by": {
+                                                        "type": "string",
+                                                        "example": "Bùi Thục Đoan"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-28T11:35:58.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": null
+                                                    },
+                                                    "details": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "product_receipt_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "unit": {
+                                                                    "type": "string",
+                                                                    "example": "chai"
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "product_name": {
+                                                                    "type": "string",
+                                                                    "example": "Chai nhựa HDPE 1 lít xanh"
+                                                                },
+                                                                "category_name": {
+                                                                    "type": "string",
+                                                                    "example": "Chai nhựa HDPE"
+                                                                },
+                                                                "shelf_name": {
+                                                                    "type": "string",
+                                                                    "example": "Kệ 1"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu nhập kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại chưa có phiếu nhập kho nào"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy danh sách phiếu nhập kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/product-receipt/{id}": {
+            "get": {
+                "tags": [
+                    "Product Receipt"
+                ],
+                "summary": "Lấy chi tiết phiếu nhập kho",
+                "description": "Lấy thông tin chi tiết của một phiếu nhập kho thành phẩm cùng với các chi tiết của nó",
+                "operationId": "getProductReceiptWithDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của phiếu nhập kho thành phẩm",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy thông tin chi tiết phiếu nhập kho thành phẩm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Phiếu nhập kho thành phẩm 1"
+                                                },
+                                                "warehouse_name": {
+                                                    "type": "string",
+                                                    "example": "Kho thành phẩm 1"
+                                                },
+                                                "receive_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28 18:35:58"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_by": {
+                                                    "type": "string",
+                                                    "example": "Bùi Thục Đoan"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-28T11:35:58.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "product_receipt_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            },
+                                                            "product_name": {
+                                                                "type": "string",
+                                                                "example": "Chai nhựa HDPE 1 lít xanh"
+                                                            },
+                                                            "category_name": {
+                                                                "type": "string",
+                                                                "example": "Chai nhựa HDPE"
+                                                            },
+                                                            "shelf_name": {
+                                                                "type": "string",
+                                                                "example": "Kệ 1"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy phiếu nhập kho này",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy phiếu nhập kho này"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy chi tiết phiếu nhập kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/product-receipt/add": {
+            "post": {
+                "tags": [
+                    "Product Receipt"
+                ],
+                "summary": "Tạo phiếu nhập kho mới",
+                "description": "Tạo một phiếu nhập kho mới cùng với chi tiết của nó",
+                "operationId": "createProductReceipt",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Test"
+                                    },
+                                    "receive_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-09-24 10:22:21"
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": null
+                                    },
+                                    "details": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "product_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "shelf_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "color_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "example": "chai"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo phiếu nhập kho thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tạo phiếu nhập kho thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Test"
+                                                },
+                                                "receive_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24 10:22:21"
+                                                },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-24T10:22:21.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null
+                                                },
+                                                "details": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "product_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "color_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "unit": {
+                                                                "type": "string",
+                                                                "example": "chai"
+                                                            },
+                                                            "quantity": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi tạo phiếu nhập kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra trong quá trình tạo phiếu nhập kho"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/proposes": {
@@ -2771,6 +5476,297 @@
                                         "error": {
                                             "type": "string",
                                             "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/propose/send/{id}": {
+            "patch": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Gửi đề xuất",
+                "description": "Cập nhật trạng thái của đề xuất để đánh dấu là đã gửi",
+                "operationId": "sendPropose",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đề xuất cần gửi",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Gửi đề xuất thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Gửi đề xuất thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi gửi đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đề xuất"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi xử lý yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi gửi đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error details..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/propose/accept/{id}": {
+            "patch": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Duyệt đề xuất",
+                "description": "Cập nhật trạng thái của đề xuất để đánh dấu là đã duyệt",
+                "operationId": "acceptPropose",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đề xuất cần duyệt",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Duyệt đề xuất thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Duyệt đề xuất thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi duyệt đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đề xuất"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi xử lý yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi duyệt đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error details..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/propose/reject/{id}": {
+            "patch": {
+                "tags": [
+                    "Propose"
+                ],
+                "summary": "Từ chối đề xuất",
+                "description": "Cập nhật trạng thái của đề xuất để đánh dấu là đã từ chối",
+                "operationId": "rejectPropose",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của đề xuất cần từ chối",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Từ chối đề xuất thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Từ chối đề xuất thành công"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đề xuất",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi từ chối đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đề xuất"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi xử lý yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi từ chối đề xuất"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error details..."
                                         },
                                         "status": {
                                             "type": "integer",
@@ -4758,8 +7754,28 @@
             "description": "Materials"
         },
         {
+            "name": "Material Export",
+            "description": "Material Export"
+        },
+        {
+            "name": "Material Receipt",
+            "description": "Material Receipt"
+        },
+        {
+            "name": "Order",
+            "description": "Order"
+        },
+        {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "Product Export",
+            "description": "Product Export"
+        },
+        {
+            "name": "Product Receipt",
+            "description": "Product Receipt"
         },
         {
             "name": "Propose",

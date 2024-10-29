@@ -297,6 +297,10 @@ Route::group(
         Route::post('propose/add', [ProposeController::class, 'store'])->middleware('check.permission:create_proposes');
         Route::patch('propose/update/{id}', [ProposeController::class, 'update'])->middleware('check.permission:update_proposes');
         Route::delete('propose/delete/{id}', [ProposeController::class, 'destroy'])->middleware('check.permission:delete_proposes');
+
+        Route::patch('propose/send/{id}', [ProposeController::class, 'sendPropose'])->middleware('check.permission:update_proposes');
+        Route::patch('propose/accept/{id}', [ProposeController::class, 'acceptPropose'])->middleware('check.permission:update_proposes');
+        Route::patch('propose/reject/{id}', [ProposeController::class, 'rejectPropose'])->middleware('check.permission:update_proposes');
     }
 );
 
@@ -318,5 +322,9 @@ Route::group(
         Route::post('order/add', [OrderController::class, 'store'])->middleware('check.permission:create_orders');
         Route::patch('order/update/{id}', [OrderController::class, 'update'])->middleware('check.permission:update_orders');
         Route::delete('order/delete/{id}', [OrderController::class, 'destroy'])->middleware('check.permission:delete_orders');
+
+        Route::patch('order/confirm/{id}', [OrderController::class, 'confirmOrder'])->middleware('check.permission:update_orders');
+        Route::patch('order/complete/{id}', [OrderController::class, 'completeOrder'])->middleware('check.permission:update_orders');
+        Route::patch('order/cancel/{id}', [OrderController::class, 'cancelOrder'])->middleware('check.permission:update_orders');
     }
 );
