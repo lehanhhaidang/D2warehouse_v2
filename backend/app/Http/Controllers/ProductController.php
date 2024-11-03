@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Product\ProductCreated;
+use App\Events\Product\ProductDeleted;
+use App\Events\Product\ProductUpdated;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
@@ -137,7 +140,9 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         try {
-            $this->productService->storeProduct($request);
+            $product = $this->productService->storeProduct($request);
+
+            event(new ProductCreated($product));
 
             return response()->json([
                 'message' => 'Thêm thành phẩm thành công',
@@ -278,6 +283,9 @@ class ProductController extends Controller
     {
         try {
             $this->productService->updateProduct($id, $request);
+
+            event(new ProductUpdated($id));
+
             return response()->json([
                 'message' => 'Cập nhật thành phẩm thành công',
                 'status' => 200,
@@ -336,6 +344,9 @@ class ProductController extends Controller
     {
         try {
             $this->productService->deleteProduct($id);
+
+            event(new ProductDeleted($id));
+
             return response()->json([
                 'message' => 'Xóa thành phẩm thành công',
                 'status' => 200,

@@ -110,6 +110,10 @@ class PermissionSeeder extends Seeder
             'create_proposes',
             'update_proposes',
             'delete_proposes',
+            'accept_propose',
+            'reject_propose',
+            'send_propose',
+
 
             //Order
 
@@ -117,6 +121,14 @@ class PermissionSeeder extends Seeder
             'create_orders',
             'update_orders',
             'delete_orders',
+
+            //Inventory Report
+
+            'view_inventory_reports',
+            'create_inventory_reports',
+            'update_inventory_reports',
+            'delete_inventory_reports',
+
 
 
         ];

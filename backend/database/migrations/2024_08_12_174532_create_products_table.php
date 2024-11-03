@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('status')->default(0);
             $table->unsignedBigInteger('category_id'); // Thêm cột category_id
             $table->unsignedBigInteger('color_id'); // Thêm cột color_id
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

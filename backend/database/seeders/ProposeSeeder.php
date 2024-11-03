@@ -50,7 +50,7 @@ class ProposeSeeder extends Seeder
                 'status' => 3,
                 'warehouse_id' => 2,
                 'description' => "Đề xuất xuất nguyên vật liệu cho kho nguyên vật liệu 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu.",
-                'created_by' => 2,
+                'created_by' => 1,
                 'created_at' => now(),
 
             ],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProductReceipt\ProductReceiptCreated;
 use App\Http\Requests\ProductReceipt\StoreProductReceiptRequest;
 use App\Models\ProductReceipt;
 use Illuminate\Http\Request;
@@ -276,6 +277,8 @@ class ProductReceiptController extends Controller
         try {
             // Tạo phiếu nhập kho và chi tiết
             $productReceipt = $this->productReceiptService->createProductReceiptWithDetails($request->validated());
+
+            event(new ProductReceiptCreated($productReceipt));
 
             return response()->json([
                 'message' => 'Tạo phiếu nhập kho thành công',

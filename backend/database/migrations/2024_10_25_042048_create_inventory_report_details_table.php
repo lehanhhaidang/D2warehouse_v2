@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('material_id')->nullable();
             $table->unsignedBigInteger('shelf_id');
+            $table->integer('expected_quantity')->nullable();
             $table->integer('actual_quantity')->nullable();
             $table->string('note')->nullable();
 
@@ -24,7 +25,6 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('material_id')->references('id')->on('materials');
             $table->foreign('shelf_id')->references('id')->on('shelves');
-            $table->timestamps();
         });
     }
 

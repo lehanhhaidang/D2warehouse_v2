@@ -10,12 +10,11 @@ class InventoryReport extends Model
     use HasFactory;
 
     protected $fillable = [
-        'report_date',
-        'report_type',
-        'report_status',
-        'report_description',
+        'name',
+        'warehouse_id',
         'created_by',
-        'updated_by',
+        'created_at',
+        'description',
     ];
 
 

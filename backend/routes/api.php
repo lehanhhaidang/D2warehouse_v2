@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\InventoryReportController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialExportController;
 use App\Http\Controllers\MaterialReceiptController;
@@ -191,8 +192,8 @@ Route::group(
     function ($router) {
         //Product Receipt Routes
         Route::get('material-receipts', [MaterialReceiptController::class, 'index'])->middleware('check.permission:view_material_receipts');
-        Route::get('material-receipt/{id}', [MaterialReceiptController::class, 'show'])->middleware('check.permission:view_material_receipts');
-        Route::post('material-receipt/add', [MaterialReceiptController::class, 'store'])->middleware('check.permission:create_material_receipts');
+        Route::get('material-receipt/{id}', action: [MaterialReceiptController::class, 'show'])->middleware('check.permission:view_material_receipts');
+        Route::post('material-receipt/add', action: [MaterialReceiptController::class, 'store'])->middleware('check.permission:create_material_receipts');
     }
 
     // ->middleware('check.permission:view_material_receipts')
@@ -298,9 +299,9 @@ Route::group(
         Route::patch('propose/update/{id}', [ProposeController::class, 'update'])->middleware('check.permission:update_proposes');
         Route::delete('propose/delete/{id}', [ProposeController::class, 'destroy'])->middleware('check.permission:delete_proposes');
 
-        Route::patch('propose/send/{id}', [ProposeController::class, 'sendPropose'])->middleware('check.permission:update_proposes');
-        Route::patch('propose/accept/{id}', [ProposeController::class, 'acceptPropose'])->middleware('check.permission:update_proposes');
-        Route::patch('propose/reject/{id}', [ProposeController::class, 'rejectPropose'])->middleware('check.permission:update_proposes');
+        Route::patch('propose/send/{id}', [ProposeController::class, 'sendPropose'])->middleware('check.permission:send_propose');
+        Route::patch('propose/accept/{id}', [ProposeController::class, 'acceptPropose'])->middleware('check.permission:accept_propose');
+        Route::patch('propose/reject/{id}', [ProposeController::class, 'rejectPropose'])->middleware('check.permission:reject_propose');
     }
 );
 
@@ -323,8 +324,29 @@ Route::group(
         Route::patch('order/update/{id}', [OrderController::class, 'update'])->middleware('check.permission:update_orders');
         Route::delete('order/delete/{id}', [OrderController::class, 'destroy'])->middleware('check.permission:delete_orders');
 
-        Route::patch('order/confirm/{id}', [OrderController::class, 'confirmOrder'])->middleware('check.permission:update_orders');
+        Route::patch('order/confirm/{id}', action: [OrderController::class, 'confirmOrder'])->middleware('check.permission:update_orders');
         Route::patch('order/complete/{id}', [OrderController::class, 'completeOrder'])->middleware('check.permission:update_orders');
         Route::patch('order/cancel/{id}', [OrderController::class, 'cancelOrder'])->middleware('check.permission:update_orders');
+    }
+);
+
+
+//Inventory Report Routes
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        //Inventory Report Routes
+        Route::get('inventory-reports', [InventoryReportController::class, 'index'])->middleware('check.permission:view_inventory_reports');
+        Route::get('inventory-report/{id}', [InventoryReportController::class, 'show'])->middleware('check.permission:view_inventory_reports');
+        Route::post('inventory-report/add', [InventoryReportController::class, 'store'])->middleware('check.permission:create_inventory_reports');
+        Route::patch('inventory-report/update/{id}', [InventoryReportController::class, 'update'])->middleware('check.permission:update_inventory_reports');
+        Route::delete('inventory-report/delete/{id}', [InventoryReportController::class, 'destroy'])->middleware('check.permission:delete_inventory_reports');
     }
 );

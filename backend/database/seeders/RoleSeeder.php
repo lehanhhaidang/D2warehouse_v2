@@ -21,36 +21,103 @@ class RoleSeeder extends Seeder
         ];
 
         $managerRoles = [
+            //Warehouses
             'view_warehouse',
+
+            //Products
             'view_products',
+
+
+            //Materials
             'view_materials',
+
+
+            //Product Receipts
             'view_product_receipts',
+
+            //Product Exports
             'view_product_exports',
-            'view_propose',
-            'create_propose',
+
+            //Material Receipts
+            'view_material_receipts',
+
+            //Material Exports
+            'view_material_exports',
+
+            //Proposes
+            'view_proposes',
+            'create_proposes',
+            'update_proposes',
+            'delete_proposes',
+            'send_propose',
+            'accept_propose',
+            'reject_propose',
+
         ];
 
         $employeeRoles = [
+
+            //Warehouses
             'view_warehouse',
+
+            //Products
             'view_products',
+
+            //Materials
             'view_materials',
+
+            //Product Receipts
             'view_product_receipts',
+            'create_product_receipts',
+
+            //Product Exports
             'view_product_exports',
+            'create_product_exports',
+
+            //Material Receipts
+            'view_material_receipts',
+            'create_material_receipts',
+            //Material Exports
+            'view_material_exports',
+            'create_material_exports',
+
+            //Proposes
             'view_proposes',
             'create_proposes',
-            'create_product_receipts',
-            'create_product_exports',
-            'create_material_receipts',
-            'create_material_exports',
+            'update_proposes',
+            'delete_proposes',
+
+
+
         ];
 
         $directorRoles = [
+
+            //Warehouses
             'view_warehouse',
+
+            //Products
             'view_products',
+
+            //Materials
             'view_materials',
+
+            //Product Receipts
             'view_product_receipts',
+
+            //Product Exports
             'view_product_exports',
+
+            //Material Receipts
+            'view_material_receipts',
+
+            //Material Exports
+            'view_material_exports',
+
+            //Proposes
             'view_propose',
+            'accept_propose',
+            'reject_propose',
         ];
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MaterialReceipt\MaterialReceiptCreated;
 use App\Http\Requests\MaterialReceipt\StoreMaterialReceiptRequest;
 use App\Models\MaterialReceipt;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
@@ -270,6 +271,8 @@ class MaterialReceiptController extends Controller
         try {
             // Tạo phiếu nhập kho và chi tiết
             $materialReceipt = $this->materialReceiptService->createMaterialReceiptWithDetails($request->validated());
+
+            event(new MaterialReceiptCreated($materialReceipt));
 
             return response()->json([
                 'message' => 'Tạo phiếu nhập kho thành công',

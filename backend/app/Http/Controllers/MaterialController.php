@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Material\MaterialCreated;
+use App\Events\Material\MaterialDeleted;
+use App\Events\Material\MaterialUpdated;
 use App\Http\Requests\Material\StoreMaterialRequest;
 use App\Models\Material;
 use App\Repositories\Interface\MaterialRepositoryInterface;
@@ -126,7 +129,9 @@ class MaterialController extends Controller
     public function store(StoreMaterialRequest $request)
     {
         try {
-            $this->materialService->storeMaterial($request);
+            $material = $this->materialService->storeMaterial($request);
+
+            event(new MaterialCreated($material));
 
             return response()->json([
                 'message' => 'Thêm nguyên vật liệu thành công',
@@ -269,6 +274,7 @@ class MaterialController extends Controller
         try {
             $this->materialService->updateMaterial($request, $id);
 
+            event(new MaterialUpdated($id));
             return response()->json([
                 'message' => 'Cập nhật nguyên vật liệu thành công',
                 'status' => 200,
@@ -334,6 +340,9 @@ class MaterialController extends Controller
 
             // Tiến hành xóa nguyên vật liệu
             $this->materialService->deleteMaterial($id);
+
+            event(new MaterialDeleted($id));
+
             return response()->json([
                 'message' => 'Xóa nguyên vật liệu thành công',
                 'status' => 200,

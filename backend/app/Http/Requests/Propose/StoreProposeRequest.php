@@ -27,7 +27,6 @@ class StoreProposeRequest extends FormRequest
         return [
             'type' => 'required|string',
             'name' => 'required|string',
-            'status' => 'required|in:' . implode(',', array_column(ProposeStatus::cases(), 'value')),
             'warehouse_id' => 'required|integer|exists:warehouses,id',
             'description' => 'required|string',
             'details' => 'required|array',
@@ -35,6 +34,7 @@ class StoreProposeRequest extends FormRequest
             'details.*.unit' => 'required|string',
             'details.*.product_id' => 'nullable|integer', // Thay đổi ở đây
             'details.*.material_id' => 'nullable|integer', // Thêm vào đây
+
         ];
     }
 
@@ -45,8 +45,6 @@ class StoreProposeRequest extends FormRequest
             'type.string' => 'Loại đề xuất phải là chuỗi',
             'name.required' => 'Tên đề xuất không được để trống',
             'name.string' => 'Tên đề xuất phải là chuỗi',
-            'status.required' => 'Trạng thái không được để trống',
-            'status.in' => 'Trạng thái không hợp lệ',
             'warehouse_id.required' => 'Kho không được để trống',
             'warehouse_id.integer' => 'Kho phải là số nguyên',
             'warehouse_id.exists' => 'Kho không tồn tại',

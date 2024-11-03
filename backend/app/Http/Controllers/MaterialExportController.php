@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MaterialExport\MaterialExportCreated;
 use App\Http\Requests\MaterialExport\StoreMaterialExportRequest;
 use App\Models\MaterialExport;
 use App\Services\MaterialExportService;
@@ -177,6 +178,8 @@ class MaterialExportController extends Controller
         try {
             // Tạo phiếu xuất kho và chi tiết
             $materialExport = $this->materialExportService->creatematerialExportWithDetails($request->validated());
+
+            event(new MaterialExportCreated($materialExport));
 
             return response()->json([
                 'message' => 'Tạo phiếu xuất kho thành công',

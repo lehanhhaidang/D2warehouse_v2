@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProductExport\ProductExportCreated;
 use App\Http\Requests\ProductExport\StoreProductExportRequest;
 use App\Models\ProductExport;
 use Illuminate\Http\Request;
@@ -178,6 +179,8 @@ class ProductExportController extends Controller
         try {
             // Tạo phiếu xuất kho và chi tiết
             $productExport = $this->productExportService->createProductExportWithDetails($request->validated());
+
+            event(new ProductExportCreated($productExport));
 
             return response()->json([
                 'message' => 'Tạo phiếu xuất kho thành công',

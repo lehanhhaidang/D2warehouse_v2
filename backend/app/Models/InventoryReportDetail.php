@@ -14,6 +14,7 @@ class InventoryReportDetail extends Model
         'material_id',
         'inventory_report_id',
         'shelf_id',
+        'expected_quantity',
         'actual_quantity',
         'note',
     ];
@@ -25,7 +26,7 @@ class InventoryReportDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function materials()
+    public function material()
     {
         return $this->belongsTo(Material::class);
     }

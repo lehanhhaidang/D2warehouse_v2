@@ -132,6 +132,7 @@ class ProposeService
                 $this->createProposeDetails($propose->id, $detail);
             }
 
+
             DB::commit();
             return $propose;
         } catch (\Exception $e) {

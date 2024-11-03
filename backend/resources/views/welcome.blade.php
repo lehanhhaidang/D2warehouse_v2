@@ -1116,8 +1116,8 @@
     </div>
 </body>
 
-</html>
-{{-- <!DOCTYPE html>
+{{-- </html>
+<!DOCTYPE html>
 
 <head>
     <title>Pusher Test</title>
@@ -1130,8 +1130,8 @@
             cluster: 'ap1'
         });
 
-        var channel = pusher.subscribe('my-channel');
-        channel.bind('my-event', function(data) {
+        var channel = pusher.subscribe('propose');
+        channel.bind('propose.created', function(data) {
             alert(JSON.stringify(data));
         });
     </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Shelf\ShelfCreated;
 use App\Http\Requests\Shelf\StoreShelfRequest;
 use App\Http\Requests\Shelf\UpdateShelfRequest;
 use App\Repositories\Interface\ShelfRepositoryInterface;
@@ -135,6 +136,8 @@ class ShelfController extends Controller
     {
         try {
             $shelf = $this->shelfService->storeShelf($request);
+
+            event(new ShelfCreated($shelf));
             return response()->json([
                 'message' => 'Tạo kệ hàng thành công',
                 'data' => $shelf,

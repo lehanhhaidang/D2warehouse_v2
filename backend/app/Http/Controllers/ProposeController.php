@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Propose\ProposeCreated;
+use App\Events\Propose\ProposeDeleted;
+use App\Events\Propose\ProposeUpdated;
 use App\Http\Requests\Propose\StoreProposeRequest;
 use App\Models\Propose;
 use Illuminate\Http\Request;
@@ -87,6 +90,9 @@ class ProposeController extends Controller
     {
         try {
             $proposes = $this->proposeService->getAllProposeWithDetails();
+
+
+
 
             return response()->json([
                 'data' => $proposes,
@@ -181,6 +187,7 @@ class ProposeController extends Controller
         try {
             $propose = $this->proposeService->createProposeWithDetails($request->all());
 
+            event(new ProposeCreated($propose));
             return response()->json([
                 'message' => 'Tạo đề xuất thành công',
                 'data' => $propose,
@@ -388,6 +395,8 @@ class ProposeController extends Controller
         try {
             $propose = $this->proposeService->updateProposeWithDetails($id, $request->all());
 
+            event(new ProposeUpdated($propose));
+
             return response()->json([
                 'message' => 'Cập nhật đề xuất thành công',
                 'status' => 200,
@@ -463,6 +472,8 @@ class ProposeController extends Controller
         try {
 
             $this->proposeService->deleteProposeWithDetails($id);
+
+            event(new ProposeDeleted($id));
 
             return response()->json([
                 'message' => 'Xóa đề xuất thành công',
@@ -595,6 +606,7 @@ class ProposeController extends Controller
     {
         try {
             $this->proposeService->acceptPropse($id);
+
 
             return response()->json([
                 'message' => 'Duyệt đề xuất thành công',
