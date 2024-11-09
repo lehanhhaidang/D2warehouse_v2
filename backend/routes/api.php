@@ -253,8 +253,8 @@ Route::group(
         Route::get('warehouse/{id}', [WarehouseController::class, 'show'])->middleware('check.permission:view_warehouses');
         Route::post('warehouse/add', [WarehouseController::class, 'store'])->middleware('check.permission:create_warehouse');
         Route::patch('warehouse/update/{id}', [WarehouseController::class, 'update'])->middleware('check.permission:update_warehouses');
-        Route::delete('warehouse/delete/{id}', [WarehouseController::class, 'destroy'])->middleware('check.permission:delete_warehouses');
-        Route::get('warehouse-items/{id}', [WarehouseController::class, 'showProductOrMaterialByWarehouse'])->middleware('check.permission:view_warehouse');
+        Route::delete('warehouse/delete/{id}', [WarehouseController::class, 'destroy'])->middleware('check.permission:delete_warehouse');
+        Route::get('warehouse-items/{id}', [WarehouseController::class, 'showProductOrMaterialByWarehouse'])->middleware('check.permission:view_warehouses');
     }
 );
 
