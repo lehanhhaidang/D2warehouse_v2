@@ -263,7 +263,10 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = $this->warehouseService->storeWarehouse($request);
-            return response()->json([$warehouse, 200]);
+            return response()->json([
+                'message' => 'Tạo kho thành công',
+                'status' => 200,
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi tạo kho',
