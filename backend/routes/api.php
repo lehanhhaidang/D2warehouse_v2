@@ -251,10 +251,10 @@ Route::group(
         Route::get('warehouses/product', [WarehouseController::class, 'productWarehouses'])->middleware('check.permission:view_warehouses');
         Route::get('warehouses/material', [WarehouseController::class, 'materialWarehouses'])->middleware('check.permission:view_warehouses');
         Route::get('warehouse/{id}', [WarehouseController::class, 'show'])->middleware('check.permission:view_warehouses');
-        Route::post('warehouse/add', [WarehouseController::class, 'store'])->middleware('check.permission:create_warehouses');
+        Route::post('warehouse/add', [WarehouseController::class, 'store'])->middleware('check.permission:create_warehouse');
         Route::patch('warehouse/update/{id}', [WarehouseController::class, 'update'])->middleware('check.permission:update_warehouses');
         Route::delete('warehouse/delete/{id}', [WarehouseController::class, 'destroy'])->middleware('check.permission:delete_warehouses');
-        Route::get('warehouse-items/{id}', [WarehouseController::class, 'showProductOrMaterialByWarehouse'])->middleware('check.permission:view_warehouses');
+        Route::get('warehouse-items/{id}', [WarehouseController::class, 'showProductOrMaterialByWarehouse'])->middleware('check.permission:view_warehouse');
     }
 );
 
@@ -348,5 +348,8 @@ Route::group(
         Route::post('inventory-report/add', [InventoryReportController::class, 'store'])->middleware('check.permission:create_inventory_reports');
         Route::patch('inventory-report/update/{id}', [InventoryReportController::class, 'update'])->middleware('check.permission:update_inventory_reports');
         Route::delete('inventory-report/delete/{id}', [InventoryReportController::class, 'destroy'])->middleware('check.permission:delete_inventory_reports');
+
+        Route::patch('inventory-report/send/{id}', [InventoryReportController::class, 'sendInventoryReport'])->middleware('check.permission:send_inventory_report');
+        Route::patch('inventory-report/confirm/{id}', [InventoryReportController::class, 'confirmInventoryReport'])->middleware('check.permission:confirm_inventory_report');
     }
 );

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InventoryReport\InventoryReportConfirmed;
 use App\Events\InventoryReport\InventoryReportCreated;
+use App\Events\InventoryReport\InventoryReportDeleted;
+use App\Events\InventoryReport\InventoryReportSent;
 use App\Http\Requests\InventoryReport\InventoryReportRequest;
 use App\Models\InventoryReport;
 use App\Services\InventoryReportService;
@@ -80,22 +83,66 @@ class InventoryReportController extends Controller
     }
 
 
-    public function edit(InventoryReport $inventoryReport)
-    {
-        //
-    }
-
-
-    public function update(Request $request, InventoryReport $inventoryReport)
-    {
-        //
-    }
+    public function update(InventoryReportRequest $request) {}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(InventoryReport $inventoryReport)
+    public function destroy($id)
     {
-        //
+        try {
+            $this->inventoryReportService->deleteInventoryReport($id);
+
+            event(new InventoryReportDeleted($id));
+            return response()->json([
+                'message' => 'Xóa phiếu kiểm kê kho thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi xóa phiếu kiểm kê kho',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode(),
+            ], $e->getCode() ?: 500);
+        }
+    }
+
+    public function sendInventoryReport($id)
+    {
+        try {
+            $inventoryReport = $this->inventoryReportService->sendInventoryReport($id);
+
+            event(new InventoryReportSent($inventoryReport->id));
+            return response()->json([
+                'message' => 'Gửi phiếu kiểm kê thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi gửi phiếu kiểm kê',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode(),
+            ], $e->getCode() ?: 500);
+        }
+    }
+
+
+    public function confirmInventoryReport($id)
+    {
+        try {
+            $inventoryReport = $this->inventoryReportService->confirmInventoryReport($id);
+
+            event(new InventoryReportConfirmed($inventoryReport->id));
+            return response()->json([
+                'message' => 'Xác nhận phiếu kiểm kê thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi xác nhận phiếu kiểm kê',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode(),
+            ], $e->getCode() ?: 500);
+        }
     }
 }

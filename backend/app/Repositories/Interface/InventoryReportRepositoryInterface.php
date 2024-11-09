@@ -12,4 +12,11 @@ interface InventoryReportRepositoryInterface
     public function createInventoryReport(array $data);
 
     public function createInventoryReportDetail(array $detail);
+
+
+    public function updateInventoryReport(array $data, $id);
+
+    public function updateInventoryReportDetail(array $detail, $id);
+
+    public function deleteInventoryReport($id);
 }

@@ -151,4 +151,72 @@ class InventoryReportService
             throw new \Exception($e->getMessage(), $e->getCode());
         }
     }
+
+    // public function updateInventoryReport(int $inventoryReportId, array $data)
+    // {
+    //     $data = [
+    //         'actual_quantity' => $data['actual_quantity'],
+    //     ];
+
+    //     $this->inventoryReportRepository->updateInventoryReport($inventoryReportId, $data);
+    // }
+
+    // public function updateInventoryReportDetails(int $inventoryReportDetailId, array $data)
+    // {
+    //     $data = [
+    //         'actual_quantity' => $data['actual_quantity'],
+    //     ];
+
+    //     $this->inventoryReportRepository->updateInventoryReportDetail($inventoryReportDetailId, $data);
+    // }
+
+
+    public function deleteInventoryReport($id)
+    {
+        try {
+            $inventoryReport = InventoryReport::find($id);
+
+            if (!$inventoryReport) {
+                throw new \Exception("Không tìm thấy phiếu kiểm kê này", 404);
+            }
+
+            if ($inventoryReport->created_by !== Auth::id()) {
+                throw new \Exception("Bạn không có quyền xóa phiếu kiểm kê này", 403);
+            }
+
+            return $this->inventoryReportRepository->deleteInventoryReport($id);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), 500);
+        }
+    }
+
+    public function sendInventoryReport($id)
+    {
+        try {
+            $inventoryReport = InventoryReport::find($id);
+
+            if (!$inventoryReport) {
+                throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
+            }
+            $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 1]);
+            return $inventoryReport;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function confirmInventoryReport($id)
+    {
+        try {
+            $inventoryReport = InventoryReport::find($id);
+
+            if (!$inventoryReport) {
+                throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
+            }
+            $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 2]);
+            return $inventoryReport;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
 }

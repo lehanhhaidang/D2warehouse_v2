@@ -26,4 +26,34 @@ class InventoryReportRepository
     {
         return InventoryReportDetail::create($detail);
     }
+
+    public function updateInventoryReport(int $id, array $data)
+    {
+        $inventoryReport = InventoryReport::find($id);
+
+        if ($inventoryReport) {
+            $inventoryReport->update($data);
+            return $inventoryReport;
+        }
+
+        return null;
+    }
+
+    // Cập nhật propose detail theo id
+    public function updateInventoryReportDetail(int $id, array $data)
+    {
+        $inventoryReportDetail = InventoryReportDetail::find($id);
+
+        if ($inventoryReportDetail) {
+            $inventoryReportDetail->update($data);
+            return $inventoryReportDetail;
+        }
+
+        return null;
+    }
+
+    public function deleteInventoryReport($id)
+    {
+        return InventoryReport::where('id', $id)->delete();
+    }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('warehouse_id');
-
+            $table->softDeletes();
 
             $table->foreign('warehouse_id')->references('id')->on('warehouses');
             $table->foreign('created_by')->references('id')->on('users');
