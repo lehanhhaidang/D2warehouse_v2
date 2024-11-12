@@ -22,7 +22,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác'], 401);
         }
 
@@ -54,5 +54,12 @@ class AuthController extends Controller
         auth('api')->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function revokeToken()
+    {
+        auth()->invalidate(true); // Hủy token hiện tại
+
+        return response()->json(['message' => 'Token hiện tại đã bị hủy thành công']);
     }
 }

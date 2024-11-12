@@ -32,6 +32,7 @@ class ProposeService
                     'id' => $propose->id,
                     'name' => $propose->name,
                     'type' => $propose->type,
+                    'warehouse_id' => $propose->warehouse_id,
                     'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
                     'status' => $propose->status,
                     'description' => $propose->description,
@@ -41,7 +42,9 @@ class ProposeService
                     'details' => $propose->details->map(function ($detail) {
                         return [
                             'propose_id' => $detail->propose_id,
+                            'product_id' => $detail->product_id,
                             'product_name' => $detail->product->name ?? null,
+                            'material_id' => $detail->material_id,
                             'material_name' => $detail->material->name ?? null,
                             'unit' => $detail->unit,
                             'quantity' => $detail->quantity,
@@ -67,6 +70,7 @@ class ProposeService
                 'id' => $propose->id,
                 'name' => $propose->name,
                 'type' => $propose->type,
+                'warehouse_id' => $propose->warehouse_id,
                 'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
                 'status' => $propose->status,
                 'description' => $propose->description,
@@ -76,7 +80,9 @@ class ProposeService
                 'details' => $propose->details->map(function ($detail) {
                     return [
                         'propose_id' => $detail->propose_id,
+                        'product_id' => $detail->product_id,
                         'product_name' => $detail->product->name ?? null,
+                        'material_id' => $detail->material_id,
                         'material_name' => $detail->material->name ?? null,
                         'unit' => $detail->unit,
                         'quantity' => $detail->quantity,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\Propose\ProposeCreated;
 use App\Events\Propose\ProposeDeleted;
+use App\Events\Propose\ProposeSent;
 use App\Events\Propose\ProposeUpdated;
 use App\Http\Requests\Propose\StoreProposeRequest;
 use App\Models\Propose;
@@ -539,6 +540,8 @@ class ProposeController extends Controller
     {
         try {
             $this->proposeService->sendPropose($id);
+
+            event(new ProposeSent($id));
 
             return response()->json([
                 'message' => 'Gửi đề xuất thành công',
