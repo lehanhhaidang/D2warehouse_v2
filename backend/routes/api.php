@@ -33,9 +33,9 @@ Route::group(
 
     ],
     function ($router) {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::post('refresh', [AuthController::class, 'refresh']);
-        Route::get('me', [AuthController::class, 'me']);
+        Route::post('logout', [AuthController::class, 'logout'])->middleware('api');
+        Route::post('refresh', [AuthController::class, 'refresh'])->middleware('api');
+        Route::post('me', [AuthController::class, 'me'])->middleware('api');
     }
 );
 

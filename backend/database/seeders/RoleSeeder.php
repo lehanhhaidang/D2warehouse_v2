@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
 
         $managerRoles = [
             //Warehouses
-            'view_warehouse',
+            'view_warehouses',
 
             //Products
             'view_products',
