@@ -45,6 +45,7 @@ class ProposeController extends Controller
      *             @OA\Items(
      *                 @OA\Property(property="id", type="integer", example=2),
      *                 @OA\Property(property="name", type="string", example="Phiếu đề xuất 2"),
+     *                 @OA\Property(property="type", type="string", example="DXXTP"),
      *                 @OA\Property(property="warehouse_name", type="string", example="Kho thành phẩm 1"),
      *                 @OA\Property(property="status", type="string", example="Đã duyệt"),
      *                 @OA\Property(property="description", type="string", example="Đề xuất xuất thành phẩm cho kho thành phẩm 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu."),
@@ -90,10 +91,6 @@ class ProposeController extends Controller
     {
         try {
             $proposes = $this->proposeService->getAllProposeWithDetails();
-
-
-
-
             return response()->json([
                 'data' => $proposes,
                 'status' => 200,
@@ -237,6 +234,7 @@ class ProposeController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="id", type="integer", example=2),
      *             @OA\Property(property="name", type="string", example="Phiếu đề xuất 2"),
+     *             @OA\Property(property="type", type="string", example="DXXTP"),
      *             @OA\Property(property="warehouse_name", type="string", example="Kho thành phẩm 1"),
      *             @OA\Property(property="status", type="string", example="Đã duyệt"),
      *             @OA\Property(property="description", type="string", example="Đề xuất xuất thành phẩm cho kho thành phẩm 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu."),

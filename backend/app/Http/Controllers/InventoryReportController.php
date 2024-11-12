@@ -145,4 +145,22 @@ class InventoryReportController extends Controller
             ], $e->getCode() ?: 500);
         }
     }
+
+    public function rejectInventoryReport($id)
+    {
+        try {
+            $inventoryReport = $this->inventoryReportService->rejectInventoryReport($id);
+
+            return response()->json([
+                'message' => 'Từ chối phiếu kiểm kê thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi từ chối phiếu kiểm kê',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode(),
+            ], $e->getCode() ?: 500);
+        }
+    }
 }

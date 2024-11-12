@@ -31,6 +31,7 @@ class ProposeService
                 return [
                     'id' => $propose->id,
                     'name' => $propose->name,
+                    'type' => $propose->type,
                     'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
                     'status' => $propose->status,
                     'description' => $propose->description,
@@ -65,6 +66,7 @@ class ProposeService
             return [
                 'id' => $propose->id,
                 'name' => $propose->name,
+                'type' => $propose->type,
                 'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
                 'status' => $propose->status,
                 'description' => $propose->description,
@@ -231,6 +233,9 @@ class ProposeService
 
             if (!$propose) {
                 throw new \Exception('Không tìm thấy đề xuất', 404);
+            }
+            if ($propose->created_by !== Auth::id()) {
+                throw new \Exception("Bạn không có quyền gửi đề xuất này", 403);
             }
             $propose = $this->proposeRepository->updatePropose($id, ['status' => 1]);
             return $propose;

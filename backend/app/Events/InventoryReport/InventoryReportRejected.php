@@ -3,7 +3,6 @@
 namespace App\Events\InventoryReport;
 
 use App\Models\InventoryReport;
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,7 +13,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class InventoryReportConfirmed implements ShouldBroadcastNow
+class InventoryReportRejected implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -42,14 +41,17 @@ class InventoryReportConfirmed implements ShouldBroadcastNow
 
     public function broadcastAs(): string
     {
-        return 'inventory-report.confirmed';
+        return 'inventory-report.rejected';
     }
 
     public function broadcastWith()
     {
+        $message = $this->inventoryReport->user->id === Auth::id()
+            ? 'Bạn vừa xác nhận ' . $this->inventoryReport->name
+            : $this->inventoryReport->user->name . ' đã từ chối ' . $this->inventoryReport->name . ' của bạn ';
 
         return [
-            'message' => Auth::id() . ' đã xác nhận ' . $this->inventoryReport->name,
+            'message' => $message,
             'inventoryReport' => $this->inventoryReport,
         ];
     }

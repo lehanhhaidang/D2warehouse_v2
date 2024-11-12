@@ -219,4 +219,20 @@ class InventoryReportService
             throw new \Exception($e->getMessage(), $e->getCode());
         }
     }
+
+
+    public function rejectInventoryReport($id)
+    {
+        try {
+            $inventoryReport = InventoryReport::find($id);
+
+            if (!$inventoryReport) {
+                throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
+            }
+            $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 3]);
+            return $inventoryReport;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
 }

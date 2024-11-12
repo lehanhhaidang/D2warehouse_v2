@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -37,9 +38,7 @@ class AuthController extends Controller
 
     public function me()
     {
-        return response()->json([
-            'user' => new UserResource(auth()->user())
-        ]);
+        return response()->json(auth('api')->user());
     }
     protected function respondWithToken($token)
     {
@@ -48,5 +47,12 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 1000
         ]);
+    }
+
+    public function logout()
+    {
+        auth('api')->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

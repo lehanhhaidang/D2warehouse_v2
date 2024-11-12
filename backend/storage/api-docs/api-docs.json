@@ -4688,6 +4688,10 @@
                                                 "type": "string",
                                                 "example": "Phiếu đề xuất 2"
                                             },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "DXXTP"
+                                            },
                                             "warehouse_name": {
                                                 "type": "string",
                                                 "example": "Kho thành phẩm 1"
@@ -5021,6 +5025,10 @@
                                         "name": {
                                             "type": "string",
                                             "example": "Phiếu đề xuất 2"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "DXXTP"
                                         },
                                         "warehouse_name": {
                                             "type": "string",

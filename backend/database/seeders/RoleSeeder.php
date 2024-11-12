@@ -136,49 +136,57 @@ class RoleSeeder extends Seeder
             } elseif ($roleName == 'Quản lý kho') {
 
                 // permission cho Manager
-                $role->permissions()->sync($permissions->whereIn('name', [
-                    'view_warehouse',
-                    'view_products',
-                    'view_materials',
-                    'view_product_receipts',
-                    'view_product_exports',
-                    'view_propose',
-                    'create_propose',
+                $role->permissions()->sync($permissions->whereIn(
+                    'name',
+                    // 'view_warehouse',
+                    // 'view_products',
+                    // 'view_materials',
+                    // 'view_product_receipts',
+                    // 'view_product_exports',
+                    // 'view_propose',
+                    // 'create_propose',
+                    // 'accept_propose'
+                    $managerRoles
 
-                ])->pluck('id'));
+                )->pluck('id'));
             } elseif ($roleName == 'Nhân viên kho') {
 
                 //  permission cho Employee
-                $role->permissions()->sync($permissions->whereIn('name', [
+                $role->permissions()->sync($permissions->whereIn(
+                    'name',
 
-                    'view_warehouse',
-                    'view_products',
-                    'view_materials',
-                    'view_product_receipts',
-                    'view_product_exports',
-                    'view_proposes',
-                    'create_proposes',
+                    // 'view_warehouse',
+                    // 'view_products',
+                    // 'view_materials',
+                    // 'view_product_receipts',
+                    // 'view_product_exports',
+                    // 'view_proposes',
+                    // 'create_proposes',
 
-                    //
-                    'create_product_receipts',
-                    'create_product_exports',
-                    'create_material_receipts',
-                    'create_material_exports',
+                    // //
+                    // 'create_product_receipts',
+                    // 'create_product_exports',
+                    // 'create_material_receipts',
+                    // 'create_material_exports',
 
-                ])->pluck('id'));
+                    $employeeRoles,
+
+                )->pluck('id'));
             } elseif ($roleName == 'Giám đốc') {
 
                 // permission cho Employee
-                $role->permissions()->sync($permissions->whereIn('name', [
+                $role->permissions()->sync($permissions->whereIn(
+                    'name',
 
-                    'view_warehouse',
-                    'view_products',
-                    'view_materials',
-                    'view_product_receipts',
-                    'view_product_exports',
-                    'view_propose',
+                    // 'view_warehouse',
+                    // 'view_products',
+                    // 'view_materials',
+                    // 'view_product_receipts',
+                    // 'view_product_exports',
+                    // 'view_propose',
+                    $directorRoles,
 
-                ])->pluck('id'));
+                )->pluck('id'));
             }
         }
     }
