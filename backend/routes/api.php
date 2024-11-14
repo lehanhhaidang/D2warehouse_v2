@@ -19,6 +19,11 @@ use App\Http\Controllers\ProductReceiptController;
 use App\Http\Controllers\ProposeController;
 use App\Http\Controllers\ShelfController;
 use App\Http\Controllers\WarehouseController;
+use Illuminate\Support\Facades\Broadcast;
+
+Route::middleware('auth:api')->group(function () {
+    Broadcast::routes();
+});
 
 Route::post('/v1/auth/login', [AuthController::class, 'login'])->middleware('api');
 Route::post('/v1/auth/signup', [AuthController::class, 'signup'])->middleware('api');

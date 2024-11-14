@@ -1116,7 +1116,7 @@
     </div>
 </body>
 
-{{-- </html>
+</html>
 <!DOCTYPE html>
 
 <head>
@@ -1127,11 +1127,17 @@
         Pusher.logToConsole = true;
 
         var pusher = new Pusher('8a44b6c8198314f04256', {
-            cluster: 'ap1'
+            cluster: 'ap1',
+            // authEndpoint: '/broadcasting/auth', // Endpoint để xác thực người dùng
+            // auth: {
+            //     headers: {
+            //         Authorization: 'Bearer ' + accessToken // Thêm access token
+            //     }
+            // }
         });
 
-        var channel = pusher.subscribe('propose');
-        channel.bind('propose.created', function(data) {
+        var channel = pusher.subscribe('product');
+        channel.bind('product.created', function(data) {
             alert(JSON.stringify(data));
         });
     </script>
@@ -1143,4 +1149,4 @@
         Try publishing an event to channel <code>my-channel</code>
         with event name <code>my-event</code>.
     </p>
-</body> --}}
+</body>

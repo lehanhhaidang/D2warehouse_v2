@@ -86,6 +86,7 @@ class RoleSeeder extends Seeder
             'create_proposes',
             'update_proposes',
             'delete_proposes',
+            'send_propose',
 
 
 

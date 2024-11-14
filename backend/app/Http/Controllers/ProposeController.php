@@ -606,7 +606,7 @@ class ProposeController extends Controller
     public function acceptPropose($id)
     {
         try {
-            $this->proposeService->acceptPropse($id);
+            $this->proposeService->acceptPropose($id);
 
 
             return response()->json([

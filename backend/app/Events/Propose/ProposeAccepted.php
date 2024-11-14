@@ -1,28 +1,25 @@
 <?php
 
-namespace App\Events\Product;
+namespace App\Events\Propose;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProductCreated implements ShouldBroadcastNow
+class ProposeAccepted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-
-    public $product;
-    public function __construct($product)
+    public function __construct()
     {
-        $this->product = $product;
+        //
     }
 
     /**
@@ -33,20 +30,7 @@ class ProductCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('product'),
-        ];
-    }
-
-    public function broadcastAs(): string
-    {
-        return 'product.created';
-    }
-
-    public function broadcastWith(): array
-    {
-        return [
-            'message' => 'Một sản phẩm mới đã được tạo: ' . $this->product->name,
-            'product' => $this->product->id
+            new PrivateChannel('channel-name'),
         ];
     }
 }

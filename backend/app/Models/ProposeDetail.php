@@ -12,6 +12,7 @@ class ProposeDetail extends Model
     protected $fillable = [
         'propose_id',
         'product_id',
+        'material_id',
         'quantity',
         'unit',
         'status',

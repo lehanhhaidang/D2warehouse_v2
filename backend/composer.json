@@ -9,6 +9,7 @@
         "darkaonline/l5-swagger": "^8.6",
         "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^11.9",
+        "laravel/reverb": "^1.4",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "php-open-source-saver/jwt-auth": "^2.3",

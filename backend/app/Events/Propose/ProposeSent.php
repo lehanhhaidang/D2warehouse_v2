@@ -3,6 +3,7 @@
 namespace App\Events\Propose;
 
 use App\Models\Propose;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -46,14 +47,20 @@ class ProposeSent implements ShouldBroadcastNow
 
     public function broadcastWith()
     {
-        $message = $this->propose->user->id === Auth::id()
-            ? 'Bạn vừa gửi ' . $this->propose->name
-            : $this->propose->user->name . ' đã gửi ' . $this->propose->name;
+
+        $message1 = $this->propose->name . ' của bạn đã được gửi đi, sẽ có thông báo khi đề xuất được phê duyệt.';
+        $message2 = User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name;
+
+
         return [
-            'message' => $message,
+            'message' => [
+                'msg1' => $message1,
+                'msg2' => $message2,
+            ],
             'propose' => [
                 'id' => $this->propose->id,
                 'name' => $this->propose->name,
+                'created_by' => $this->propose->created_by,
             ],
         ];
     }

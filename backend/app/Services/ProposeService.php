@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Propose;
 use App\Models\ProposeDetail;
+use App\Models\User;
 use App\Repositories\Interface\ProposeRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -237,46 +238,88 @@ class ProposeService
         try {
             $propose = Propose::find($id);
 
-            if (!$propose) {
-                throw new \Exception('Không tìm thấy đề xuất', 404);
-            }
-            if ($propose->created_by !== Auth::id()) {
-                throw new \Exception("Bạn không có quyền gửi đề xuất này", 403);
-            }
-            $propose = $this->proposeRepository->updatePropose($id, ['status' => 1]);
-            return $propose;
+            abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
+            abort_if($propose->created_by !== Auth::id(), 403, 'Bạn không có quyền gửi đề xuất này!');
+            // abort_if($propose->status !== 0, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được gửi đi từ trước.');
+
+            return $this->proposeRepository->updatePropose($id, ['status' => 1]);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode());
         }
     }
 
-    public function acceptPropse($id)
+
+    // public function acceptPropse($id)
+    // {
+    //     try {
+    //         $propose = Propose::find($id);
+    //         $roleId = User::find(Auth::id())->role_id;
+
+    //         abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
+    //         abort_if(
+    //             ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3]) ||
+    //                 ($propose->type === 'DXNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,
+    //             403,
+    //             'Vai trò của bạn không phù hợp để duyệt đề xuất này!'
+    //         );
+    //         abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
+
+    //         return $this->proposeRepository->updatePropose($id, ['status' => 2]);
+    //     } catch (\Exception $e) {
+    //         throw new \Exception($e->getMessage(), $e->getCode());
+    //     }
+    // }
+
+    // public function rejectPropose($id)
+    // {
+    //     try {
+    //         $propose = Propose::find($id);
+    //         $roleId = User::find(Auth::id())->role_id;
+
+    //         abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
+    //         abort_if(
+    //             ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3]) ||
+    //                 ($propose->type === 'DXNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,
+    //             403,
+    //             'Vai trò của bạn không phù hợp để từ chối đề xuất này!'
+    //         );
+    //         abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
+
+    //         return $this->proposeRepository->updatePropose($id, ['status' => 3]);
+    //     } catch (\Exception $e) {
+    //         throw new \Exception($e->getMessage(), $e->getCode());
+    //     }
+    // }
+
+
+    public function handlePropose($id, $status)
     {
         try {
             $propose = Propose::find($id);
+            $roleId = User::find(Auth::id())->role_id;
 
-            if (!$propose) {
-                throw new \Exception('Không tìm thấy đề xuất', 404);
-            }
-            $propose = $this->proposeRepository->updatePropose($id, ['status' => 2]);
-            return $propose;
+            abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
+            abort_if(
+                ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3]) ||
+                    ($propose->type === 'DXNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,
+                403,
+                'Vai trò của bạn không phù hợp để xử lý đề xuất này!'
+            );
+            abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
+
+            return $this->proposeRepository->updatePropose($id, ['status' => $status]);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode());
         }
+    }
+
+    public function acceptPropose($id)
+    {
+        return $this->handlePropose($id, 2);
     }
 
     public function rejectPropose($id)
     {
-        try {
-            $propose = Propose::find($id);
-
-            if (!$propose) {
-                throw new \Exception('Không tìm thấy đề xuất', 404);
-            }
-            $propose = $this->proposeRepository->updatePropose($id, ['status' => 3]);
-            return $propose;
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage(), $e->getCode());
-        }
+        return $this->handlePropose($id, 3);
     }
 }
