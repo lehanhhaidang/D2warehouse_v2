@@ -116,7 +116,7 @@ class RoleSeeder extends Seeder
             'view_material_exports',
 
             //Proposes
-            'view_propose',
+            'view_proposes',
             'accept_propose',
             'reject_propose',
         ];

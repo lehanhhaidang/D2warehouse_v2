@@ -46,11 +46,11 @@ class ProposeAccepted implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            'event' => 'propose.sent',
+            'event' => 'propose.accepted',
             'reviewer_message' => 'Bạn đã xét duyệt ' . $this->propose->name . ' thành công.',
             'owner_message' => $this->propose->name . ' của bạn đã được xét duyệt.',
             'propose_id' => $this->propose->id,
-            'propose_created_by' => $this->propose->created_by,  // Đảm bảo tên trường đúng
+            'propose_created_by' => $this->propose->created_by,
         ];
     }
 }

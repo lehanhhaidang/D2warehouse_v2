@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Propose\ProposeAccepted;
 use App\Events\Propose\ProposeCreated;
 use App\Events\Propose\ProposeDeleted;
 use App\Events\Propose\ProposeSent;
@@ -608,7 +609,7 @@ class ProposeController extends Controller
         try {
             $this->proposeService->acceptPropose($id);
 
-
+            event(new ProposeAccepted($id));
             return response()->json([
                 'message' => 'Duyệt đề xuất thành công',
                 'status' => 200,
