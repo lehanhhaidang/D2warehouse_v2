@@ -42,7 +42,8 @@ class ProductDeleted implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'messsage' => 'Thành phẩm ' . Product::withTrashed()->find($this->product)->name . ' đã bị xóa',
+            'event' => 'product.deleted',
+            'message' => 'Thành phẩm ' . Product::withTrashed()->find($this->product)->name . ' vừa bị xóa',
             'product' => $this->product
         ];
     }

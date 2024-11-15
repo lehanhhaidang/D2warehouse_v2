@@ -42,7 +42,8 @@ class ProductUpdated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'messsage' => 'Thành phẩm ' . Product::find($this->product)->name . ' vừa được cập nhật',
+            'event' => 'product.updated',
+            'message' => 'Thành phẩm ' . Product::find($this->product)->name . ' vừa được cập nhật',
             'product' => $this->product
         ];
     }

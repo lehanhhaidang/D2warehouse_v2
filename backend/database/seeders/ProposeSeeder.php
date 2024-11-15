@@ -36,7 +36,7 @@ class ProposeSeeder extends Seeder
             ],
             [
                 'name' => "Phiếu đề xuất 3",
-                'type' => "DXNVL",
+                'type' => "DXNNVL",
                 'status' => 2,
                 'warehouse_id' => 1,
                 'description' => "Đề xuất nhập nguyên vật liệu cho kho nguyên vật liệu 1. Các sản phẩm cần nhập được liệt kê chi tiết trong phiếu.",

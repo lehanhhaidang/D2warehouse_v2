@@ -301,7 +301,7 @@ class ProposeService
             abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
             abort_if(
                 ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3]) ||
-                    ($propose->type === 'DXNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,
+                    ($propose->type === 'DXNNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,
                 403,
                 'Vai trò của bạn không phù hợp để xử lý đề xuất này!'
             );

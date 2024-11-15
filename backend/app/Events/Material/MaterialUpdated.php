@@ -37,6 +37,7 @@ class MaterialUpdated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
+            'event' => 'material.updated',
             'message' => 'Nguyên vật liệu ' . Material::find($this->material)->name . ' vừa được cập nhật',
             'material' => $this->material
         ];

@@ -37,7 +37,8 @@ class MaterialDeleted implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'message' => 'Nguyên vật liệu ' . Material::withTrashed()->find($this->material)->name . ' đã bị xóa',
+            'event' => 'material.deleted',
+            'message' => 'Nguyên vật liệu ' . Material::withTrashed()->find($this->material)->name . ' vừa bị xóa',
             'material' => $this->material
         ];
     }

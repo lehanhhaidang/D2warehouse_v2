@@ -36,6 +36,7 @@ class MaterialCreated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
+            'event' => 'material.created',
             'message' => 'Một nguyên vật liệu mới đã được tạo: ' . $this->material->name,
             'material' => $this->material->id
         ];

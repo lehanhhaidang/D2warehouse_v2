@@ -47,21 +47,12 @@ class ProposeSent implements ShouldBroadcastNow
 
     public function broadcastWith()
     {
-
-        $message1 = $this->propose->name . ' của bạn đã được gửi đi, sẽ có thông báo khi đề xuất được phê duyệt.';
-        $message2 = User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name;
-
-
         return [
-            'message' => [
-                'msg1' => $message1,
-                'msg2' => $message2,
-            ],
-            'propose' => [
-                'id' => $this->propose->id,
-                'name' => $this->propose->name,
-                'created_by' => $this->propose->created_by,
-            ],
+            'event' => 'propose.sent',
+            'owner_message' => $this->propose->name . ' của bạn đã được gửi đi, sẽ có thông báo khi đề xuất được phê duyệt.',
+            'other_message' => User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name,
+            'propose_id' => $this->propose->id,
+            'propose_created_by' => $this->propose->created_by,  // Đảm bảo tên trường đúng
         ];
     }
 }

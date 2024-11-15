@@ -49,6 +49,7 @@ class ProposeUpdated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
+            'event' => 'propose.updated',
             'message' =>  $this->propose->name . ' vừa được cập nhật.',
         ];
     }

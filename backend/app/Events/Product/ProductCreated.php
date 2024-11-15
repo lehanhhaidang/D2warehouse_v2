@@ -45,6 +45,7 @@ class ProductCreated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
+            'event' => 'product.created',
             'message' => 'Một sản phẩm mới đã được tạo: ' . $this->product->name,
             'product' => $this->product->id
         ];
