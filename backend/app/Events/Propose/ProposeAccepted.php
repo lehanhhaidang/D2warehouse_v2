@@ -2,25 +2,29 @@
 
 namespace App\Events\Propose;
 
+use App\Models\Propose;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProposeAccepted
+class ProposeAccepted implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $propose;
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($propose)
     {
-        //
+        $this->propose = Propose::find($propose);
     }
+
 
     /**
      * Get the channels the event should broadcast on.
@@ -30,7 +34,23 @@ class ProposeAccepted
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new PrivateChannel('propose'),
+        ];
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'propose.accepted';
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'event' => 'propose.sent',
+            'reviewer_message' => 'Bạn đã xét duyệt ' . $this->propose->name . ' thành công.',
+            'owner_message' => $this->propose->name . ' của bạn đã được xét duyệt.',
+            'propose_id' => $this->propose->id,
+            'propose_created_by' => $this->propose->created_by,  // Đảm bảo tên trường đúng
         ];
     }
 }

@@ -50,7 +50,7 @@ class ProposeCreated implements ShouldBroadcastNow
     {
         return [
             'event' => 'propose.created',
-            'message' =>  $this->propose->user->name . ' của bạn đã được tạo thành công',
+            'message' =>  $this->propose->name . ' của bạn đã được tạo thành công',
             'propose_name' => $this->propose->id,
             'propose_created_by' => $this->propose->created_by,  // Đảm bảo tên trường đúng
         ];

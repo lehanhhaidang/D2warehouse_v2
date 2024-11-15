@@ -50,7 +50,8 @@ class ProposeUpdated implements ShouldBroadcastNow
     {
         return [
             'event' => 'propose.updated',
-            'message' =>  $this->propose->name . ' vừa được cập nhật.',
+            'message' =>  $this->propose->name . ' của bạn đã được cập nhật thành công.',
+            'propose_created_by' => $this->propose->created_by,
         ];
     }
 }

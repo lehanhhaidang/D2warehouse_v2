@@ -37,7 +37,7 @@ class ProposeService
                     'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
                     'status' => $propose->status,
                     'description' => $propose->description,
-                    'created_by' => $propose->user ? $propose->user->name : null,
+                    'created_by' => $propose->created_by,
                     'created_at' => $propose->created_at,
                     'updated_at' => $propose->updated_at,
                     'details' => $propose->details->map(function ($detail) {
@@ -75,7 +75,7 @@ class ProposeService
                 'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
                 'status' => $propose->status,
                 'description' => $propose->description,
-                'created_by' => $propose->user ? $propose->user->name : null,
+                'created_by' => $propose->created_by,
                 'created_at' => $propose->created_at,
                 'updated_at' => $propose->updated_at,
                 'details' => $propose->details->map(function ($detail) {
@@ -181,6 +181,10 @@ class ProposeService
             // Kiểm tra xem người dùng hiện tại có phải là người tạo ra propose này không
             if ($propose->created_by !== Auth::id()) {
                 throw new \Exception("Bạn không có quyền chỉnh sửa đề xuất này", 403);
+            }
+
+            if ($propose->status !== 0) {
+                throw new \Exception("Không thể chỉnh sửa đề xuất đã được gửi đi", 403);
             }
 
             // Cập nhật propose thông qua hàm updatePropose
@@ -305,7 +309,7 @@ class ProposeService
                 403,
                 'Vai trò của bạn không phù hợp để xử lý đề xuất này!'
             );
-            abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
+            // abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
 
             return $this->proposeRepository->updatePropose($id, ['status' => $status]);
         } catch (\Exception $e) {
