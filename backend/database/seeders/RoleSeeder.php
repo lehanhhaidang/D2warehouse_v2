@@ -58,7 +58,7 @@ class RoleSeeder extends Seeder
         $employeeRoles = [
 
             //Warehouses
-            'view_warehouse',
+            'view_warehouses',
 
             //Products
             'view_products',

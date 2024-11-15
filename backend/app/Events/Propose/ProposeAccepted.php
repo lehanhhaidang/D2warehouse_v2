@@ -11,6 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class ProposeAccepted implements ShouldBroadcastNow
 {
@@ -51,6 +52,7 @@ class ProposeAccepted implements ShouldBroadcastNow
             'owner_message' => $this->propose->name . ' của bạn đã được xét duyệt.',
             'propose_id' => $this->propose->id,
             'propose_created_by' => $this->propose->created_by,
+            'reviewer_id' => Auth::id(),
         ];
     }
 }
