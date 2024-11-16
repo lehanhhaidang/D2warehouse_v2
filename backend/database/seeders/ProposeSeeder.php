@@ -54,6 +54,15 @@ class ProposeSeeder extends Seeder
                 'created_at' => now(),
 
             ],
+            [
+                'name' => "Phiếu đề xuất 5",
+                'type' => "DXNTP",
+                'status' => 2,
+                'warehouse_id' => 2,
+                'description' => "Đề xuất nhập thành phẩm cho kho thành phẩm 1. Các sản phẩm cần nhập được liệt kê chi tiết trong phiếu.",
+                'created_by' => 4,
+                'created_at' => now(),
+            ],
         ];
 
 
@@ -129,6 +138,20 @@ class ProposeSeeder extends Seeder
                 'product_id' => null,
                 'quantity' => 20,
                 'unit' => 'Kg',
+            ],
+            [
+                'propose_id' => 5,
+                'product_id' => 1,
+                'material_id' => null,
+                'quantity' => 100,
+                'unit' => 'Chai',
+            ],
+            [
+                'propose_id' => 5,
+                'product_id' => 2,
+                'material_id' => null,
+                'quantity' => 100,
+                'unit' => 'Chai',
             ],
 
         ];

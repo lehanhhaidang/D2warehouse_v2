@@ -119,7 +119,7 @@ class ProductReceiptService
         // Kiểm tra tổng số lượng nếu sản phẩm mới được thêm vào
         $totalQuantityAfterAdd = $currentTotalQuantity + $detail['quantity'];
         if ($totalQuantityAfterAdd > $shelf->storage_capacity) {
-            throw new \Exception('Số lượng lưu trữ vượt quá giới hạn của kệ(' . $shelf->storage_capacity . '), tổng số lượng hiện có: ' . $currentTotalQuantity);
+            throw new \Exception('Số lượng lưu trữ vượt quá giới hạn của kệ(' . $shelf->storage_capacity . '), tổng số lượng hiện có: ' . $currentTotalQuantity, 400);
         }
 
         // Cập nhật hoặc tạo mới chi tiết sản phẩm trên kệ (shelf_details)
