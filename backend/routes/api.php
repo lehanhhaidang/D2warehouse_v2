@@ -55,6 +55,7 @@ Route::group(
         ],
         'prefix' => 'v1'
     ],
+
     function ($router) {
         //User Routes
         Route::get('users', [UserController::class, 'index']);
@@ -281,7 +282,7 @@ Route::group(
         Route::patch('shelf/update/{id}', [ShelfController::class, 'update'])->middleware('check.permission:update_shelves');
         Route::delete('shelf/delete/{id}', [ShelfController::class, 'destroy'])->middleware('check.permission:delete_shelves');
         Route::get('/shelves/filter', [ShelfController::class, 'filterShelves'])->middleware('check.permission:view_shelves');
-        Route::get('/shelves/items/{warehouseId}', [ShelfController::class, 'getShelfItemsByWarehouseId'])->middleware('check.permission:view_shelves');
+        Route::get('/shelves/items/{warehouseId}', [ShelfController::class, 'getShelfItemsByWarehouseId']);
     }
 );
 
