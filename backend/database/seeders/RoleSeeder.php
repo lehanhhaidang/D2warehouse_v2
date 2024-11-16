@@ -66,6 +66,8 @@ class RoleSeeder extends Seeder
             //Materials
             'view_materials',
 
+            'view_shelves',
+
             //Product Receipts
             'view_product_receipts',
             'create_product_receipts',
