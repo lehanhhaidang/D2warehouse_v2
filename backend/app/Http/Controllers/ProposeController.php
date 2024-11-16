@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\Propose\ProposeAccepted;
 use App\Events\Propose\ProposeCreated;
 use App\Events\Propose\ProposeDeleted;
+use App\Events\Propose\ProposeRejected;
 use App\Events\Propose\ProposeSent;
 use App\Events\Propose\ProposeUpdated;
 use App\Http\Requests\Propose\StoreProposeRequest;
@@ -674,6 +675,8 @@ class ProposeController extends Controller
     {
         try {
             $this->proposeService->rejectPropose($id);
+
+            event(new ProposeRejected($id));
 
             return response()->json([
                 'message' => 'Từ chối đề xuất thành công',

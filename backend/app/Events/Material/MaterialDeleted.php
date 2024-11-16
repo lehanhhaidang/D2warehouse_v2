@@ -3,6 +3,8 @@
 namespace App\Events\Material;
 
 use App\Models\Material;
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -34,12 +36,37 @@ class MaterialDeleted implements ShouldBroadcastNow
         return 'material.deleted';
     }
 
+    // public function broadcastWith(): array
+    // {
+    //     $users = User::all()->pluck('id');
+    //     foreach ($users as $user) {
+    //         Notification::create([
+    //             'user_id' => $user,
+    //             'message' => 'Nguyên vật liệu ' . Material::withTrashed()->find($this->material)->name . ' vừa bị xóa',
+    //         ]);
+    //     }
+    //     return [
+    //         'event' => 'material.deleted',
+    //         'message' => 'Nguyên vật liệu ' . Material::withTrashed()->find($this->material)->name . ' vừa bị xóa',
+    //         'material' => $this->material
+    //     ];
+    // }
+
     public function broadcastWith(): array
     {
-        return [
-            'event' => 'material.deleted',
-            'message' => 'Nguyên vật liệu ' . Material::withTrashed()->find($this->material)->name . ' vừa bị xóa',
-            'material' => $this->material
-        ];
+        $service = app(\App\Services\NotificationService::class);
+
+        $message = $service->formatMessage(
+            'material',
+            'vừa bị xóa',
+            $this->material,
+            true
+        );
+
+        return $service->notifyAllUsers(
+            'material.deleted',
+            $message,
+            $this->material
+        );
     }
 }

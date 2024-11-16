@@ -2,6 +2,8 @@
 
 namespace App\Events\Propose;
 
+use App\Models\Notification;
+use App\Models\Propose;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -48,6 +50,10 @@ class ProposeUpdated implements ShouldBroadcastNow
      */
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => $this->propose->created_by,
+            'message' => $this->propose->name . ' của bạn đã được cập nhật thành công.',
+        ]);
         return [
             'event' => 'propose.updated',
             'message' =>  $this->propose->name . ' của bạn đã được cập nhật thành công.',

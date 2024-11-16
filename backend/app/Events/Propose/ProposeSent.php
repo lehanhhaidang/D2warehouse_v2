@@ -2,6 +2,7 @@
 
 namespace App\Events\Propose;
 
+use App\Models\Notification;
 use App\Models\Propose;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
@@ -45,14 +46,46 @@ class ProposeSent implements ShouldBroadcastNow
         return 'propose.sent';
     }
 
+    // public function broadcastWith()
+    // {
+    //     return [
+    //         'event' => 'propose.sent',
+    //         'owner_message' => $this->propose->name . ' của bạn đã được gửi đi, sẽ có thông báo khi đề xuất được phê duyệt.',
+    //         'other_message' => User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name,
+    //         'propose_id' => $this->propose->id,
+    //         'propose_created_by' => $this->propose->created_by,  // Đảm bảo tên trường đúng
+    //     ];
+    // }
+
     public function broadcastWith()
     {
+        // Lưu thông báo cho người tạo đề xuất (owner_message)
+        Notification::create([
+            'user_id' => Auth::id(),  // Người gửi đề xuất (chủ sở hữu)
+            'message' => $this->propose->name . ' của bạn đã được gửi đi, sẽ có thông báo khi đề xuất được phê duyệt.',
+        ]);
+
+
+        if ($this->propose->type === 'DXNTP' || $this->propose->type === 'DXXTP') {
+            $usersToNotify = User::whereIn('role_id', [2, 3])->get();
+        } else {
+            $usersToNotify = User::whereIn('role_id', [3])->get();
+        }
+
+
+        foreach ($usersToNotify as $user) {
+            Notification::create([
+                'user_id' => $user->id,  // Người nhận thông báo
+                'message' => User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name,
+            ]);
+        }
+
         return [
             'event' => 'propose.sent',
             'owner_message' => $this->propose->name . ' của bạn đã được gửi đi, sẽ có thông báo khi đề xuất được phê duyệt.',
             'other_message' => User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name,
             'propose_id' => $this->propose->id,
-            'propose_created_by' => $this->propose->created_by,  // Đảm bảo tên trường đúng
+            'propose_created_by' => $this->propose->created_by,
         ];
     }
 }

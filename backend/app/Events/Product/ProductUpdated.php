@@ -2,7 +2,9 @@
 
 namespace App\Events\Product;
 
+use App\Models\Notification;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -39,12 +41,36 @@ class ProductUpdated implements ShouldBroadcastNow
         return 'product.updated';
     }
 
+    // public function broadcastWith(): array
+    // {
+    //     $users = User::all()->pluck('id');
+    //     foreach ($users as $user) {
+    //         Notification::create([
+    //             'user_id' => $user,
+    //             'message' => 'Thành phẩm ' . Product::find($this->product)->name . ' vừa được cập nhật',
+    //         ]);
+    //     }
+    //     return [
+    //         'event' => 'product.updated',
+    //         'message' => 'Thành phẩm ' . Product::find($this->product)->name . ' vừa được cập nhật',
+    //         'product' => $this->product
+    //     ];
+    // }
+
     public function broadcastWith(): array
     {
-        return [
-            'event' => 'product.updated',
-            'message' => 'Thành phẩm ' . Product::find($this->product)->name . ' vừa được cập nhật',
-            'product' => $this->product
-        ];
+        $service = app(\App\Services\NotificationService::class);
+
+        $message = $service->formatMessage(
+            'product',
+            'vừa được cập nhật',
+            $this->product
+        );
+
+        return $service->notifyAllUsers(
+            'product.updated',
+            $message,
+            $this->product
+        );
     }
 }

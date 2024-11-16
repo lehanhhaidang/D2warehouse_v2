@@ -2,7 +2,9 @@
 
 namespace App\Events\Product;
 
+use App\Models\Notification;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -39,12 +41,37 @@ class ProductDeleted implements ShouldBroadcastNow
         return 'product.deleted';
     }
 
+    // public function broadcastWith(): array
+    // {
+    //     $users = User::all()->pluck('id');
+    //     foreach ($users as $user) {
+    //         Notification::create([
+    //             'user_id' => $user,
+    //             'message' => 'Thành phẩm ' . Product::withTrashed()->find($this->product)->name . ' vừa bị xóa',
+    //         ]);
+    //     }
+    //     return [
+    //         'event' => 'product.deleted',
+    //         'message' => 'Thành phẩm ' . Product::withTrashed()->find($this->product)->name . ' vừa bị xóa',
+    //         'product' => $this->product
+    //     ];
+    // }
+
     public function broadcastWith(): array
     {
-        return [
-            'event' => 'product.deleted',
-            'message' => 'Thành phẩm ' . Product::withTrashed()->find($this->product)->name . ' vừa bị xóa',
-            'product' => $this->product
-        ];
+        $service = app(\App\Services\NotificationService::class);
+
+        $message = $service->formatMessage(
+            'product',
+            'vừa bị xóa',
+            $this->product,
+            true
+        );
+
+        return $service->notifyAllUsers(
+            'product.deleted',
+            $message,
+            $this->product,
+        );
     }
 }

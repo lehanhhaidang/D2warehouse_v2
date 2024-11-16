@@ -2,6 +2,8 @@
 
 namespace App\Events\Material;
 
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -33,12 +35,37 @@ class MaterialCreated implements ShouldBroadcastNow
         return 'material.created';
     }
 
+    // public function broadcastWith(): array
+    // {
+    //     $users = User::all()->pluck('id');
+    //     foreach ($users as $user) {
+    //         Notification::create([
+    //             'user_id' => $user,
+    //             'message' => 'Một nguyên vật liệu mới đã được tạo: ' . $this->material->name,
+    //         ]);
+    //     }
+
+    //     return [
+    //         'event' => 'material.created',
+    //         'message' => 'Một nguyên vật liệu mới đã được tạo: ' . $this->material->name,
+    //         'material' => $this->material->id
+    //     ];
+    // }
+
     public function broadcastWith(): array
     {
-        return [
-            'event' => 'material.created',
-            'message' => 'Một nguyên vật liệu mới đã được tạo: ' . $this->material->name,
-            'material' => $this->material->id
-        ];
+        $service = app(\App\Services\NotificationService::class);
+
+        $message = $service->formatMessage(
+            'material',
+            'vừa được tạo',
+            $this->material->id
+        );
+
+        return $service->notifyAllUsers(
+            'material.created',
+            $message,
+            $this->material->id
+        );
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Events\Material;
 
 use App\Models\Material;
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -36,6 +38,13 @@ class MaterialUpdated implements ShouldBroadcastNow
 
     public function broadcastWith(): array
     {
+        $users = User::all()->pluck('id');
+        foreach ($users as $user) {
+            Notification::create([
+                'user_id' => $user,
+                'message' => 'Nguyên vật liệu ' . Material::find($this->material)->name . ' vừa được cập nhật',
+            ]);
+        }
         return [
             'event' => 'material.updated',
             'message' => 'Nguyên vật liệu ' . Material::find($this->material)->name . ' vừa được cập nhật',

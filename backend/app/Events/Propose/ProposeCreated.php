@@ -2,6 +2,7 @@
 
 namespace App\Events\Propose;
 
+use App\Models\Notification;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -48,11 +49,32 @@ class ProposeCreated implements ShouldBroadcastNow
      */
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => $this->propose->created_by,
+            'message' => $this->propose->name . ' của bạn đã được tạo thành công',
+        ]);
         return [
             'event' => 'propose.created',
             'message' =>  $this->propose->name . ' của bạn đã được tạo thành công',
             'propose_name' => $this->propose->id,
-            'propose_created_by' => $this->propose->created_by,  // Đảm bảo tên trường đúng
+            'propose_created_by' => $this->propose->created_by,
         ];
     }
+
+    // public function broadcastWith(): array
+    // {
+    //     $service = app(\App\Services\NotificationService::class);
+
+    //     $message = $service->formatMessage(
+    //         'propose',
+    //         'đã được tạo thành công!',
+    //         $this->propose->id
+    //     );
+
+    //     return $service->notifyAllUsers(
+    //         'propose.created',
+    //         $message,
+    //         $this->propose->id
+    //     );
+    // }
 }

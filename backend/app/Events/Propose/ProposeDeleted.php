@@ -2,6 +2,7 @@
 
 namespace App\Events\Propose;
 
+use App\Models\Notification;
 use App\Models\Propose;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -49,8 +50,14 @@ class ProposeDeleted implements ShouldBroadcastNow
      */
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => Propose::withTrashed()->find($this->propose)->created_by,
+            'message' => 'Bạn vừa xóa ' . Propose::withTrashed()->find($this->propose)->name,
+        ]);
         return [
-            'message' => Propose::withTrashed()->find($this->propose)->name . ' vừa bị xóa.',
+            'message' => 'Bạn vừa xóa ' . Propose::withTrashed()->find($this->propose)->name,
+            'propose_id' => $this->propose,
+            'propose_created_by' => Propose::withTrashed()->find($this->propose)->created_by,
         ];
     }
 }
