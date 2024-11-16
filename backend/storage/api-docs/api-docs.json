@@ -833,6 +833,181 @@
                 ]
             }
         },
+        "/api/v1/inventory-reports": {
+            "get": {
+                "tags": [
+                    "Inventory Reports"
+                ],
+                "summary": "Lấy danh sách phiếu kiểm kê kho",
+                "description": "Trả về danh sách phiếu kiểm kê kho cùng với các chi tiết của từng phiếu.",
+                "operationId": "getInventoryReports",
+                "responses": {
+                    "200": {
+                        "description": "Danh sách phiếu kiểm kê kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Báo cáo kiểm kê thành phẩm 11/02/2024"
+                                                    },
+                                                    "warehouse_name": {
+                                                        "type": "string",
+                                                        "example": "Kho thành phẩm 1"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Báo cáo kiểm kê kho thành phẩm 1 ngày 11/02/2024"
+                                                    },
+                                                    "created_by": {
+                                                        "type": "string",
+                                                        "example": "Quản trị viên"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-11-16T21:16:30.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": null
+                                                    },
+                                                    "details": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "inventory_report_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "product_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "product_name": {
+                                                                    "type": "string",
+                                                                    "example": "Chai nhựa HDPE 1 lít xanh"
+                                                                },
+                                                                "material_id": {
+                                                                    "type": "integer",
+                                                                    "example": null
+                                                                },
+                                                                "material_name": {
+                                                                    "type": "string",
+                                                                    "example": null
+                                                                },
+                                                                "unit": {
+                                                                    "type": "string",
+                                                                    "example": "chai"
+                                                                },
+                                                                "shelf_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "shelf_name": {
+                                                                    "type": "string",
+                                                                    "example": "Kệ 1"
+                                                                },
+                                                                "expected_quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "actual_quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "note": {
+                                                                    "type": "string",
+                                                                    "example": null
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hiện tại chưa có phiếu kiểm kê kho nào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Hiện tại chưa có phiếu kiểm kê kho nào"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy dữ liệu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Có lỗi xảy ra khi lấy dữ liệu"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi..."
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/materials": {
             "get": {
                 "tags": [
@@ -7756,6 +7931,10 @@
         {
             "name": "Category",
             "description": "Category"
+        },
+        {
+            "name": "Inventory Reports",
+            "description": "Inventory Reports"
         },
         {
             "name": "Materials",

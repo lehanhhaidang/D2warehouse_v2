@@ -39,9 +39,12 @@ class InventoryReportService
                     'details' => $inventoryReport->inventoryReportDetails->map(function ($detail) {
                         return [
                             'inventory_report_id' => $detail->inventory_report_id,
+                            'product_id' => $detail->product_id,
                             'product_name' => $detail->product->name ?? null,
+                            'material_id' => $detail->material_id,
                             'material_name' => $detail->material->name ?? null,
                             'unit' => $detail->product->unit ?? $detail->material->unit ?? null,
+                            'shelf_id' => $detail->shelf_id,
                             'shelf_name' => $detail->shelf->name ?? null,
                             'expected_quantity' => $detail->expected_quantity,
                             'actual_quantity' => $detail->actual_quantity,
@@ -75,9 +78,12 @@ class InventoryReportService
                 'details' => $inventoryReport->inventoryReportDetails->map(function ($detail) {
                     return [
                         'inventory_report_id' => $detail->inventory_report_id,
+                        'product_id' => $detail->product_id,
                         'product_name' => $detail->product->name ?? null,
+                        'material_id' => $detail->material_id,
                         'material_name' => $detail->material->name ?? null,
                         'unit' => $detail->product->unit ?? $detail->material->unit ?? null,
+                        'shelf_id' => $detail->shelf_id,
                         'shelf_name' => $detail->shelf->name ?? null,
                         'expected_quantity' => $detail->expected_quantity,
                         'actual_quantity' => $detail->actual_quantity,

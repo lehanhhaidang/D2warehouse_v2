@@ -31,6 +31,7 @@ class RoleSeeder extends Seeder
             //Materials
             'view_materials',
 
+            //Shelves
             'view_shelves',
 
             //Product Receipts
@@ -44,6 +45,10 @@ class RoleSeeder extends Seeder
 
             //Material Exports
             'view_material_exports',
+
+            //Inventory Reports
+            'view_inventory_reports',
+            'confirm_inventory_report',
 
             //Proposes
             'view_proposes',
@@ -67,6 +72,7 @@ class RoleSeeder extends Seeder
             //Materials
             'view_materials',
 
+            //Shelves
             'view_shelves',
 
             //Product Receipts
@@ -80,9 +86,17 @@ class RoleSeeder extends Seeder
             //Material Receipts
             'view_material_receipts',
             'create_material_receipts',
+
             //Material Exports
             'view_material_exports',
             'create_material_exports',
+
+            //Inventory Reports
+            'view_inventory_reports',
+            'create_inventory_reports',
+            'update_inventory_reports',
+            'delete_inventory_reports',
+            'send_inventory_report',
 
             //Proposes
             'view_proposes',
@@ -106,6 +120,8 @@ class RoleSeeder extends Seeder
             //Materials
             'view_materials',
 
+            //SHevles
+
             'view_shelves',
 
             //Product Receipts
@@ -119,6 +135,9 @@ class RoleSeeder extends Seeder
 
             //Material Exports
             'view_material_exports',
+
+            //Inventory Reports
+            'view_inventory_reports',
 
             //Proposes
             'view_proposes',
