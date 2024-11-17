@@ -36,6 +36,7 @@ class ProductReceiptService
                     'receive_date' => $productReceipt->receive_date,
                     'status' => $productReceipt->status,
                     'note' => $productReceipt->note,
+                    'propose_id' => $productReceipt->propose_id,
                     'created_by' => $productReceipt->user ? $productReceipt->user->name : null,
                     'created_at' => $productReceipt->created_at,
                     'updated_at' => $productReceipt->updated_at,
@@ -72,6 +73,7 @@ class ProductReceiptService
                 'receive_date' => $productReceipt->receive_date,
                 'status' => $productReceipt->status,
                 'note' => $productReceipt->note,
+                'propose_id' => $productReceipt->propose_id,
                 'created_by' => $productReceipt->user ? $productReceipt->user->name : null,
                 'created_at' => $productReceipt->created_at,
                 'updated_at' => $productReceipt->updated_at,
@@ -159,6 +161,7 @@ class ProductReceiptService
 
             $data['created_by'] = Auth::id();
             // Tạo phiếu nhập kho
+
             $productReceipt = $this->productReceiptRepository->createProductReceipt($data);
 
             // Duyệt qua từng detail để xử lý

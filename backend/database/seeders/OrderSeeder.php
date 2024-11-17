@@ -15,6 +15,7 @@ class OrderSeeder extends Seeder
     {
         $order = [
             [
+                'name' => 'Đơn hàng 1',
                 'customer_name' => 'Châu Hoàng Khải Long',
                 'customer_email' => 'longchau@yahoo.com',
                 'customer_phone' => '0987654321',

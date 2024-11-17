@@ -16,6 +16,7 @@ class MaterialReceipt extends Model
         'note',
         'created_by',
         'warehouse_id',
+        'propose_id'
 
     ];
 
@@ -37,5 +38,10 @@ class MaterialReceipt extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function propose()
+    {
+        return $this->belongsTo(Propose::class);
     }
 }

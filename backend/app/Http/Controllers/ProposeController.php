@@ -46,21 +46,29 @@ class ProposeController extends Controller
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 @OA\Property(property="id", type="integer", example=2),
-     *                 @OA\Property(property="name", type="string", example="Phiếu đề xuất 2"),
-     *                 @OA\Property(property="type", type="string", example="DXXTP"),
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Phiếu đề xuất 1"),
+     *                 @OA\Property(property="type", type="string", example="DXNTP"),
+     *                 @OA\Property(property="warehouse_id", type="integer", example=2),
      *                 @OA\Property(property="warehouse_name", type="string", example="Kho thành phẩm 1"),
-     *                 @OA\Property(property="status", type="string", example="Đã duyệt"),
-     *                 @OA\Property(property="description", type="string", example="Đề xuất xuất thành phẩm cho kho thành phẩm 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu."),
-     *                 @OA\Property(property="created_by", type="string", example="Lê Hạnh Hải Đăng"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-21T13:44:09.000000Z"),
+     *                 @OA\Property(property="order_id", type="integer", example=null),
+     *                 @OA\Property(property="order_name", type="string", example=null),
+     *                 @OA\Property(property="status", type="integer", example=1),
+     *                 @OA\Property(property="assigned_to", type="string", example="null"),
+     *                 @OA\Property(property="assigned_to_name", type="string", example="null"),
+     *                 @OA\Property(property="description", type="string", example="Đề xuất nhập thành phẩm cho kho thành phẩm 1. Các sản phẩm cần nhập được liệt kê chi tiết trong phiếu."),
+     *                 @OA\Property(property="created_by", type="string", example="3"),
+     *                 @OA\Property(property="created_by_name", type="string", example="Bùi Thục Đoan"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-11-17T14:53:41.000000Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", example=null),
      *                 @OA\Property(
      *                     property="details",
      *                     type="array",
      *                     @OA\Items(
-     *                         @OA\Property(property="propose_id", type="integer", example=2),
-     *                         @OA\Property(property="product_name", type="string", example="Chai nhựa HDPE 1 lít trắng"),
+     *                         @OA\Property(property="propose_id", type="integer", example=1),
+     *                         @OA\Property(property="product_id", type="integer", example=1),
+     *                         @OA\Property(property="product_name", type="string", example="Chai nhựa HDPE 1 lít xanh"),
+     *                         @OA\Property(property="material_id", type="integer", example=null),
      *                         @OA\Property(property="material_name", type="string", example=null),
      *                         @OA\Property(property="unit", type="string", example="Chai"),
      *                         @OA\Property(property="quantity", type="integer", example=10)
@@ -89,6 +97,7 @@ class ProposeController extends Controller
      *     )
      * )
      */
+
 
     public function index()
     {
@@ -123,8 +132,9 @@ class ProposeController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string", example="Phiếu đề xuất 3"),
      *             @OA\Property(property="warehouse_id", type="integer", example=1),
-     *             @OA\Property(property="status", type="string", example="Đang chờ duyệt"),
+     *             @OA\Property(property="status", type="integer", example=1),
      *             @OA\Property(property="description", type="string", example="Đề xuất nhập nguyên vật liệu cho kho 1"),
+     *             @OA\Property(property="assigned_to", type="integer", example=1),
      *             @OA\Property(property="type", type="string", example="DXNNVL"),
      *             @OA\Property(
      *                 property="details",
@@ -154,8 +164,9 @@ class ProposeController extends Controller
      *             @OA\Property(property="id", type="integer", example=3),
      *             @OA\Property(property="name", type="string", example="Phiếu đề xuất 3"),
      *             @OA\Property(property="warehouse_id", type="integer", example=1),
-     *             @OA\Property(property="status", type="string", example="Đang chờ duyệt"),
+     *             @OA\Property(property="status", type="integer", example=1),
      *             @OA\Property(property="description", type="string", example="Đề xuất nhập nguyên vật liệu cho kho 1"),
+     *             @OA\Property(property="assigned_to", type="integer", example=1),
      *             @OA\Property(property="created_by", type="integer", example=1),
      *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T10:23:45.000000Z"),
      *             @OA\Property(
@@ -235,11 +246,17 @@ class ProposeController extends Controller
      *         response=200,
      *         description="Chi tiết đề xuất",
      *         @OA\JsonContent(
+     *             type="object",
      *             @OA\Property(property="id", type="integer", example=2),
      *             @OA\Property(property="name", type="string", example="Phiếu đề xuất 2"),
      *             @OA\Property(property="type", type="string", example="DXXTP"),
+     *             @OA\Property(property="warehouse_id", type="integer", example=1),
      *             @OA\Property(property="warehouse_name", type="string", example="Kho thành phẩm 1"),
-     *             @OA\Property(property="status", type="string", example="Đã duyệt"),
+     *             @OA\Property(property="order_id", type="integer", example=null),
+     *             @OA\Property(property="order_name", type="string", example=null),
+     *             @OA\Property(property="status", type="string", example="1"),
+     *             @OA\Property(property="assigned_to", type="string", example="null"),
+     *             @OA\Property(property="assigned_to_name", type="string", example="null"),
      *             @OA\Property(property="description", type="string", example="Đề xuất xuất thành phẩm cho kho thành phẩm 1. Các sản phẩm cần xuất được liệt kê chi tiết trong phiếu."),
      *             @OA\Property(property="created_by", type="string", example="Lê Hạnh Hải Đăng"),
      *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-21T13:44:09.000000Z"),
@@ -277,6 +294,7 @@ class ProposeController extends Controller
      *     )
      * )
      */
+
     public function show($id)
     {
         try {
@@ -318,6 +336,7 @@ class ProposeController extends Controller
      *             @OA\Property(property="warehouse_id", type="integer", example=2),
      *             @OA\Property(property="status", type="string", example="Chờ gửi"),
      *             @OA\Property(property="description", type="string", example="ddddd"),
+     *             @OA\Property(property="assigned_to", type="integer", example=1),
      *             @OA\Property(property="type", type="string", example="DXNTP"),
      *             @OA\Property(
      *                 property="details",

@@ -18,11 +18,15 @@ return new class extends Migration
             $table->string('name');
             $table->integer('status')->default(0); //0: Chờ gửi, 1: Chờ duyệt, 2: Đã duyệt, 3: Đã từ chối
             $table->string('description');
+            $table->unsignedBigInteger('assigned_to')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedbigInteger('warehouse_id');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('assigned_to')->references('id')->on('users');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('warehouse_id')->references('id')->on('warehouses');
         });

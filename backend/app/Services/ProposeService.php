@@ -35,9 +35,14 @@ class ProposeService
                     'type' => $propose->type,
                     'warehouse_id' => $propose->warehouse_id,
                     'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
+                    'order_id' => $propose->order_id,
+                    'order_name' => $propose->order ? $propose->order->name : null,
                     'status' => $propose->status,
+                    'assigned_to' => $propose->assigned_to,
+                    'assigned_to_name' => User::find($propose->assigned_to)->name ?? null,
                     'description' => $propose->description,
                     'created_by' => $propose->created_by,
+                    'created_by_name' => $propose->user->name ?? null,
                     'created_at' => $propose->created_at,
                     'updated_at' => $propose->updated_at,
                     'details' => $propose->details->map(function ($detail) {
@@ -73,9 +78,14 @@ class ProposeService
                 'type' => $propose->type,
                 'warehouse_id' => $propose->warehouse_id,
                 'warehouse_name' => $propose->warehouse ? $propose->warehouse->name : null,
+                'order_id' => $propose->order_id,
+                'order_name' => $propose->order ? $propose->order->name : null,
                 'status' => $propose->status,
+                'assigned_to' => $propose->assigned_to,
+                'assigned_to_name' => User::find($propose->assigned_to)->name ?? null,
                 'description' => $propose->description,
                 'created_by' => $propose->created_by,
+                'created_by_name' => $propose->user->name ?? null,
                 'created_at' => $propose->created_at,
                 'updated_at' => $propose->updated_at,
                 'details' => $propose->details->map(function ($detail) {
@@ -160,6 +170,7 @@ class ProposeService
             'warehouse_id' => $data['warehouse_id'],
             'status' => $data['status'],
             'description' => $data['description'],
+            'assigned_to' => $data['assigned_to'],
             'type' => $data['type'],
         ];
 
@@ -309,7 +320,9 @@ class ProposeService
                 403,
                 'Vai trò của bạn không phù hợp để xử lý đề xuất này!'
             );
-            // abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
+            abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
+            if ($propose->type === 'DXNTP') {
+            }
 
             return $this->proposeRepository->updatePropose($id, ['status' => $status]);
         } catch (\Exception $e) {

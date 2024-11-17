@@ -23,13 +23,14 @@ class DatabaseSeeder extends Seeder
             MaterialSeeder::class,
             ProductSeeder::class,
             ShelfSeeder::class,
+            OrderSeeder::class,
             ProposeSeeder::class,
             ProductReceiptSeeder::class,
             ProductExportSeeder::class,
             MaterialReceiptSeeder::class,
             MaterialExportSeeder::class,
-            OrderSeeder::class,
             InventoryReportSeeder::class,
+            WarehouseStaffSeeder::class,
 
 
         ]);

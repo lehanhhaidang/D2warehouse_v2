@@ -36,4 +36,10 @@ class Warehouse extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'warehouse_staff', 'warehouse_id', 'user_id')
+            ->withTimestamps();
+    }
 }

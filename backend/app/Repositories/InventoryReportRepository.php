@@ -56,4 +56,9 @@ class InventoryReportRepository
     {
         return InventoryReport::where('id', $id)->delete();
     }
+
+    public function deleteInventoryReportDetailsByInventoryReportId(int $inventoryReportId)
+    {
+        return InventoryReportDetail::where('inventory_report_id', $inventoryReportId)->delete();
+    }
 }

@@ -176,6 +176,47 @@ class InventoryReportService
     //     $this->inventoryReportRepository->updateInventoryReportDetail($inventoryReportDetailId, $data);
     // }
 
+    public function updateInventoryReport(int $inventoryReportId, array $data)
+    {
+        $data = [
+            'name' => $data['name'],
+            'warehouse_id' => $data['warehouse_id'],
+            'status' => $data['status'],
+            'description' => $data['description'],
+        ];
+
+        return $this->inventoryReportRepository->updateInventoryReport($inventoryReportId, $data);
+    }
+
+    public function updateInventoryReportWithDetails(int $inventoryReportId, array $data)
+    {
+        DB::beginTransaction();
+        try {
+            $inventoryReport = $this->inventoryReportRepository->getInventoryReportWithDetails($inventoryReportId);
+
+            if (!$inventoryReport) {
+                throw new \Exception("Không tìm thấy phiếu kiểm kê này", 404);
+            }
+
+            if ($inventoryReport->created_by !== Auth::id()) {
+                throw new \Exception("Bạn không có quyền cập nhật phiếu kiểm kê này", 403);
+            }
+            $this->updateInventoryReport($inventoryReportId, $data);
+
+            $this->inventoryReportRepository->deleteInventoryReportDetailsByInventoryReportId($inventoryReportId);
+
+            foreach ($data['details'] as $detail) {
+                $this->createInventoryReportDetails($inventoryReportId, $detail);
+            }
+
+            DB::commit();
+
+            return $this->getInventoryReportWithDetails($inventoryReportId);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
 
     public function deleteInventoryReport($id)
     {
@@ -204,6 +245,12 @@ class InventoryReportService
             if (!$inventoryReport) {
                 throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
             }
+            if ($inventoryReport->status !== 0) {
+                throw new \Exception('Trạng thái phiếu kiểm kê không hợp lệ, có vẻ phiếu đã được gửi đi từ trước', 400);
+            }
+            if ($inventoryReport->created_by !== Auth::id()) {
+                throw new \Exception('Bạn không có quyền gửi phiếu kiểm kê này', 403);
+            }
             $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 1]);
             return $inventoryReport;
         } catch (\Exception $e) {
@@ -215,9 +262,16 @@ class InventoryReportService
     {
         try {
             $inventoryReport = InventoryReport::find($id);
+            $roleId = Auth::user()->role_id;
 
             if (!$inventoryReport) {
                 throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
+            }
+            if ($inventoryReport->status !== 0) {
+                throw new \Exception('Trạng thái phiếu kiểm kê không hợp lệ, có vẻ phiếu đã được xử lý', 400);
+            }
+            if (!in_array($roleId, [2, 3])) {
+                throw new \Exception('Bạn không có quyền xử lý phiếu kiểm kê', 403);
             }
             $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 2]);
             return $inventoryReport;
@@ -231,9 +285,16 @@ class InventoryReportService
     {
         try {
             $inventoryReport = InventoryReport::find($id);
+            $roleId = Auth::user()->role_id;
 
             if (!$inventoryReport) {
                 throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
+            }
+            if ($inventoryReport->status !== 0) {
+                throw new \Exception('Trạng thái phiếu kiểm kê không hợp lệ, có vẻ phiếu đã được xử lý', 400);
+            }
+            if (!in_array($roleId, [2, 3])) {
+                throw new \Exception('Bạn không có quyền xử lý phiếu kiểm kê', 403);
             }
             $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 3]);
             return $inventoryReport;

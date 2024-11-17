@@ -27,6 +27,7 @@ class StoreUserRequest extends FormRequest
             'phone' => 'required|string',
             'password' => 'string',
             'role_id' => 'required|exists:roles,id',
+            'img_url' => 'nullable|string',
         ];
     }
 
@@ -37,6 +38,10 @@ class StoreUserRequest extends FormRequest
             'email.required' => 'Email is requried',
             'password.required' => 'Password is required',
             'role_id.required' => 'Role is required',
+            'img_url.string' => 'Image url must be string',
+            'role_id.exists' => 'Role does not exist',
+            'phone.required' => 'Phone is required',
+
         ];
     }
 }

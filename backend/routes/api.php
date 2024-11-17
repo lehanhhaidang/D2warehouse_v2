@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\InventoryReportController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialExportController;
 use App\Http\Controllers\MaterialReceiptController;
@@ -63,6 +64,27 @@ Route::group(
         Route::post('user/add', [UserController::class, 'store']);
         Route::patch('user/update/{id}', [UserController::class, 'update']);
         Route::delete('user/delete/{id}', [UserController::class, 'destroy']);
+    }
+);
+Route::get('/v1/users/warehouse-employees/{id}', [UserController::class, 'getEmployeeByWarehouse']);
+
+Route::post('/v1/password/forgot', [UserController::class, 'sendResetLink']);
+Route::post('/v1/password/reset', action: [UserController::class, 'resetPassword']);
+
+Route::group(
+    [
+
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+
+    function ($router) {
+        //User Routes
+        Route::get('send-mail', [MailController::class, 'sendTestEmail']);
+        Route::patch('change-password', [UserController::class, 'changePassword']);
     }
 );
 
@@ -357,5 +379,6 @@ Route::group(
 
         Route::patch('inventory-report/send/{id}', [InventoryReportController::class, 'sendInventoryReport'])->middleware('check.permission:send_inventory_report');
         Route::patch('inventory-report/confirm/{id}', [InventoryReportController::class, 'confirmInventoryReport'])->middleware('check.permission:confirm_inventory_report');
+        Route::patch('inventory-report/reject/{id}', [InventoryReportController::class, 'rejectInventoryReport'])->middleware('check.permission:reject_inventory_report');
     }
 );

@@ -65,6 +65,7 @@ class UserRepository implements UserRepositoryInterface
         return null;
     }
 
+
     public function delete($id)
     {
         $user = User::find($id);
@@ -73,5 +74,15 @@ class UserRepository implements UserRepositoryInterface
             return true;
         }
         return false;
+    }
+
+    public function getEmployeeByWarehouse($warehouseId)
+    {
+        return User::where('role_id', 4) // Chỉ lấy người dùng có role_id = 4
+            ->whereHas('warehouses', function ($query) use ($warehouseId) {
+                $query->where('warehouses.id', $warehouseId); // Kiểm tra nhân viên có trong kho
+            })
+            ->select('id', 'name')
+            ->get();
     }
 }

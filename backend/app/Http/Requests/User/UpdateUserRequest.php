@@ -32,6 +32,7 @@ class UpdateUserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->route('id')),
             ],
             'password' => 'required|string',
+            'img_url' => 'nullable|string',
             'phone' => 'required|string',
             'role_id' => 'required|exists:roles,id',
         ];
@@ -43,7 +44,11 @@ class UpdateUserRequest extends FormRequest
             'name.required' => 'Name is required',
             'email.unique' => 'This email has been taken by other user',
             'email.required' => 'Email is requried',
-            'password.required' => 'Password is required'
+            'password.required' => 'Password is required',
+            'phone.required' => 'Phone is required',
+            'role_id.required' => 'Role is required',
+            'img_url.string' => 'Image url must be string',
+
         ];
     }
 }

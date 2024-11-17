@@ -16,6 +16,7 @@ class ProductExport extends Model
         'status',
         'note',
         'created_by',
+        'propose_id'
     ];
 
     public function product()
@@ -36,5 +37,10 @@ class ProductExport extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function propose()
+    {
+        return $this->belongsTo(Propose::class);
     }
 }

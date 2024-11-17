@@ -48,6 +48,22 @@ class UserSeeder extends Seeder
                 'role_id' => 4,
                 'created_at' => now(),
             ],
+            [
+                'name' => 'Nhân viên kho 01',
+                'email' => 'nvk@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '0123456782',
+                'role_id' => 4,
+                'created_at' => now(),
+            ],
+            [
+                'name' => 'Nhân viên kho 02',
+                'email' => 'nvk1@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '0123456781',
+                'role_id' => 4,
+                'created_at' => now(),
+            ],
 
         ]);
     }

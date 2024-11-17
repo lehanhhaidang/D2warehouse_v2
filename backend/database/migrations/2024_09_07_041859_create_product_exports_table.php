@@ -17,10 +17,12 @@ return new class extends Migration
             $table->timestamp('export_date');
             $table->integer('status')->default(0);
             $table->string('note')->nullable();
+            $table->unsignedBigInteger('propose_id')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('warehouse_id');
             $table->timestamps();
 
+            $table->foreign('propose_id')->references('id')->on('proposes')->onDelete('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });

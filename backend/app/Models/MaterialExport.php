@@ -16,6 +16,7 @@ class MaterialExport extends Model
         'status',
         'note',
         'created_by',
+        'propose_id'
     ];
 
     public function material()
@@ -36,5 +37,10 @@ class MaterialExport extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function propose()
+    {
+        return $this->belongsTo(Propose::class);
     }
 }

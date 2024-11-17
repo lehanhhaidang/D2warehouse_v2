@@ -15,9 +15,11 @@ class Propose extends Model
         'type',
         'name',
         'status',
+        'order_id',
         'warehouse_id',
         'description',
         'created_by',
+        'assigned_to',
 
     ];
 
@@ -36,5 +38,15 @@ class Propose extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function asignedTo()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

@@ -6,6 +6,15 @@ use App\Repositories\Interface\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Mail\ResetPasswordMail;
+use App\Models\User;
+use Illuminate\Validation\ValidationException as ValidationValidationException;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -99,6 +108,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
+                'img_url' => $request->img_url,
                 'phone' => $request->phone,
                 'role_id' => $request->role_id,
             ];
@@ -234,6 +244,7 @@ class UserController extends Controller
             $user = $this->userRepository->update($id, [
                 'name' => $request->name,
                 'email' => $request->email,
+                'img_url' => $request->img_url,
                 'password' => bcrypt($request->password),
                 'phone' => $request->phone,
                 'role_id' => $request->role_id,
@@ -304,5 +315,119 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Xóa người dùng thành công',
         ], 200);
+    }
+
+
+    public function changePassword(Request $request)
+    {
+        // Xác thực dữ liệu yêu cầu
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|confirmed', // Đảm bảo mật khẩu mới có xác nhận
+        ]);
+
+        $user = User::find(Auth::id()); // Lấy người dùng hiện tại
+
+        // Kiểm tra mật khẩu cũ
+        if (!Hash::check($request->current_password, $user->password)) {
+            throw ValidationException::withMessages([
+                'current_password' => ['Mật khẩu cũ không chính xác.'],
+            ]);
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->password = Hash::make($request->new_password);
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'Mật khẩu đã được thay đổi thành công.',
+        ]);
+    }
+
+
+    public function sendResetLink(Request $request)
+    {
+        // Validate email
+        $request->validate(['email' => 'required|email']);
+
+        // Tìm người dùng với email đã cho
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Email bạn vừa nhập không tồn tại'], 404);
+        }
+
+        // Tạo token mới cho reset mật khẩu
+        $token = Str::random(60);
+
+        // Lưu token vào bảng password_reset_tokens
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $request->email],
+            ['token' => $token, 'created_at' => now()]
+        );
+
+        // Tạo URL để reset mật khẩu
+        $resetUrl = env("VITE_BASE_URL") . '/reset-password/' . '?token=' . $token . '?email=' . urlencode($request->email);
+
+        // Gửi email với link reset mật khẩu
+        Mail::to($request->email)->send(new ResetPasswordMail($token, $resetUrl));
+
+        return response()->json([
+            'message' => 'Link reset mật khẩu đã được gửi đến email của bạn',
+        ]);
+    }
+
+    // Reset mật khẩu
+    public function resetPassword(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'token' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed', // Kiểm tra mật khẩu với xác nhận
+        ]);
+
+        // Tìm token trong bảng password_reset_tokens
+        $passwordReset = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+
+        if (!$passwordReset) {
+            return response()->json(['message' => 'Token không hợp lệ'], 404);
+        }
+
+        // Kiểm tra thời gian hết hạn của token (ví dụ: 30 giây cho ví dụ này)
+        $tokenCreatedAt = \Carbon\Carbon::parse($passwordReset->created_at);
+        $expiryTime = $tokenCreatedAt->addHours(1);
+
+        if (\Carbon\Carbon::now()->greaterThan($expiryTime)) {
+            return response()->json(['message' => 'Token reset mật khẩu đã hết hạn'], 400);
+        }
+
+        // Kiểm tra xem email trong token có trùng với email trong request không
+        if ($passwordReset->email !== $request->email) {
+            return response()->json(['message' => 'Email không khớp với token'], 400);
+        }
+
+        // Tiến hành reset mật khẩu nếu token còn hiệu lực
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            // Cập nhật mật khẩu mới
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            // Xóa token sau khi sử dụng
+            DB::table('password_reset_tokens')->where('token', $request->token)->delete();
+
+            return response()->json(['message' => 'Mật khẩu đã được thay đổi thành công']);
+        }
+
+        return response()->json(['message' => 'Không tìm thấy người dùng với email này'], 404);
+    }
+
+    public function getemployeeByWarehouse($id)
+    {
+        $results = $this->userRepository->getEmployeeByWarehouse($id);
+        return $results;
     }
 }
