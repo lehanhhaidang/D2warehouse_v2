@@ -20,6 +20,9 @@ Broadcast::channel('material', function ($user) {
     return in_array($user->role_id, [1, 2, 3, 4]);
 });
 
+Broadcast::channel('shelf', function ($user) {
+    return in_array($user->role_id, [1, 2, 3, 4]);
+});
 
 Broadcast::channel('propose', function ($user) {
     return in_array($user->role_id, [2, 3, 4]);

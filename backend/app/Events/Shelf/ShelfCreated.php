@@ -2,6 +2,8 @@
 
 namespace App\Events\Shelf;
 
+use App\Models\Category;
+use App\Models\Warehouse;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -37,7 +39,10 @@ class ShelfCreated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'message' => 'Kệ ' . $this->shelf->name . ' đã được tạo',
+            'message' => $this->shelf->name .
+                ' có danh mục ' . Category::find($this->shelf->category_id)->name .
+                ' thuộc ' . Warehouse::find($this->shelf->warehouse_id)->name .
+                ' đã được tạo',
             'shelf' => $this->shelf->id
         ];
     }
