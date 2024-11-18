@@ -44,8 +44,9 @@ class ProductExportCreated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'message' =>  $this->productExport->user->name . ' vừa tạo một phiếu xuất kho thành phẩm mới',
-            'material_Export_id' => $this->productExport->id,
+            'manager_message' =>  $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name,
+            'employee_message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công',
+            'product_receipt_id' => $this->productExport->id,
         ];
     }
 }

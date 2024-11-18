@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Material;
+use App\Models\Propose;
 use App\Models\Shelf;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Repositories\MaterialReceiptRepository;
@@ -36,7 +37,10 @@ class MaterialReceiptService
                     'receive_date' => $materialReceipt->receive_date,
                     'status' => $materialReceipt->status,
                     'note' => $materialReceipt->note,
-                    'created_by' => $materialReceipt->user ? $materialReceipt->user->name : null,
+                    'propose_id' => $materialReceipt->propose_id,
+                    'propose_name' => $materialReceipt->propose ? $materialReceipt->propose->name : null,
+                    'created_by' => $materialReceipt->created_by,
+                    'created_by_name' => $materialReceipt->user ? $materialReceipt->user->name : null,
                     'created_at' => $materialReceipt->created_at,
                     'updated_at' => $materialReceipt->updated_at,
                     'details' => $materialReceipt->details->map(function ($detail) {
@@ -44,8 +48,11 @@ class MaterialReceiptService
                             'material_receipt_id' => $detail->material_receipt_id,
                             'unit' => $detail->unit,
                             'quantity' => $detail->quantity,
+                            'material_id' => $detail->material_id,
                             'material_name' => $detail->material->name,
+                            'category_id' => $detail->material->category_id,
                             'category_name' => $detail->material->category->name,
+                            'shelf_id' => $detail->shelf_id,
                             'shelf_name' => $detail->shelf->name,
                         ];
                     }),
@@ -72,7 +79,10 @@ class MaterialReceiptService
                 'receive_date' => $materialReceipt->receive_date,
                 'status' => $materialReceipt->status,
                 'note' => $materialReceipt->note,
-                'created_by' => $materialReceipt->user ? $materialReceipt->user->name : null,
+                'propose_id' => $materialReceipt->propose_id,
+                'propose_name' => $materialReceipt->propose ? $materialReceipt->propose->name : null,
+                'created_by' => $materialReceipt->created_by,
+                'created_by_name' => $materialReceipt->user ? $materialReceipt->user->name : null,
                 'created_at' => $materialReceipt->created_at,
                 'updated_at' => $materialReceipt->updated_at,
                 'details' => $materialReceipt->details->map(function ($detail) {
@@ -80,8 +90,11 @@ class MaterialReceiptService
                         'material_receipt_id' => $detail->material_receipt_id,
                         'unit' => $detail->unit,
                         'quantity' => $detail->quantity,
+                        'material_id' => $detail->material_id,
                         'material_name' => $detail->material->name,
+                        'category_id' => $detail->material->category_id,
                         'category_name' => $detail->material->category->name,
+                        'shelf_id' => $detail->shelf_id,
                         'shelf_name' => $detail->shelf->name,
                     ];
                 }),
@@ -156,6 +169,17 @@ class MaterialReceiptService
 
         try {
             $data['created_by'] = Auth::id();
+            $propose_status = Propose::find($data['propose_id'])->status;
+
+            if ($data['created_by'] !== Propose::find($data['propose_id'])->assigned_to) {
+                throw new \Exception('Bạn không có quyền tạo phiếu nhập kho nguyên vật liệu được giao cho người khác', 400);
+            }
+            if ($propose_status === 0 || $propose_status === 1) {
+                throw new \Exception('Đề xuất chưa được duyệt, không thể lập phiếu nhập kho', 400);
+            }
+            if ($propose_status === 3) {
+                throw new \Exception('Đề xuất này đã bị từ chối, không thể tạo phiếu nhập kho', 400);
+            }
             // Tạo phiếu nhập kho
             $MaterialReceipt = $this->materialReceiptRepository->createMaterialReceipt($data);
 

@@ -40,7 +40,10 @@ class ProductExportController extends Controller
      *                     @OA\Property(property="export_date", type="string", format="date-time", example="2024-10-28 18:35:58"),
      *                     @OA\Property(property="status", type="integer", example=1),
      *                     @OA\Property(property="note", type="string", example=null),
-     *                     @OA\Property(property="created_by", type="string", example="Bùi Thục Đoan"),
+     *                     @OA\Property(property="propose_id", type="integer", example=2),
+     *                     @OA\Property(property="propose_name", type="string", example="Phiếu đề xuất xuất thành phẩm 01"),
+     *                     @OA\Property(property="created_by", type="integer", example=4),
+     *                     @OA\Property(property="created_by_name", type="string", example="Nguyễn Huỳnh Hương"),
      *                     @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-28T11:35:58.000000Z"),
      *                     @OA\Property(property="updated_at", type="string", format="date-time", example=null),
      *                     @OA\Property(
@@ -50,8 +53,11 @@ class ProductExportController extends Controller
      *                             @OA\Property(property="product_export_id", type="integer", example=1),
      *                             @OA\Property(property="unit", type="string", example="chai"),
      *                             @OA\Property(property="quantity", type="integer", example=100),
+     *                             @OA\Property(property="product_id", type="integer", example=1),
      *                             @OA\Property(property="product_name", type="string", example="Chai nhựa HDPE 1 lít xanh"),
+     *                             @OA\Property(property="category_id", type="integer", example=5),
      *                             @OA\Property(property="category_name", type="string", example="Chai nhựa HDPE"),
+     *                             @OA\Property(property="shelf_id", type="integer", example=1),
      *                             @OA\Property(property="shelf_name", type="string", example="Kệ 1")
      *                         )
      *                     )
@@ -117,6 +123,7 @@ class ProductExportController extends Controller
      *             @OA\Property(property="export_date", type="string", format="date-time", example="2024-09-24 10:22:21"),
      *             @OA\Property(property="warehouse_id", type="integer", example=2),
      *             @OA\Property(property="status", type="integer", example=1),
+     *             @OA\Property(property="propose_id", type="integer", example=2),
      *             @OA\Property(property="note", type="string", example=null),
      *             @OA\Property(
      *                 property="details",
@@ -124,7 +131,6 @@ class ProductExportController extends Controller
      *                 @OA\Items(
      *                     @OA\Property(property="product_id", type="integer", example=1),
      *                     @OA\Property(property="shelf_id", type="integer", example=1),
-     *                     @OA\Property(property="color_id", type="integer", example=2),
      *                     @OA\Property(property="unit", type="string", example="chai"),
      *                     @OA\Property(property="quantity", type="integer", example=100)
      *                 )
@@ -143,8 +149,8 @@ class ProductExportController extends Controller
      *                 @OA\Property(property="name", type="string", example="Test"),
      *                 @OA\Property(property="export_date", type="string", format="date-time", example="2024-09-24 10:22:21"),
      *                 @OA\Property(property="warehouse_id", type="integer", example=2),
-     *                 @OA\Property(property="status", type="integer", example=1),
      *                 @OA\Property(property="note", type="string", example=null),
+     *                 @OA\Property(property="propose_id", type="integer", example=2),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-24T10:22:21.000000Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", example=null),
      *                 @OA\Property(
@@ -153,7 +159,6 @@ class ProductExportController extends Controller
      *                     @OA\Items(
      *                         @OA\Property(property="product_id", type="integer", example=1),
      *                         @OA\Property(property="shelf_id", type="integer", example=1),
-     *                         @OA\Property(property="color_id", type="integer", example=2),
      *                         @OA\Property(property="unit", type="string", example="chai"),
      *                         @OA\Property(property="quantity", type="integer", example=100)
      *                     )
@@ -199,7 +204,7 @@ class ProductExportController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/product-excport/{id}",
+     *     path="/api/v1/product-export/{id}",
      *     tags={"Product Export"},
      *     summary="Lấy chi tiết phiếu xuất kho",
      *     description="Lấy thông tin chi tiết của một phiếu xuất kho thành phẩm cùng với các chi tiết của nó",
@@ -224,7 +229,10 @@ class ProductExportController extends Controller
      *                 @OA\Property(property="export_date", type="string", format="date-time", example="2024-10-28 18:35:58"),
      *                 @OA\Property(property="status", type="integer", example=1),
      *                 @OA\Property(property="note", type="string", example=null),
-     *                 @OA\Property(property="created_by", type="string", example="Bùi Thục Đoan"),
+     *                 @OA\Property(property="propose_id", type="integer", example=2),
+     *                 @OA\Property(property="propose_name", type="string", example="Phiếu đề xuất xuất thành phẩm 01"),
+     *                 @OA\Property(property="created_by", type="integer", example=4),
+     *                 @OA\Property(property="created_by_name", type="string", example="Nguyễn Huỳnh Hương"),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-28T11:35:58.000000Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", example=null),
      *                 @OA\Property(
@@ -234,8 +242,11 @@ class ProductExportController extends Controller
      *                         @OA\Property(property="product_export_id", type="integer", example=1),
      *                         @OA\Property(property="unit", type="string", example="chai"),
      *                         @OA\Property(property="quantity", type="integer", example=100),
+     *                         @OA\Property(property="product_id", type="integer", example=1),
      *                         @OA\Property(property="product_name", type="string", example="Chai nhựa HDPE 1 lít xanh"),
+     *                         @OA\Property(property="category_id", type="integer", example=5),
      *                         @OA\Property(property="category_name", type="string", example="Chai nhựa HDPE"),
+     *                         @OA\Property(property="shelf_id", type="integer", example=1),
      *                         @OA\Property(property="shelf_name", type="string", example="Kệ 1")
      *                     )
      *                 )

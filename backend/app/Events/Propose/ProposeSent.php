@@ -86,6 +86,7 @@ class ProposeSent implements ShouldBroadcastNow
             'other_message' => User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name,
             'propose_id' => $this->propose->id,
             'propose_created_by' => $this->propose->created_by,
+            'propose_type' => $this->propose->type,
         ];
     }
 }

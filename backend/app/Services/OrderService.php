@@ -39,6 +39,7 @@ class OrderService
                     'details' => $order->orderDetails->map(function ($detail) {
                         return [
                             'order_id' => $detail->order_id,
+                            'product_id' => $detail->product_id,
                             'product_name' => $detail->product->name,
                             'unit' => $detail->product->unit,
                             'quantity' => $detail->quantity,
@@ -77,6 +78,7 @@ class OrderService
                 'details' => $order->orderDetails->map(function ($detail) {
                     return [
                         'order_id' => $detail->order_id,
+                        'product_id' => $detail->product_id,
                         'product_name' => $detail->product->name,
                         'unit' => $detail->product->unit,
                         'quantity' => $detail->quantity,

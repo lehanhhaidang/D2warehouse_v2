@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Propose;
 use App\Models\Shelf;
 use App\Repositories\Interface\ProductReceiptRepositoryInterface;
 use App\Repositories\ProductReceiptRepository;
@@ -32,12 +33,15 @@ class ProductReceiptService
                 return [
                     'id' => $productReceipt->id,
                     'name' => $productReceipt->name,
+                    'warehouse_id' => $productReceipt->warehouse_id,
                     'warehouse_name' => $productReceipt->warehouse ? $productReceipt->warehouse->name : null,
                     'receive_date' => $productReceipt->receive_date,
                     'status' => $productReceipt->status,
                     'note' => $productReceipt->note,
                     'propose_id' => $productReceipt->propose_id,
-                    'created_by' => $productReceipt->user ? $productReceipt->user->name : null,
+                    'propose_name' => $productReceipt->propose ? $productReceipt->propose->name : null,
+                    'created_by' => $productReceipt->created_by,
+                    'created_by_name' => $productReceipt->user ? $productReceipt->user->name : null,
                     'created_at' => $productReceipt->created_at,
                     'updated_at' => $productReceipt->updated_at,
                     'details' => $productReceipt->details->map(function ($detail) {
@@ -45,8 +49,11 @@ class ProductReceiptService
                             'product_receipt_id' => $detail->product_receipt_id,
                             'unit' => $detail->unit,
                             'quantity' => $detail->quantity,
+                            'product_id' => $detail->product_id,
                             'product_name' => $detail->product->name,
+                            'category_id' => $detail->product->category_id,
                             'category_name' => $detail->product->category->name,
+                            'shelf_id' => $detail->shelf_id,
                             'shelf_name' => $detail->shelf->name,
                         ];
                     }),
@@ -69,12 +76,15 @@ class ProductReceiptService
             return [
                 'id' => $productReceipt->id,
                 'name' => $productReceipt->name,
+                'warehouse_id' => $productReceipt->warehouse_id,
                 'warehouse_name' => $productReceipt->warehouse ? $productReceipt->warehouse->name : null,
                 'receive_date' => $productReceipt->receive_date,
                 'status' => $productReceipt->status,
                 'note' => $productReceipt->note,
                 'propose_id' => $productReceipt->propose_id,
-                'created_by' => $productReceipt->user ? $productReceipt->user->name : null,
+                'propose_name' => $productReceipt->propose ? $productReceipt->propose->name : null,
+                'created_by' => $productReceipt->created_by,
+                'created_by_name' => $productReceipt->user ? $productReceipt->user->name : null,
                 'created_at' => $productReceipt->created_at,
                 'updated_at' => $productReceipt->updated_at,
                 'details' => $productReceipt->details->map(function ($detail) {
@@ -82,8 +92,11 @@ class ProductReceiptService
                         'product_receipt_id' => $detail->product_receipt_id,
                         'unit' => $detail->unit,
                         'quantity' => $detail->quantity,
+                        'product_id' => $detail->product_id,
                         'product_name' => $detail->product->name,
+                        'category_id' => $detail->product->category_id,
                         'category_name' => $detail->product->category->name,
+                        'shelf_id' => $detail->shelf_id,
                         'shelf_name' => $detail->shelf->name,
                     ];
                 }),
@@ -160,6 +173,19 @@ class ProductReceiptService
         try {
 
             $data['created_by'] = Auth::id();
+
+            $propose_status = Propose::find($data['propose_id'])->status;
+
+            if ($data['created_by'] !== Propose::find($data['propose_id'])->created_by) {
+                throw new \Exception('Bạn không có quyền tạo phiếu nhập kho thành phẩm được giao cho người khác', 400);
+            }
+
+            if ($propose_status === 0 || $propose_status === 1) {
+                throw new \Exception('Đề xuất chưa được duyệt, không thể lập phiếu nhập kho', 400);
+            }
+            if ($propose_status === 3) {
+                throw new \Exception('Đề xuất này đã bị từ chối, không thể tạo phiếu nhập kho', 400);
+            }
             // Tạo phiếu nhập kho
 
             $productReceipt = $this->productReceiptRepository->createProductReceipt($data);

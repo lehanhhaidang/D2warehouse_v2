@@ -45,8 +45,9 @@ class MaterialExportCreated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'message' =>  $this->materialExport->user->name . ' vừa tạo một phiếu xuất kho nguyên vật liệu mới',
-            'material_receipt_id' => $this->materialExport->id,
+            'manager_message' =>  $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name,
+            'employee_message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công',
+            'material_Export_id' => $this->materialExport->id,
         ];
     }
 }

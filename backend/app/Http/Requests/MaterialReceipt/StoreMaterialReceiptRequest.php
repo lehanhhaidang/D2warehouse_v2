@@ -27,13 +27,13 @@ class StoreMaterialReceiptRequest extends FormRequest
             'name' => 'required|string',
             'warehouse_id' => 'required|exists:warehouses,id',
             'receive_date' => 'required|date',
-            'status' => 'required|integer',
-            'user_id' => 'required|exists:users,id',
+            'status' => 'nullable|integer',
             'details' => 'required|array',
             'details.*.material_id' => 'required|exists:materials,id',
             'details.*.shelf_id' => 'required|exists:shelves,id',
             'details.*.unit' => 'required|string',
             'details.*.quantity' => 'required|integer|min:1',
+            'propose_id' => 'nullable|exists:proposes,id',
         ];
     }
 
@@ -48,9 +48,6 @@ class StoreMaterialReceiptRequest extends FormRequest
             'details.*.shelf_id.required' => 'Kệ không được để trống.',
             'details.*.material_id.required' => 'Sản phẩm không được để trống.',
             'details.required' => 'Chi tiết sản phẩm không được để trống.',
-            'user_id.exists' => 'Người tạo không tồn tại.',
-            'user_id.required' => 'Người tạo không được để trống.',
-            'status.required' => 'Trạng thái không được để trống.',
             'status.integer' => 'Trạng thái phải là số.',
             'receive_date.required' => 'Ngày nhận không được để trống.',
             'receive_date.date' => 'Ngày nhận không đúng định dạng.',
@@ -58,6 +55,7 @@ class StoreMaterialReceiptRequest extends FormRequest
             'warehouse_id.required' => 'Kho không được để trống.',
             'name.required' => 'Tên phiếu không được để trống.',
             'name.string' => 'Tên phiếu phải là chuỗi.',
+            'propose_id.exists' => 'Phiếu đề xuất không tồn tại.',
         ];
     }
 

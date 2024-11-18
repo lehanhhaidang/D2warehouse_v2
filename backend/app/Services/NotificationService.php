@@ -46,11 +46,6 @@ class NotificationService
                 ? Material::withTrashed()->find($resourceId)
                 : Material::find($resourceId);
             $resourceType = 'nguyên vật liệu';
-        } elseif ($resourceType === 'propose') {
-            $resource = $withTrashed
-                ? Propose::withTrashed()->find($resourceId)
-                : Propose::find($resourceId);
-            $resourceType = 'phiếu';
         }
 
         if (!$resource) {

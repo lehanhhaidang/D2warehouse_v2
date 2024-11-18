@@ -27,7 +27,7 @@ class StoreProductReceiptRequest extends FormRequest
             'name' => 'required|string',
             'warehouse_id' => 'required|exists:warehouses,id',
             'receive_date' => 'required|date',
-            'status' => 'required|integer',
+            'status' => 'nullable|integer|in:0,1',
             'details' => 'required|array',
             'details.*.product_id' => 'required|exists:products,id',
             'details.*.shelf_id' => 'required|exists:shelves,id',
@@ -42,6 +42,7 @@ class StoreProductReceiptRequest extends FormRequest
                     }
                 }
             ],
+            'propose_id' => 'nullable|exists:proposes,id'
         ];
     }
 
@@ -57,7 +58,6 @@ class StoreProductReceiptRequest extends FormRequest
             'details.*.shelf_id.required' => 'Kệ không được để trống.',
             'details.*.product_id.required' => 'Sản phẩm không được để trống.',
             'details.required' => 'Chi tiết sản phẩm không được để trống.',
-            'status.required' => 'Trạng thái không được để trống.',
             'status.integer' => 'Trạng thái phải là số.',
             'receive_date.required' => 'Ngày nhận không được để trống.',
             'receive_date.date' => 'Ngày nhận không đúng định dạng.',
@@ -65,6 +65,7 @@ class StoreProductReceiptRequest extends FormRequest
             'warehouse_id.required' => 'Kho không được để trống.',
             'name.required' => 'Tên phiếu không được để trống.',
             'name.string' => 'Tên phiếu phải là chuỗi.',
+            'propose_id.exists' => 'Đề xuất không tồn tại.'
         ];
     }
 

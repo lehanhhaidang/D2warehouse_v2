@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Propose;
 use App\Models\Shelf;
 use App\Repositories\Interface\MaterialExportRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
@@ -36,15 +37,21 @@ class MaterialExportService
                     'export_date' => $materialExport->export_date,
                     'status' => $materialExport->status,
                     'note' => $materialExport->note,
-                    'created_by' => $materialExport->user ? $materialExport->user->name : null,
+                    'propose_id' => $materialExport->propose_id,
+                    'propose_name' => $materialExport->propose ? $materialExport->propose->name : null,
+                    'created_by' => $materialExport->created_by,
+                    'created_by_name' => $materialExport->user ? $materialExport->user->name : null,
                     'created_at' => $materialExport->created_at,
                     'details' => $materialExport->details->map(function ($detail) {
                         return [
                             'material_export_id' => $detail->material_export_id,
                             'unit' => $detail->unit,
                             'quantity' => $detail->quantity,
+                            'material_id' => $detail->material_id,
                             'material_name' => $detail->material->name,
+                            'category_id' => $detail->material->category_id,
                             'category_name' => $detail->material->category->name,
+                            'shelf_id' => $detail->shelf_id,
                             'shelf_name' => $detail->shelf->name,
                         ];
                     }),
@@ -72,15 +79,21 @@ class MaterialExportService
                 'export_date' => $materialExport->export_date,
                 'status' => $materialExport->status,
                 'note' => $materialExport->note,
-                'created_by' => $materialExport->user ? $materialExport->user->name : null,
+                'propose_id' => $materialExport->propose_id,
+                'propose_name' => $materialExport->propose ? $materialExport->propose->name : null,
+                'created_by' => $materialExport->created_by,
+                'created_by_name' => $materialExport->user ? $materialExport->user->name : null,
                 'created_at' => $materialExport->created_at,
                 'details' => $materialExport->details->map(function ($detail) {
                     return [
                         'material_export_id' => $detail->material_export_id,
                         'unit' => $detail->unit,
                         'quantity' => $detail->quantity,
+                        'material_id' => $detail->material_id,
                         'material_name' => $detail->material->name,
+                        'category_id' => $detail->material->category_id,
                         'category_name' => $detail->material->category->name,
+                        'shelf_id' => $detail->shelf_id,
                         'shelf_name' => $detail->shelf->name,
                     ];
                 }),
@@ -144,6 +157,18 @@ class MaterialExportService
 
         try {
             $data['created_by'] = Auth::id();
+            $propose_status = Propose::find($data['propose_id'])->status;
+
+            if ($data['created_by'] !== Propose::find($data['propose_id'])->assigned_to) {
+                throw new \Exception('Bạn không có quyền tạo phiếu nhập kho nguyên vật liệu được giao cho người khác', 400);
+            }
+
+            if ($propose_status === 0 || $propose_status === 1) {
+                throw new \Exception('Đề xuất chưa được duyệt, không thể lập phiếu nhập kho', 400);
+            }
+            if ($propose_status === 3) {
+                throw new \Exception('Đề xuất này đã bị từ chối, không thể tạo phiếu nhập kho', 400);
+            }
             // Tạo phiếu xuất kho
             $materialExport = $this->materialExportRepository->createMaterialExport($data);
 

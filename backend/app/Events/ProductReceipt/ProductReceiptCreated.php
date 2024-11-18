@@ -2,6 +2,7 @@
 
 namespace App\Events\ProductReceipt;
 
+use App\Models\Propose;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -45,8 +46,9 @@ class ProductReceiptCreated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'message' =>  $this->productReceipt->user->name . ' vừa tạo một phiếu nhập kho thành phẩm mới',
-            'material_receipt_id' => $this->productReceipt->id,
+            'manager_message' =>  $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name,
+            'employee_message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công',
+            'product_receipt_id' => $this->productReceipt->id,
         ];
     }
 }

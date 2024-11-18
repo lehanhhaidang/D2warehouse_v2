@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->timestamp('receive_date');
-            $table->integer('status')->default(0);
+            $table->integer('status')->nullable()->default(0);
             $table->string('note')->nullable();
             $table->unsignedBigInteger('propose_id')->nullable();
             $table->unsignedBigInteger('created_by');

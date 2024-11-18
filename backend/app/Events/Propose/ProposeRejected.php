@@ -71,7 +71,7 @@ class ProposeRejected implements ShouldBroadcastNow
 
         return [
             'event' => 'propose.accepted',
-            'reviewer_message' => 'Bạn đã từ chối ' . $this->propose->name . ' của ' . User::find($this->propose->id)->name . '.',
+            'reviewer_message' => 'Bạn đã từ chối ' . $this->propose->name . ' của ' . User::find($this->propose->created_by)->name . '.',
             'owner_message' => $this->propose->name . ' của bạn đã bị từ chối bởi ' . User::find(Auth::id())->name . '.',
             'propose_id' => $this->propose->id,
             'propose_created_by' => $this->propose->created_by,

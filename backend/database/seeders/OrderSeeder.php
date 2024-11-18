@@ -35,14 +35,14 @@ class OrderSeeder extends Seeder
             [
                 'order_id' => 1,
                 'product_id' => 1,
-                'quantity' => 10000,
+                'quantity' => 100,
                 'price' => '500',
                 'total_price' => '5000000',
             ],
             [
                 'order_id' => 1,
                 'product_id' => 2,
-                'quantity' => 1000,
+                'quantity' => 100,
                 'price' => '750',
                 'total_price' => '750000',
             ],
@@ -50,7 +50,7 @@ class OrderSeeder extends Seeder
                 'order_id' => 1,
                 'product_id' => 3,
                 'quantity' => 3,
-                'price' => '1000',
+                'price' => '100',
                 'total_price' => '800000',
             ],
         ];

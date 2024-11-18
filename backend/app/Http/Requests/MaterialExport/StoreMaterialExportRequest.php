@@ -28,7 +28,7 @@ class StoreMaterialExportRequest extends FormRequest
             'name' => 'required|string',
             'warehouse_id' => 'required|exists:warehouses,id',
             'export_date' => 'required|date',
-            'status' => 'required|integer',
+            'status' => 'nullable|integer',
             'details' => 'required|array',
             'details.*.material_id' => 'required|exists:materials,id',
             'details.*.shelf_id' => 'required|exists:shelves,id',
@@ -43,6 +43,7 @@ class StoreMaterialExportRequest extends FormRequest
                     }
                 },
             ],
+            'propose_id' => 'required|exists:proposes,id',
         ];
     }
 
@@ -55,7 +56,6 @@ class StoreMaterialExportRequest extends FormRequest
             'warehouse_id.exists' => 'Kho không tồn tại.',
             'export_date.required' => 'Ngày xuất không được để trống.',
             'export_date.date' => 'Ngày xuất không đúng định dạng.',
-            'status.required' => 'Trạng thái không được để trống.',
             'status.integer' => 'Trạng thái phải là số nguyên.',
             'details.required' => 'Chi tiết xuất không được để trống.',
             'details.array' => 'Chi tiết xuất phải là mảng.',
@@ -68,7 +68,8 @@ class StoreMaterialExportRequest extends FormRequest
             'details.*.quantity.min' => 'Số lượng xuất phải lớn hơn 0.',
             'details.*.quantity.integer' => 'Số lượng xuất phải là số nguyên.',
             'details.*.quantity.required' => 'Số lượng xuất không được để trống.',
-            'details.*.quantity.exists' => 'Số lượng xuất phải nhỏ hơn hoặc bằng số lượng hiện có trên kệ.'
+            'details.*.quantity.exists' => 'Số lượng xuất phải nhỏ hơn hoặc bằng số lượng hiện có trên kệ.',
+            'propose_id.required' => 'Đề xuất không được để trống.',
 
         ];
     }

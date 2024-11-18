@@ -2693,9 +2693,21 @@
                                                         "type": "string",
                                                         "example": null
                                                     },
-                                                    "created_by": {
+                                                    "propose_id": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "propose_name": {
                                                         "type": "string",
-                                                        "example": "Bùi Thục Đoan"
+                                                        "example": "Phiếu đề xuất nhập nguyên vật liệu 01"
+                                                    },
+                                                    "created_by": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "created_by_name": {
+                                                        "type": "string",
+                                                        "example": "Nguyễn Huỳnh Hương"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
@@ -2711,25 +2723,37 @@
                                                         "type": "array",
                                                         "items": {
                                                             "properties": {
-                                                                "material_export_id": {
+                                                                "material_receipt_id": {
                                                                     "type": "integer",
                                                                     "example": 1
                                                                 },
                                                                 "unit": {
                                                                     "type": "string",
-                                                                    "example": "bao"
+                                                                    "example": "kg"
                                                                 },
                                                                 "quantity": {
                                                                     "type": "integer",
-                                                                    "example": 100
+                                                                    "example": 200
+                                                                },
+                                                                "material_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
                                                                 },
                                                                 "material_name": {
                                                                     "type": "string",
                                                                     "example": "Nhựa HDPE"
                                                                 },
+                                                                "category_id": {
+                                                                    "type": "integer",
+                                                                    "example": 3
+                                                                },
                                                                 "category_name": {
                                                                     "type": "string",
                                                                     "example": "Nhựa HDPE"
+                                                                },
+                                                                "shelf_id": {
+                                                                    "type": "integer",
+                                                                    "example": 7
                                                                 },
                                                                 "shelf_name": {
                                                                     "type": "string",
@@ -2825,7 +2849,7 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Test"
+                                        "example": "Test material"
                                     },
                                     "export_date": {
                                         "type": "string",
@@ -2834,11 +2858,11 @@
                                     },
                                     "warehouse_id": {
                                         "type": "integer",
-                                        "example": 2
-                                    },
-                                    "status": {
-                                        "type": "integer",
                                         "example": 1
+                                    },
+                                    "propose_id": {
+                                        "type": "integer",
+                                        "example": 4
                                     },
                                     "note": {
                                         "type": "string",
@@ -2855,10 +2879,6 @@
                                                 "shelf_id": {
                                                     "type": "integer",
                                                     "example": 7
-                                                },
-                                                "color_id": {
-                                                    "type": "integer",
-                                                    "example": 2
                                                 },
                                                 "unit": {
                                                     "type": "string",
@@ -2910,15 +2930,15 @@
                                                 },
                                                 "warehouse_id": {
                                                     "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "status": {
-                                                    "type": "integer",
                                                     "example": 1
                                                 },
                                                 "note": {
                                                     "type": "string",
                                                     "example": null
+                                                },
+                                                "propose_id": {
+                                                    "type": "integer",
+                                                    "example": 4
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -2941,10 +2961,6 @@
                                                             "shelf_id": {
                                                                 "type": "integer",
                                                                 "example": 7
-                                                            },
-                                                            "color_id": {
-                                                                "type": "integer",
-                                                                "example": 2
                                                             },
                                                             "unit": {
                                                                 "type": "string",
@@ -3052,9 +3068,21 @@
                                                     "type": "string",
                                                     "example": null
                                                 },
-                                                "created_by": {
+                                                "propose_id": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "propose_name": {
                                                     "type": "string",
-                                                    "example": "Bùi Thục Đoan"
+                                                    "example": "Phiếu đề xuất nhập nguyên vật liệu 01"
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "created_by_name": {
+                                                    "type": "string",
+                                                    "example": "Nguyễn Huỳnh Hương"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -3070,25 +3098,37 @@
                                                     "type": "array",
                                                     "items": {
                                                         "properties": {
-                                                            "material_export_id": {
+                                                            "material_receipt_id": {
                                                                 "type": "integer",
                                                                 "example": 1
                                                             },
                                                             "unit": {
                                                                 "type": "string",
-                                                                "example": "bao"
+                                                                "example": "kg"
                                                             },
                                                             "quantity": {
                                                                 "type": "integer",
-                                                                "example": 100
+                                                                "example": 200
+                                                            },
+                                                            "material_id": {
+                                                                "type": "integer",
+                                                                "example": 1
                                                             },
                                                             "material_name": {
                                                                 "type": "string",
                                                                 "example": "Nhựa HDPE"
                                                             },
+                                                            "category_id": {
+                                                                "type": "integer",
+                                                                "example": 3
+                                                            },
                                                             "category_name": {
                                                                 "type": "string",
                                                                 "example": "Nhựa HDPE"
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 7
                                                             },
                                                             "shelf_name": {
                                                                 "type": "string",
@@ -3211,7 +3251,19 @@
                                                         "type": "string",
                                                         "example": null
                                                     },
+                                                    "propose_id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "propose_name": {
+                                                        "type": "string",
+                                                        "example": "Phiếu đề xuất nhập nguyên vật liệu 01"
+                                                    },
                                                     "created_by": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "created_by_name": {
                                                         "type": "string",
                                                         "example": "Nguyễn Huỳnh Hương"
                                                     },
@@ -3241,17 +3293,29 @@
                                                                     "type": "integer",
                                                                     "example": 200
                                                                 },
+                                                                "material_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
                                                                 "material_name": {
                                                                     "type": "string",
                                                                     "example": "Nhựa HDPE"
                                                                 },
+                                                                "category_id": {
+                                                                    "type": "integer",
+                                                                    "example": 3
+                                                                },
                                                                 "category_name": {
                                                                     "type": "string",
-                                                                    "example": "Nguyên vật liệu nhựa"
+                                                                    "example": "Nhựa HDPE"
+                                                                },
+                                                                "shelf_id": {
+                                                                    "type": "integer",
+                                                                    "example": 7
                                                                 },
                                                                 "shelf_name": {
                                                                     "type": "string",
-                                                                    "example": "Kệ 2"
+                                                                    "example": "Kệ 1"
                                                                 }
                                                             },
                                                             "type": "object"
@@ -3380,7 +3444,19 @@
                                                     "type": "string",
                                                     "example": null
                                                 },
+                                                "propose_id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "propose_name": {
+                                                    "type": "string",
+                                                    "example": "Phiếu đề xuất nhập nguyên vật liệu 01"
+                                                },
                                                 "created_by": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "created_by_name": {
                                                     "type": "string",
                                                     "example": "Nguyễn Huỳnh Hương"
                                                 },
@@ -3410,13 +3486,25 @@
                                                                 "type": "integer",
                                                                 "example": 100
                                                             },
+                                                            "material_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
                                                             "material_name": {
                                                                 "type": "string",
                                                                 "example": "Nhựa PET"
                                                             },
+                                                            "category_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
                                                             "category_name": {
                                                                 "type": "string",
                                                                 "example": "Nhựa PET"
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 8
                                                             },
                                                             "shelf_name": {
                                                                 "type": "string",
@@ -3520,15 +3608,11 @@
                                     },
                                     "warehouse_id": {
                                         "type": "integer",
-                                        "example": 2
-                                    },
-                                    "user_id": {
-                                        "type": "integer",
                                         "example": 1
                                     },
-                                    "status": {
+                                    "propose_id": {
                                         "type": "integer",
-                                        "example": 1
+                                        "example": 3
                                     },
                                     "note": {
                                         "type": "string",
@@ -3545,10 +3629,6 @@
                                                 "shelf_id": {
                                                     "type": "integer",
                                                     "example": 7
-                                                },
-                                                "color_id": {
-                                                    "type": "integer",
-                                                    "example": 2
                                                 },
                                                 "unit": {
                                                     "type": "string",
@@ -3602,13 +3682,9 @@
                                                     "type": "integer",
                                                     "example": 2
                                                 },
-                                                "user_id": {
+                                                "propose_id": {
                                                     "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "status": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "example": 3
                                                 },
                                                 "note": {
                                                     "type": "string",
@@ -3635,10 +3711,6 @@
                                                             "shelf_id": {
                                                                 "type": "integer",
                                                                 "example": 7
-                                                            },
-                                                            "color_id": {
-                                                                "type": "integer",
-                                                                "example": 2
                                                             },
                                                             "unit": {
                                                                 "type": "string",
@@ -4931,9 +5003,21 @@
                                                         "type": "string",
                                                         "example": null
                                                     },
-                                                    "created_by": {
+                                                    "propose_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "propose_name": {
                                                         "type": "string",
-                                                        "example": "Bùi Thục Đoan"
+                                                        "example": "Phiếu đề xuất xuất thành phẩm 01"
+                                                    },
+                                                    "created_by": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "created_by_name": {
+                                                        "type": "string",
+                                                        "example": "Nguyễn Huỳnh Hương"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
@@ -4961,13 +5045,25 @@
                                                                     "type": "integer",
                                                                     "example": 100
                                                                 },
+                                                                "product_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
                                                                 "product_name": {
                                                                     "type": "string",
                                                                     "example": "Chai nhựa HDPE 1 lít xanh"
                                                                 },
+                                                                "category_id": {
+                                                                    "type": "integer",
+                                                                    "example": 5
+                                                                },
                                                                 "category_name": {
                                                                     "type": "string",
                                                                     "example": "Chai nhựa HDPE"
+                                                                },
+                                                                "shelf_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
                                                                 },
                                                                 "shelf_name": {
                                                                     "type": "string",
@@ -5078,6 +5174,10 @@
                                         "type": "integer",
                                         "example": 1
                                     },
+                                    "propose_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
                                     "note": {
                                         "type": "string",
                                         "example": null
@@ -5093,10 +5193,6 @@
                                                 "shelf_id": {
                                                     "type": "integer",
                                                     "example": 1
-                                                },
-                                                "color_id": {
-                                                    "type": "integer",
-                                                    "example": 2
                                                 },
                                                 "unit": {
                                                     "type": "string",
@@ -5150,13 +5246,13 @@
                                                     "type": "integer",
                                                     "example": 2
                                                 },
-                                                "status": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
                                                 "note": {
                                                     "type": "string",
                                                     "example": null
+                                                },
+                                                "propose_id": {
+                                                    "type": "integer",
+                                                    "example": 2
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -5179,10 +5275,6 @@
                                                             "shelf_id": {
                                                                 "type": "integer",
                                                                 "example": 1
-                                                            },
-                                                            "color_id": {
-                                                                "type": "integer",
-                                                                "example": 2
                                                             },
                                                             "unit": {
                                                                 "type": "string",
@@ -5237,7 +5329,7 @@
                 ]
             }
         },
-        "/api/v1/product-excport/{id}": {
+        "/api/v1/product-export/{id}": {
             "get": {
                 "tags": [
                     "Product Export"
@@ -5290,9 +5382,21 @@
                                                     "type": "string",
                                                     "example": null
                                                 },
-                                                "created_by": {
+                                                "propose_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "propose_name": {
                                                     "type": "string",
-                                                    "example": "Bùi Thục Đoan"
+                                                    "example": "Phiếu đề xuất xuất thành phẩm 01"
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "created_by_name": {
+                                                    "type": "string",
+                                                    "example": "Nguyễn Huỳnh Hương"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -5320,13 +5424,25 @@
                                                                 "type": "integer",
                                                                 "example": 100
                                                             },
+                                                            "product_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
                                                             "product_name": {
                                                                 "type": "string",
                                                                 "example": "Chai nhựa HDPE 1 lít xanh"
                                                             },
+                                                            "category_id": {
+                                                                "type": "integer",
+                                                                "example": 5
+                                                            },
                                                             "category_name": {
                                                                 "type": "string",
                                                                 "example": "Chai nhựa HDPE"
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 1
                                                             },
                                                             "shelf_name": {
                                                                 "type": "string",
@@ -5432,6 +5548,10 @@
                                                         "type": "string",
                                                         "example": "Phiếu nhập kho thành phẩm 1"
                                                     },
+                                                    "warehouse_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
                                                     "warehouse_name": {
                                                         "type": "string",
                                                         "example": "Kho thành phẩm 1"
@@ -5449,9 +5569,21 @@
                                                         "type": "string",
                                                         "example": null
                                                     },
-                                                    "created_by": {
+                                                    "propose_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "propose_name": {
                                                         "type": "string",
-                                                        "example": "Bùi Thục Đoan"
+                                                        "example": "Phiếu đề xuất nhập thành phẩm 01"
+                                                    },
+                                                    "created_by": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "created_by_name": {
+                                                        "type": "string",
+                                                        "example": "Nguyễn Huỳnh Hương"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
@@ -5479,13 +5611,25 @@
                                                                     "type": "integer",
                                                                     "example": 100
                                                                 },
+                                                                "product_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
                                                                 "product_name": {
                                                                     "type": "string",
                                                                     "example": "Chai nhựa HDPE 1 lít xanh"
                                                                 },
+                                                                "category_id": {
+                                                                    "type": "integer",
+                                                                    "example": 5
+                                                                },
                                                                 "category_name": {
                                                                     "type": "string",
                                                                     "example": "Chai nhựa HDPE"
+                                                                },
+                                                                "shelf_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
                                                                 },
                                                                 "shelf_name": {
                                                                     "type": "string",
@@ -5601,6 +5745,10 @@
                                                     "type": "string",
                                                     "example": "Phiếu nhập kho thành phẩm 1"
                                                 },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
                                                 "warehouse_name": {
                                                     "type": "string",
                                                     "example": "Kho thành phẩm 1"
@@ -5618,9 +5766,21 @@
                                                     "type": "string",
                                                     "example": null
                                                 },
-                                                "created_by": {
+                                                "propose_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "propose_name": {
                                                     "type": "string",
-                                                    "example": "Bùi Thục Đoan"
+                                                    "example": "Phiếu đề xuất nhập thành phẩm 01"
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "created_by_name": {
+                                                    "type": "string",
+                                                    "example": "Nguyễn Huỳnh Hương"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -5648,13 +5808,25 @@
                                                                 "type": "integer",
                                                                 "example": 100
                                                             },
+                                                            "product_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
                                                             "product_name": {
                                                                 "type": "string",
                                                                 "example": "Chai nhựa HDPE 1 lít xanh"
                                                             },
+                                                            "category_id": {
+                                                                "type": "integer",
+                                                                "example": 5
+                                                            },
                                                             "category_name": {
                                                                 "type": "string",
                                                                 "example": "Chai nhựa HDPE"
+                                                            },
+                                                            "shelf_id": {
+                                                                "type": "integer",
+                                                                "example": 1
                                                             },
                                                             "shelf_name": {
                                                                 "type": "string",
@@ -5760,7 +5932,7 @@
                                         "type": "integer",
                                         "example": 2
                                     },
-                                    "status": {
+                                    "propose_id": {
                                         "type": "integer",
                                         "example": 1
                                     },
@@ -5779,10 +5951,6 @@
                                                 "shelf_id": {
                                                     "type": "integer",
                                                     "example": 1
-                                                },
-                                                "color_id": {
-                                                    "type": "integer",
-                                                    "example": 2
                                                 },
                                                 "unit": {
                                                     "type": "string",
@@ -5836,7 +6004,7 @@
                                                     "type": "integer",
                                                     "example": 2
                                                 },
-                                                "status": {
+                                                "propose_id": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },
@@ -5865,10 +6033,6 @@
                                                             "shelf_id": {
                                                                 "type": "integer",
                                                                 "example": 1
-                                                            },
-                                                            "color_id": {
-                                                                "type": "integer",
-                                                                "example": 2
                                                             },
                                                             "unit": {
                                                                 "type": "string",

@@ -45,7 +45,8 @@ class MaterialReceiptCreated implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'message' =>  $this->materialReceipt->user->name . ' vừa tạo một phiếu nhập kho nguyên vật liệu mới',
+            'manager_message' =>  $this->materialReceipt->user->name . ' đã tạo ' . $this->materialReceipt->name . ' dựa trên ' . $this->materialReceipt->propose->name,
+            'employee_message' => 'Bạn đã tạo ' . $this->materialReceipt->name . ' dựa trên ' . $this->materialReceipt->propose->name . ' thành công',
             'material_receipt_id' => $this->materialReceipt->id,
         ];
     }
