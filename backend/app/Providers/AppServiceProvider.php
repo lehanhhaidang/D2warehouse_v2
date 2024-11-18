@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Models\Order;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ColorRepository;
+use App\Repositories\DashboardRepository;
 use App\Repositories\Interface\CategoryRepositoryInterface;
 use App\Repositories\Interface\ColorRepositoryInterface;
+use App\Repositories\Interface\DashboardRepositoryInterface;
 use App\Repositories\Interface\MaterialExportRepositoryInterface;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Repositories\Interface\MaterialRepositoryInterface;
@@ -67,6 +69,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProposeRepositoryInterface::class, ProposeRepository::class);
 
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+
+        $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
     }
 
     /**

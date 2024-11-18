@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryReportController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MaterialController;
@@ -380,5 +381,21 @@ Route::group(
         Route::patch('inventory-report/send/{id}', [InventoryReportController::class, 'sendInventoryReport'])->middleware('check.permission:send_inventory_report');
         Route::patch('inventory-report/confirm/{id}', [InventoryReportController::class, 'confirmInventoryReport'])->middleware('check.permission:confirm_inventory_report');
         Route::patch('inventory-report/reject/{id}', [InventoryReportController::class, 'rejectInventoryReport'])->middleware('check.permission:reject_inventory_report');
+    }
+);
+
+
+//Dashboard
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        Route::get('dashboard', [DashboardController::class, 'index']);
     }
 );

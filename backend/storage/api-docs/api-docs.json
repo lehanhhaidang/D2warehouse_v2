@@ -833,6 +833,158 @@
                 ]
             }
         },
+        "/api/v1/dashboard": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Lấy số liệu thống kê",
+                "description": "Trả về thông tin thống kê bao gồm số lượng các sản phẩm, nguyên vật liệu, đề xuất, phiếu nhập, phiếu xuất và báo cáo kiểm kê.",
+                "operationId": "getDashboardData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "userCount": {
+                                                    "description": "Số lượng người dùng",
+                                                    "type": "integer",
+                                                    "example": 7
+                                                },
+                                                "warehouseCount": {
+                                                    "description": "Số lượng kho",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "shelfCount": {
+                                                    "description": "Số lượng kệ",
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "shelfCountsByWarehouseId": {
+                                                    "description": "Số lượng kệ phân theo kho",
+                                                    "type": "object",
+                                                    "additionalProperties": [
+                                                        {
+                                                            "description": "Số lượng kệ tại kho 1",
+                                                            "type": "integer",
+                                                            "example": 4,
+                                                            "property": "1"
+                                                        },
+                                                        {
+                                                            "description": "Số lượng kệ tại kho 2",
+                                                            "type": "integer",
+                                                            "example": 6,
+                                                            "property": "2"
+                                                        }
+                                                    ]
+                                                },
+                                                "productCount": {
+                                                    "description": "Số lượng thành phẩm",
+                                                    "type": "integer",
+                                                    "example": 120
+                                                },
+                                                "materialCount": {
+                                                    "description": "Số lượng nguyên vật liệu",
+                                                    "type": "integer",
+                                                    "example": 80
+                                                },
+                                                "proposeCount": {
+                                                    "description": "Số lượng đề xuất",
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "importProductProposeCount": {
+                                                    "description": "Số lượng đề xuất nhập thành phẩm",
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "exportProductProposeCount": {
+                                                    "description": "Số lượng đề xuất xuất thành phẩm",
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "importMaterialProposeCount": {
+                                                    "description": "Số lượng đề xuất nhập nguyên vật liệu",
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "exportMaterialProposeCount": {
+                                                    "description": "Số lượng đề xuất xuất nguyên vật liệu",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "productReceiptCount": {
+                                                    "description": "Số lượng phiếu nhập thành phẩm",
+                                                    "type": "integer",
+                                                    "example": 50
+                                                },
+                                                "productExportCount": {
+                                                    "description": "Số lượng phiếu xuất thành phẩm",
+                                                    "type": "integer",
+                                                    "example": 40
+                                                },
+                                                "materialReceiptCount": {
+                                                    "description": "Số lượng phiếu nhập nguyên vật liệu",
+                                                    "type": "integer",
+                                                    "example": 30
+                                                },
+                                                "materialExportCount": {
+                                                    "description": "Số lượng phiếu xuất nguyên vật liệu",
+                                                    "type": "integer",
+                                                    "example": 25
+                                                },
+                                                "inventoryReportCount": {
+                                                    "description": "Số lượng báo cáo kiểm kê",
+                                                    "type": "integer",
+                                                    "example": 12
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "description": "Mã trạng thái HTTP",
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy dữ liệu."
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Không thể lấy dữ liệu, vui lòng thử lại sau."
+                                        },
+                                        "status": {
+                                            "description": "Mã trạng thái HTTP",
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/inventory-reports": {
             "get": {
                 "tags": [
@@ -9256,6 +9408,10 @@
         {
             "name": "Category",
             "description": "Category"
+        },
+        {
+            "name": "Dashboard",
+            "description": "Dashboard"
         },
         {
             "name": "Inventory Reports",
