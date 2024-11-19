@@ -15,6 +15,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialExportController;
 use App\Http\Controllers\MaterialReceiptController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductExportController;
 use App\Http\Controllers\ProductReceiptController;
@@ -397,5 +398,20 @@ Route::group(
     ],
     function ($router) {
         Route::get('dashboard', [DashboardController::class, 'index']);
+    }
+);
+
+//Notify
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        Route::get('noti', [NotificationController::class, 'index']);
     }
 );

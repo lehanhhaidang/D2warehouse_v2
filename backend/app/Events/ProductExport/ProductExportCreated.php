@@ -2,6 +2,8 @@
 
 namespace App\Events\ProductExport;
 
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -32,21 +34,42 @@ class ProductExportCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('product-Export'),
+            new PrivateChannel('product-export'),
         ];
     }
 
     public function broadcastAs(): string
     {
-        return 'product-Export.created';
+        return 'product-export.created';
     }
 
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => $this->productExport->created_by,
+            'message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công',
+        ]);
+
+        $ids = User::where(function ($query) {
+            $query->where('role_id', 2)
+                ->orWhere('role_id', 3)
+                ->orWhere('role_id', 4);
+        })
+            ->where('id', '!=', $this->productExport->created_by)
+            ->pluck('id')
+            ->toArray();
+
+        foreach ($ids as $id) {
+            Notification::create([
+                'user_id' => $id,
+                'message' => $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name,
+            ]);
+        }
         return [
             'manager_message' =>  $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name,
             'employee_message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công',
             'product_receipt_id' => $this->productExport->id,
+            'product_receipt_created_by' => $this->productExport->created_by,
         ];
     }
 }

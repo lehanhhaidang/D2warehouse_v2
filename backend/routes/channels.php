@@ -27,3 +27,19 @@ Broadcast::channel('shelf', function ($user) {
 Broadcast::channel('propose', function ($user) {
     return in_array($user->role_id, [2, 3, 4]);
 });
+
+Broadcast::channel('product-receipt', function ($user) {
+    return in_array($user->role_id, [2, 3, 4]);
+});
+
+Broadcast::channel('material-receipt', function ($user) {
+    return in_array($user->role_id, [2, 3, 4]);
+});
+
+Broadcast::channel('product-export', function ($user) {
+    return in_array($user->role_id, [2, 3, 4]);
+});
+
+Broadcast::channel('material-export', function ($user) {
+    return in_array($user->role_id, [2, 3, 4]);
+});

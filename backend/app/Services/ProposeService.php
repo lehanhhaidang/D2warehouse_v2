@@ -114,6 +114,8 @@ class ProposeService
             'description' => $data['description'],
             'type' => $data['type'],
             'created_by' => Auth::id(),
+            'assigned_to' => $data['assigned_to'] ?? null,
+            'order_id' => $data['order_id'] ?? null,
         ];
 
         return $this->proposeRepository->createPropose($proposeData);
@@ -255,7 +257,7 @@ class ProposeService
 
             abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
             abort_if($propose->created_by !== Auth::id(), 403, 'Bạn không có quyền gửi đề xuất này!');
-            // abort_if($propose->status !== 0, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được gửi đi từ trước.');
+            abort_if($propose->status !== 0, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được gửi đi từ trước.');
 
             return $this->proposeRepository->updatePropose($id, ['status' => 1]);
         } catch (\Exception $e) {
@@ -314,6 +316,7 @@ class ProposeService
             $roleId = User::find(Auth::id())->role_id;
 
             abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
+            // abort_if($propose->status !== 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này chưa được gửi đi.');
             abort_if(
                 ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3]) ||
                     ($propose->type === 'DXNNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,

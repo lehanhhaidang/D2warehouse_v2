@@ -28,6 +28,8 @@ class StoreUserRequest extends FormRequest
             'password' => 'string',
             'role_id' => 'required|exists:roles,id',
             'img_url' => 'nullable|string',
+            'warehouse_ids' => 'nullable|array',
+            'warehouse_ids.*' => 'exists:warehouses,id',
         ];
     }
 
@@ -41,6 +43,8 @@ class StoreUserRequest extends FormRequest
             'img_url.string' => 'Image url must be string',
             'role_id.exists' => 'Role does not exist',
             'phone.required' => 'Phone is required',
+            'warehouse_ids.array' => 'Warehouse ids must be an array',
+            'warehouse_ids.*.exists' => 'Warehouse id does not exist',
 
         ];
     }

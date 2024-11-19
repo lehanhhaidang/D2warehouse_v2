@@ -35,6 +35,8 @@ class UpdateUserRequest extends FormRequest
             'img_url' => 'nullable|string',
             'phone' => 'required|string',
             'role_id' => 'required|exists:roles,id',
+            'warehouse_ids' => 'nullable|array',
+            'warehouse_ids.*' => 'exists:warehouses,id',
         ];
     }
 
@@ -48,6 +50,9 @@ class UpdateUserRequest extends FormRequest
             'phone.required' => 'Phone is required',
             'role_id.required' => 'Role is required',
             'img_url.string' => 'Image url must be string',
+            'warehouse_ids.array' => 'Warehouse ids must be an array',
+            'warehouse_ids.*.exists' => 'Warehouse id is invalid',
+
 
         ];
     }

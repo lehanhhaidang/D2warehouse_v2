@@ -68,7 +68,7 @@ class UserController extends Controller
      * @OA\Post(
      *     path="/api/v1/user/add",
      *     summary="Add a new user",
-     *     description="Creates a new user with provided details",
+     *     description="Creates a new user with provided details and assigns warehouses if provided",
      *     tags={"User"},
      *     @OA\RequestBody(
      *         required=true,
@@ -77,8 +77,15 @@ class UserController extends Controller
      *             @OA\Property(property="name", type="string", example="Dang"),
      *             @OA\Property(property="email", type="string", example="dang@gmail.com"),
      *             @OA\Property(property="password", type="string", example="12345678"),
+     *             @OA\Property(property="img_url", type="string", example="img.png"),
      *             @OA\Property(property="phone", type="string", example="0123456789"),
-     *             @OA\Property(property="role_id", type="integer", example=1)
+     *             @OA\Property(property="role_id", type="integer", example=1),
+     *             @OA\Property(
+     *                 property="warehouse_ids",
+     *                 type="array",
+     *                 description="List of warehouse IDs to assign to the user",
+     *                 @OA\Items(type="integer", example=1)
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -100,10 +107,11 @@ class UserController extends Controller
      */
 
 
+
     public function store(StoreUserRequest $request)
     {
         try {
-            // dd($request->all());
+            // Tạo user mới
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -111,8 +119,20 @@ class UserController extends Controller
                 'img_url' => $request->img_url,
                 'phone' => $request->phone,
                 'role_id' => $request->role_id,
+                'created_at' => now(),
             ];
-            $this->userRepository->create($data);
+            $user = $this->userRepository->create($data);
+
+            // Gắn kho cho user nếu có warehouse_id trong request
+            if ($request->has('warehouse_ids')) {
+                foreach ($request->warehouse_ids as $warehouseId) {
+                    DB::table('warehouse_staff')->insert([
+                        'user_id' => $user->id,
+                        'warehouse_id' => $warehouseId,
+                        'assigned_at' => now(),
+                    ]);
+                }
+            }
 
             return response()->json([
                 'message' => 'Tạo mới người dùng thành công'
@@ -124,6 +144,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+
 
 
 
@@ -192,7 +213,7 @@ class UserController extends Controller
      * @OA\Put(
      *     path="/api/v1/user/update/{id}",
      *     summary="Update user by ID",
-     *     description="Updates the details of a user based on the provided ID",
+     *     description="Updates the details of a user and assigns warehouses if provided",
      *     tags={"User"},
      *     @OA\Parameter(
      *         name="id",
@@ -210,7 +231,16 @@ class UserController extends Controller
      *             type="object",
      *             @OA\Property(property="name", type="string", example="Dang"),
      *             @OA\Property(property="email", type="string", example="dang@gmail.com"),
-     *             @OA\Property(property="password", type="string", example="12345678")
+     *             @OA\Property(property="password", type="string", example="12345678"),
+     *             @OA\Property(property="img_url", type="string", example="img.png"),
+     *             @OA\Property(property="phone", type="string", example="0123456789"),
+     *             @OA\Property(property="role_id", type="integer", example=1),
+     *             @OA\Property(
+     *                 property="warehouse_ids",
+     *                 type="array",
+     *                 description="List of warehouse IDs to assign to the user",
+     *                 @OA\Items(type="integer", example=1)
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -241,6 +271,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         try {
+            // Cập nhật user
             $user = $this->userRepository->update($id, [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -248,7 +279,6 @@ class UserController extends Controller
                 'password' => bcrypt($request->password),
                 'phone' => $request->phone,
                 'role_id' => $request->role_id,
-
             ]);
 
             if (!$user) {
@@ -256,6 +286,21 @@ class UserController extends Controller
                     'message' => 'Không tìm thấy người dùng này',
                     'status' => 404,
                 ], 404);
+            }
+
+            // Cập nhật kho cho user nếu có warehouse_ids
+            if ($request->has('warehouse_ids')) {
+                // Xóa bản ghi cũ trong bảng warehouse_staff
+                DB::table('warehouse_staff')->where('user_id', $id)->delete();
+
+                // Thêm bản ghi mới
+                foreach ($request->warehouse_ids as $warehouseId) {
+                    DB::table('warehouse_staff')->insert([
+                        'user_id' => $id,
+                        'warehouse_id' => $warehouseId,
+                        'assigned_at' => now(),
+                    ]);
+                }
             }
 
             return response()->json([
@@ -270,6 +315,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+
 
     /**
      * @OA\Delete(
@@ -424,6 +470,42 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Không tìm thấy người dùng với email này'], 404);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/v1/users/warehouse-employees/{id}",
+     *     summary="Lấy danh sách nhân viên trong một kho",
+     *     description="Trả về danh sách các nhân viên thuộc một kho cụ thể dựa trên ID kho.",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID của kho cần lấy danh sách nhân viên",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách nhân viên trong kho",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=4),
+     *                 @OA\Property(property="name", type="string", example="Nguyễn Huỳnh Hương")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy kho hoặc kho không có nhân viên."
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
 
     public function getemployeeByWarehouse($id)
     {

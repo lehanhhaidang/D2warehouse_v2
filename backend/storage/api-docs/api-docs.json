@@ -8234,7 +8234,7 @@
                     "User"
                 ],
                 "summary": "Add a new user",
-                "description": "Creates a new user with provided details",
+                "description": "Creates a new user with provided details and assigns warehouses if provided",
                 "operationId": "664cf2da0c2a0b464e911bb604fd1b21",
                 "requestBody": {
                     "required": true,
@@ -8254,6 +8254,10 @@
                                         "type": "string",
                                         "example": "12345678"
                                     },
+                                    "img_url": {
+                                        "type": "string",
+                                        "example": "img.png"
+                                    },
                                     "phone": {
                                         "type": "string",
                                         "example": "0123456789"
@@ -8261,6 +8265,14 @@
                                     "role_id": {
                                         "type": "integer",
                                         "example": 1
+                                    },
+                                    "warehouse_ids": {
+                                        "description": "List of warehouse IDs to assign to the user",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -8415,7 +8427,7 @@
                     "User"
                 ],
                 "summary": "Update user by ID",
-                "description": "Updates the details of a user based on the provided ID",
+                "description": "Updates the details of a user and assigns warehouses if provided",
                 "operationId": "d16e27e76fb173ceda5da80e43fc25a2",
                 "parameters": [
                     {
@@ -8446,6 +8458,26 @@
                                     "password": {
                                         "type": "string",
                                         "example": "12345678"
+                                    },
+                                    "img_url": {
+                                        "type": "string",
+                                        "example": "img.png"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "role_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "warehouse_ids": {
+                                        "description": "List of warehouse IDs to assign to the user",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -8561,6 +8593,58 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/v1/users/warehouse-employees/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Lấy danh sách nhân viên trong một kho",
+                "description": "Trả về danh sách các nhân viên thuộc một kho cụ thể dựa trên ID kho.",
+                "operationId": "0205b4a200e52954d0d6bfb9f5ee80d2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của kho cần lấy danh sách nhân viên",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Danh sách nhân viên trong kho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 4
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Nguyễn Huỳnh Hương"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy kho hoặc kho không có nhân viên."
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     }
                 }
             }

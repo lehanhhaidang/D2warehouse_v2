@@ -2,7 +2,9 @@
 
 namespace App\Events\ProductReceipt;
 
+use App\Models\Notification;
 use App\Models\Propose;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -45,10 +47,31 @@ class ProductReceiptCreated implements ShouldBroadcastNow
 
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => $this->productReceipt->created_by,
+            'message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công',
+        ]);
+
+        $ids = User::where(function ($query) {
+            $query->where('role_id', 2)
+                ->orWhere('role_id', 3)
+                ->orWhere('role_id', 4);
+        })
+            ->where('id', '!=', $this->productReceipt->created_by)
+            ->pluck('id')
+            ->toArray();
+
+        foreach ($ids as $id) {
+            Notification::create([
+                'user_id' => $id,
+                'message' => $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name,
+            ]);
+        }
         return [
             'manager_message' =>  $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name,
             'employee_message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công',
             'product_receipt_id' => $this->productReceipt->id,
+            'product_receipt_created_by' => $this->productReceipt->created_by,
         ];
     }
 }

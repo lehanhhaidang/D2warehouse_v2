@@ -2,6 +2,8 @@
 
 namespace App\Events\MaterialExport;
 
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -44,10 +46,31 @@ class MaterialExportCreated implements ShouldBroadcastNow
 
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => $this->materialExport->created_by,
+            'message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công',
+        ]);
+
+        $ids = User::where(function ($query) {
+            $query->where('role_id', 2)
+                ->orWhere('role_id', 3)
+                ->orWhere('role_id', 4);
+        })
+            ->where('id', '!=', $this->materialExport->created_by)
+            ->pluck('id')
+            ->toArray();
+
+        foreach ($ids as $id) {
+            Notification::create([
+                'user_id' => $id,
+                'message' => $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name,
+            ]);
+        }
         return [
             'manager_message' =>  $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name,
             'employee_message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công',
-            'material_Export_id' => $this->materialExport->id,
+            'product_receipt_id' => $this->materialExport->id,
+            'product_receipt_created_by' => $this->materialExport->created_by,
         ];
     }
 }

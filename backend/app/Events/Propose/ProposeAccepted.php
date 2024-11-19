@@ -54,7 +54,7 @@ class ProposeAccepted implements ShouldBroadcastNow
         ]);
         Notification::create([
             'user_id' => Auth::id(),
-            'message' => 'Bạn đã xét duyệt ' . $this->propose->name . ' của ' . User::find($this->propose->id)->name . ' thành công.',
+            'message' => 'Bạn đã xét duyệt ' . $this->propose->name . ' của ' . User::find($this->propose->created_by)->name . ' thành công.',
         ]);
 
         return [

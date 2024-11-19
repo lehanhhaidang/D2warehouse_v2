@@ -12,6 +12,7 @@ class ShelfDetail extends Model
     protected $fillable = [
         'shelf_id',
         'product_id',
+        'material_id',
         'unit',
         'quantity',
     ];

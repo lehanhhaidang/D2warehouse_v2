@@ -12,6 +12,7 @@ use App\Repositories\Interface\DashboardRepositoryInterface;
 use App\Repositories\Interface\MaterialExportRepositoryInterface;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Repositories\Interface\MaterialRepositoryInterface;
+use App\Repositories\Interface\NotificationRepositoryInterface;
 use App\Repositories\Interface\ProductExportRepositoryInterface;
 use App\Repositories\Interface\ProductReceiptRepositoryInterface;
 use App\Repositories\Interface\UserRepositoryInterface;
@@ -26,6 +27,7 @@ use App\Repositories\MaterialExportRepository;
 use App\Repositories\MaterialReceiptRepository;
 use App\Repositories\ShelfRepository;
 use App\Repositories\MaterialRepository;
+use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductExportRepository;
 use App\Repositories\ProductReceiptRepository;
@@ -69,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProposeRepositoryInterface::class, ProposeRepository::class);
 
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+
+        $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
 
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
     }
