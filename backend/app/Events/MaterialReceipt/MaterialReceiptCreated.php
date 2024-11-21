@@ -67,6 +67,7 @@ class MaterialReceiptCreated implements ShouldBroadcastNow
             ]);
         }
         return [
+            'event' => 'material-receipt.created',
             'manager_message' =>  $this->materialReceipt->user->name . ' đã tạo ' . $this->materialReceipt->name . ' dựa trên ' . $this->materialReceipt->propose->name,
             'employee_message' => 'Bạn đã tạo ' . $this->materialReceipt->name . ' dựa trên ' . $this->materialReceipt->propose->name . ' thành công',
             'product_receipt_id' => $this->materialReceipt->id,

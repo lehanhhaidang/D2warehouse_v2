@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class InventoryReportDeleted implements ShouldBroadcastNow
+class InventoryReportUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -40,16 +40,16 @@ class InventoryReportDeleted implements ShouldBroadcastNow
 
     public function broadcastAs(): string
     {
-        return 'inventory-report.deleted';
+        return 'inventory-report.updated';
     }
 
     public function broadcastWith(): array
     {
         return [
-            'event' => 'inventory-report.deleted',
-            'owner_message' => InventoryReport::withTrashed()->find($this->inventoryReport)->name . ' đã được xóa thành công.',
+            'event' => 'inventory-report.updated',
+            'owner_message' => InventoryReport::find($this->inventoryReport)->name . ' đã được cập nhật thành công.',
             'inventoryReport_id' => $this->inventoryReport,
-            'inventoryReport_created_by' => InventoryReport::withTrashed()->find($this->inventoryReport)->created_by,
+            'inventoryReport_created_by' => InventoryReport::find($this->inventoryReport)->created_by,
         ];
     }
 }

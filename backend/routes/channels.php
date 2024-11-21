@@ -43,3 +43,7 @@ Broadcast::channel('product-export', function ($user) {
 Broadcast::channel('material-export', function ($user) {
     return in_array($user->role_id, [2, 3, 4]);
 });
+
+Broadcast::channel('inventory-report', function ($user) {
+    return in_array($user->role_id, [2, 4]);
+});

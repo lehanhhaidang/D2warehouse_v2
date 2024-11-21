@@ -1110,6 +1110,9 @@
 
                 <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                     Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                    {{-- <?php
+                    echo 'Current PHP version: ' . phpversion();
+                    ?> --}}
                 </footer>
             </div>
         </div>
@@ -1118,35 +1121,3 @@
 
 </html>
 <!DOCTYPE html>
-
-<head>
-    <title>Pusher Test</title>
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <script>
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher('8a44b6c8198314f04256', {
-            cluster: 'ap1',
-            // authEndpoint: '/broadcasting/auth', // Endpoint để xác thực người dùng
-            // auth: {
-            //     headers: {
-            //         Authorization: 'Bearer ' + accessToken // Thêm access token
-            //     }
-            // }
-        });
-
-        var channel = pusher.subscribe('product');
-        channel.bind('product.created', function(data) {
-            alert(JSON.stringify(data));
-        });
-    </script>
-</head>
-
-<body>
-    <h1>Pusher Test</h1>
-    <p>
-        Try publishing an event to channel <code>my-channel</code>
-        with event name <code>my-event</code>.
-    </p>
-</body>

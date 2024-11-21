@@ -130,6 +130,7 @@ class PermissionSeeder extends Seeder
             'delete_inventory_reports',
             'send_inventory_report',
             'confirm_inventory_report',
+            'reject_inventory_report',
 
 
 

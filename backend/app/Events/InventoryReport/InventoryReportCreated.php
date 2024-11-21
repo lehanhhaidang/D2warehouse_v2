@@ -41,11 +41,10 @@ class InventoryReportCreated implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            'message' => $this->inventoryReport->user->name . ' vừa tạo một phiếu kiểm kê kho mới',
-            'inventory_report' => [
-                'id' => $this->inventoryReport->id,
-                'name' => $this->inventoryReport->name,
-            ],
+            'event' => 'inventory-report.created',
+            'owner_message' => 'Bạn đã tạo ' . $this->inventoryReport->name . ' thành công, hãy kiểm tra và gửi cho cấp trên',
+            'inventoryReport_id' => $this->inventoryReport->id,
+            'inventoryReport_created_by' => $this->inventoryReport->created_by,
         ];
     }
 }

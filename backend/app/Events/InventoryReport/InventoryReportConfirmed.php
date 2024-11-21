@@ -49,8 +49,12 @@ class InventoryReportConfirmed implements ShouldBroadcastNow
     {
 
         return [
-            'message' => Auth::id() . ' đã xác nhận ' . $this->inventoryReport->name,
-            'inventoryReport' => $this->inventoryReport,
+            'event' => 'inventory-report.confirmed',
+            'owner_message' => User::find(Auth::id())->name . ' đã xác nhận ' . $this->inventoryReport->name . ' của bạn',
+            'reviewer_message' => 'Bạn đã xác nhận ' . $this->inventoryReport->name . ' của ' . User::find($this->inventoryReport->created_by)->name . ' thành công',
+            'inventoryReport' => $this->inventoryReport->id,
+            'inventoryReport_created_by' => $this->inventoryReport->created_by,
+            'reviewer_id' => Auth::id(),
         ];
     }
 }

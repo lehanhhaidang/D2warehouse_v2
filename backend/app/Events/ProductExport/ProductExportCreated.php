@@ -66,6 +66,7 @@ class ProductExportCreated implements ShouldBroadcastNow
             ]);
         }
         return [
+            'event' => 'product-export.created',
             'manager_message' =>  $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name,
             'employee_message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công',
             'product_receipt_id' => $this->productExport->id,

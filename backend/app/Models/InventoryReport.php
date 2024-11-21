@@ -16,6 +16,7 @@ class InventoryReport extends Model
         'created_by',
         'created_at',
         'description',
+        'status',
     ];
 
 

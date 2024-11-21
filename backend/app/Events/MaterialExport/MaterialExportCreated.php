@@ -67,6 +67,7 @@ class MaterialExportCreated implements ShouldBroadcastNow
             ]);
         }
         return [
+            'event' => 'material-export.created',
             'manager_message' =>  $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name,
             'employee_message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công',
             'product_receipt_id' => $this->materialExport->id,

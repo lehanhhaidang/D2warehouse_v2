@@ -49,6 +49,7 @@ class RoleSeeder extends Seeder
             //Inventory Reports
             'view_inventory_reports',
             'confirm_inventory_report',
+            'reject_inventory_report',
 
             //Proposes
             'view_proposes',

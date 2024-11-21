@@ -46,15 +46,12 @@ class InventoryReportSent implements ShouldBroadcastNow
 
     public function broadcastWith()
     {
-        if (InventoryReport::find($this->inventoryReport)->user->id ==  Auth::id()) {
-            return [
-                'message' => 'Bạn vừa gửi ' . InventoryReport::find($this->inventoryReport)->name,
-                'inventoryReport' => $this->inventoryReport,
-            ];
-        }
         return [
-            'message' => InventoryReport::find($this->inventoryReport)->user->name . ' vừa gửi ' . InventoryReport::find($this->inventoryReport)->name,
-            'inventoryReport' => $this->inventoryReport,
+            'event' => 'inventory-report.sent',
+            'owner_message' => InventoryReport::find($this->inventoryReport)->name . ' đã được gửi thành công.',
+            'other_message' => InventoryReport::find($this->inventoryReport)->user->name . ' đã gửi ' . InventoryReport::find($this->inventoryReport)->name,
+            'inventoryReport_id' => $this->inventoryReport,
+            'inventoryReport_created_by' => InventoryReport::find($this->inventoryReport)->created_by,
         ];
     }
 }

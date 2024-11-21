@@ -60,21 +60,4 @@ class ProposeCreated implements ShouldBroadcastNow
             'propose_created_by' => $this->propose->created_by,
         ];
     }
-
-    // public function broadcastWith(): array
-    // {
-    //     $service = app(\App\Services\NotificationService::class);
-
-    //     $message = $service->formatMessage(
-    //         'propose',
-    //         'đã được tạo thành công!',
-    //         $this->propose->id
-    //     );
-
-    //     return $service->notifyAllUsers(
-    //         'propose.created',
-    //         $message,
-    //         $this->propose->id
-    //     );
-    // }
 }

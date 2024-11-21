@@ -3,6 +3,7 @@
 namespace App\Events\InventoryReport;
 
 use App\Models\InventoryReport;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -46,13 +47,13 @@ class InventoryReportRejected implements ShouldBroadcastNow
 
     public function broadcastWith()
     {
-        $message = $this->inventoryReport->user->id === Auth::id()
-            ? 'Bạn vừa xác nhận ' . $this->inventoryReport->name
-            : $this->inventoryReport->user->name . ' đã từ chối ' . $this->inventoryReport->name . ' của bạn ';
-
         return [
-            'message' => $message,
+            'event' => 'inventory-report.rejected',
+            'owner_message' => User::find(Auth::id())->name . ' đã từ chối ' . $this->inventoryReport->name . ' của bạn',
+            'reviewer_message' => 'Bạn đã từ chối ' . $this->inventoryReport->name . ' của ' . User::find($this->inventoryReport->created_by)->name . ' thành công',
             'inventoryReport' => $this->inventoryReport,
+            'inventoryReport_created_by' => $this->inventoryReport->created_by,
+            'reviewer_id' => Auth::id(),
         ];
     }
 }

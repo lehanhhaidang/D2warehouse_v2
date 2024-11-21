@@ -68,6 +68,7 @@ class ProductReceiptCreated implements ShouldBroadcastNow
             ]);
         }
         return [
+            'event' => 'product-receipt.created',
             'manager_message' =>  $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name,
             'employee_message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công',
             'product_receipt_id' => $this->productReceipt->id,

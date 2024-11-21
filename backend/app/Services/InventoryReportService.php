@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\InventoryReport;
+use App\Models\User;
 use App\Repositories\InventoryReportRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,8 @@ class InventoryReportService
                     'warehouse_name' => $inventoryReport->warehouse ? $inventoryReport->warehouse->name : null,
                     'status' => $inventoryReport->status,
                     'description' => $inventoryReport->description,
-                    'created_by' => $inventoryReport->user ? $inventoryReport->user->name : null,
+                    'created_by' => $inventoryReport->created_by,
+                    'created_by_name' => $inventoryReport->user ? $inventoryReport->user->name : null,
                     'created_at' => $inventoryReport->created_at,
                     'updated_at' => $inventoryReport->updated_at,
                     'details' => $inventoryReport->inventoryReportDetails->map(function ($detail) {
@@ -72,7 +74,8 @@ class InventoryReportService
                 'warehouse_name' => $inventoryReport->warehouse ? $inventoryReport->warehouse->name : null,
                 'status' => $inventoryReport->status,
                 'description' => $inventoryReport->description,
-                'created_by' => $inventoryReport->user ? $inventoryReport->user->name : null,
+                'created_by' => $inventoryReport->created_by,
+                'created_by_name' => $inventoryReport->user ? $inventoryReport->user->name : null,
                 'created_at' => $inventoryReport->created_at,
                 'updated_at' => $inventoryReport->updated_at,
                 'details' => $inventoryReport->inventoryReportDetails->map(function ($detail) {
@@ -109,6 +112,10 @@ class InventoryReportService
                 'created_at' => now(),
             ];
 
+            if (User::find(Auth::id())->role_id !== 4) {
+                throw new \Exception("Bạn không có quyền tạo phiếu kiểm kê", 403);
+            }
+
             return $this->inventoryReportRepository->createInventoryReport($inventoryReportData);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), 500);
@@ -118,7 +125,6 @@ class InventoryReportService
     public function createInventoryReportDetails(int $inventoryReportId, array $detail)
     {
         try {
-
             $inventoryReportDetailData = [
                 'inventory_report_id' => $inventoryReportId,
                 'shelf_id' => $detail['shelf_id'],
@@ -227,6 +233,10 @@ class InventoryReportService
                 throw new \Exception("Không tìm thấy phiếu kiểm kê này", 404);
             }
 
+            if ($inventoryReport->status !== 0) {
+                throw new \Exception("Không thể xóa phiếu kiểm kê đã được gửi đi hoặc đã được xử lý", 400);
+            }
+
             if ($inventoryReport->created_by !== Auth::id()) {
                 throw new \Exception("Bạn không có quyền xóa phiếu kiểm kê này", 403);
             }
@@ -267,11 +277,15 @@ class InventoryReportService
             if (!$inventoryReport) {
                 throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
             }
-            if ($inventoryReport->status !== 0) {
+            if ($inventoryReport->status > 1) {
                 throw new \Exception('Trạng thái phiếu kiểm kê không hợp lệ, có vẻ phiếu đã được xử lý', 400);
             }
             if (!in_array($roleId, [2, 3])) {
                 throw new \Exception('Bạn không có quyền xử lý phiếu kiểm kê', 403);
+            }
+
+            if ($inventoryReport->status < 1) {
+                throw new \Exception('Không thể từ chối phiếu kiểm kê chưa được gửi', 400);
             }
             $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 2]);
             return $inventoryReport;
@@ -290,11 +304,15 @@ class InventoryReportService
             if (!$inventoryReport) {
                 throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
             }
-            if ($inventoryReport->status !== 0) {
+            if ($inventoryReport->status > 1) {
                 throw new \Exception('Trạng thái phiếu kiểm kê không hợp lệ, có vẻ phiếu đã được xử lý', 400);
             }
             if (!in_array($roleId, [2, 3])) {
                 throw new \Exception('Bạn không có quyền xử lý phiếu kiểm kê', 403);
+            }
+
+            if ($inventoryReport->status < 1) {
+                throw new \Exception('Không thể từ chối phiếu kiểm kê chưa được gửi', 400);
             }
             $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 3]);
             return $inventoryReport;

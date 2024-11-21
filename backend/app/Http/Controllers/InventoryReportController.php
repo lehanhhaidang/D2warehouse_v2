@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Events\InventoryReport\InventoryReportConfirmed;
 use App\Events\InventoryReport\InventoryReportCreated;
 use App\Events\InventoryReport\InventoryReportDeleted;
+use App\Events\InventoryReport\InventoryReportRejected;
 use App\Events\InventoryReport\InventoryReportSent;
+use App\Events\InventoryReport\InventoryReportUpdated;
 use App\Http\Requests\InventoryReport\InventoryReportRequest;
 use App\Models\InventoryReport;
 use App\Services\InventoryReportService;
@@ -362,6 +364,8 @@ class InventoryReportController extends Controller
         try {
             $inventoryReport = $this->inventoryReportService->updateInventoryReportWithDetails($id, $request->all());
 
+            event(new InventoryReportUpdated($id));
+
             return response()->json([
                 'message' => 'Cập nhật phiếu kiểm kê kho thành công',
                 'status' => 200,
@@ -679,6 +683,7 @@ class InventoryReportController extends Controller
     {
         try {
             $inventoryReport = $this->inventoryReportService->rejectInventoryReport($id);
+            event(new InventoryReportRejected($inventoryReport->id));
 
             return response()->json([
                 'message' => 'Từ chối phiếu kiểm kê thành công',
