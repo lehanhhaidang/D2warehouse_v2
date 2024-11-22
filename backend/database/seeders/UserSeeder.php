@@ -49,21 +49,29 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'name' => 'Nhân viên kho 01',
-                'email' => 'nvk@gmail.com',
+                'name' => 'Trần Thị Thanh Hương',
+                'email' => 'huongbaby@gmail.com',
                 'password' => bcrypt('123456'),
                 'phone' => '0123456782',
                 'role_id' => 4,
                 'created_at' => now(),
             ],
             [
-                'name' => 'Nhân viên kho 02',
-                'email' => 'nvk1@gmail.com',
+                'name' => 'Tô Hoài Nam',
+                'email' => 'hoainam@gmail.com',
                 'password' => bcrypt('123456'),
                 'phone' => '0123456781',
                 'role_id' => 4,
                 'created_at' => now(),
             ],
+            [
+                'name' => 'Nguyễn Thị Thanh Thảo',
+                'email' => 'thanhthao@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '0123456780',
+                'role_id' => 4,
+                'created_at' => now(),
+            ]
 
         ]);
     }

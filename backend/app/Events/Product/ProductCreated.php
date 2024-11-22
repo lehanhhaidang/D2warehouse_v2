@@ -44,37 +44,21 @@ class ProductCreated implements ShouldBroadcastNow
         return 'product.created';
     }
 
-    // public function broadcastWith(): array
-    // {
-
-    //     $users = User::all()->pluck('id');
-    //     foreach ($users as $user) {
-    //         Notification::create([
-    //             'user_id' => $user,
-    //             'message' => 'Một thành phẩm mới đã được tạo: ' . $this->product->name,
-    //         ]);
-    //     }
-    //     return [
-    //         'event' => 'product.created',
-    //         'message' => 'Một thành phẩm mới đã được tạo: ' . $this->product->name,
-    //         'product' => $this->product->id
-    //     ];
-    // }
-
     public function broadcastWith(): array
     {
-        $service = app(\App\Services\NotificationService::class);
 
-        $message = $service->formatMessage(
-            'product',
-            'vừa được tạo',
-            $this->product->id
-        );
-
-        return $service->notifyAllUsers(
-            'product.created',
-            $message,
-            $this->product->id
-        );
+        $users = User::all()->pluck('id');
+        foreach ($users as $user) {
+            Notification::create([
+                'user_id' => $user,
+                'message' => 'Một thành phẩm mới đã được tạo: ' . $this->product->name,
+                'url' => '/product'
+            ]);
+        }
+        return [
+            'event' => 'product.created',
+            'message' => 'Một thành phẩm mới đã được tạo: ' . $this->product->name,
+            'product' => $this->product->id
+        ];
     }
 }

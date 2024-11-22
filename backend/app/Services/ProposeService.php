@@ -316,7 +316,7 @@ class ProposeService
             $roleId = User::find(Auth::id())->role_id;
 
             abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
-            // abort_if($propose->status !== 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này chưa được gửi đi.');
+            abort_if($propose->status < 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này chưa được gửi đi.');
             abort_if(
                 ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3]) ||
                     ($propose->type === 'DXNNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,

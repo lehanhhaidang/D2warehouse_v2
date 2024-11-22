@@ -17,7 +17,7 @@ class MaterialSeeder extends Seeder
             [
                 'name' => 'Nhựa HDPE',
                 'unit' => 'bao',
-                'quantity' => 50,
+                'quantity' => 0,
                 'category_id' => 3,
                 'status' => 1,
                 'created_at' => now(),
@@ -26,7 +26,7 @@ class MaterialSeeder extends Seeder
             [
                 'name' => 'Nhựa PET',
                 'unit' => 'bao',
-                'quantity' => 50,
+                'quantity' => 0,
                 'category_id' => 4,
                 'status' => 1,
                 'created_at' => now(),

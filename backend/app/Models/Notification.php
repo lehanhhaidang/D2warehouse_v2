@@ -13,6 +13,7 @@ class Notification extends Model
         'user_id',
         'message',
         'status',
+        'url'
     ];
 
     // Mối quan hệ với User

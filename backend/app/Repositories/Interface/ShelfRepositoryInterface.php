@@ -12,6 +12,7 @@ interface ShelfRepositoryInterface
     public function delete($id);
     public function filterShelves($warehouseId, $ccategoryId);
 
+
     public function getShelvesWithProductsByWarehouseId($id);
 
     public function getShelvesWithMaterialsByWarehouseId($id);

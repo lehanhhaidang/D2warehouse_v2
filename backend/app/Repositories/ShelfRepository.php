@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Shelf;
+use App\Models\ShelfDetail;
 use App\Repositories\Interface\ShelfRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
@@ -70,6 +71,7 @@ class ShelfRepository implements ShelfRepositoryInterface
             ->select('id', 'name') // Chỉ lấy id và name
             ->get();
     }
+
 
     public function getShelvesWithProductsByWarehouseId($id)
     {

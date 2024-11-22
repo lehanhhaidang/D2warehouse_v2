@@ -52,11 +52,12 @@ class ProposeCreated implements ShouldBroadcastNow
         Notification::create([
             'user_id' => $this->propose->created_by,
             'message' => $this->propose->name . ' của bạn đã được tạo thành công',
+            'url' => '/detail-propose/' . $this->propose->id,
         ]);
         return [
             'event' => 'propose.created',
             'message' =>  $this->propose->name . ' của bạn đã được tạo thành công',
-            'propose_name' => $this->propose->id,
+            'propose_id' => $this->propose->id,
             'propose_created_by' => $this->propose->created_by,
         ];
     }

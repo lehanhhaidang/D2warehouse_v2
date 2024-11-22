@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Repositories\Interface\ShelfRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Shelf;
+use App\Models\ShelfDetail;
 use App\Models\Warehouse;
 
 class ShelfService
@@ -141,8 +142,25 @@ class ShelfService
         }
 
         // Gọi repository để lọc kệ dựa trên warehouse_id và category_id
-        return $this->shelfRepository->filterShelves($warehouseId, $categoryId);
+        $shelves = $this->shelfRepository->filterShelves($warehouseId, $categoryId);
+
+        // Thêm thông tin tổng quantity vào name
+        foreach ($shelves as &$shelf) {
+            $quantity = ShelfDetail::where('shelf_id', $shelf['id'])
+                ->when($productId, function ($query) use ($productId) {
+                    $query->where('product_id', $productId);
+                })
+                ->when($materialId, function ($query) use ($materialId) {
+                    $query->where('material_id', $materialId);
+                })
+                ->sum('quantity');
+
+            $shelf['name'] .= " ({$quantity})";
+        }
+
+        return $shelves;
     }
+
 
     public function getShelfItemsByWarehouseId($id)
     {
