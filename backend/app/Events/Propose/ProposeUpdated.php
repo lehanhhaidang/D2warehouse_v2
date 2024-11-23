@@ -53,10 +53,12 @@ class ProposeUpdated implements ShouldBroadcastNow
         Notification::create([
             'user_id' => $this->propose->created_by,
             'message' => $this->propose->name . ' của bạn đã được cập nhật thành công.',
+            'url' => '/manager-detail/' . $this->propose->id,
         ]);
         return [
             'event' => 'propose.updated',
             'message' =>  $this->propose->name . ' của bạn đã được cập nhật thành công.',
+            'propose_id' => $this->propose->id,
             'propose_created_by' => $this->propose->created_by,
         ];
     }

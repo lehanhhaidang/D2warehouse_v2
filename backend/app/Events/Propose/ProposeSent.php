@@ -63,6 +63,7 @@ class ProposeSent implements ShouldBroadcastNow
         Notification::create([
             'user_id' => Auth::id(),  // Người gửi đề xuất (chủ sở hữu)
             'message' => $this->propose->name . ' của bạn đã được gửi đi, sẽ có thông báo khi đề xuất được phê duyệt.',
+            'url' => '/detail-propose/' . $this->propose->id,
         ]);
 
 
@@ -77,6 +78,7 @@ class ProposeSent implements ShouldBroadcastNow
             Notification::create([
                 'user_id' => $user->id,  // Người nhận thông báo
                 'message' => User::find($this->propose->created_by)->name . ' đã gửi ' . $this->propose->name,
+                'url' => '/detail-propose/' . $this->propose->id,
             ]);
         }
 

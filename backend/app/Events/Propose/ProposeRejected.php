@@ -63,11 +63,14 @@ class ProposeRejected implements ShouldBroadcastNow
         Notification::create([
             'user_id' => $this->propose->created_by,
             'message' => $this->propose->name . ' của bạn đã bị từ chối bởi ' . User::find(Auth::id())->name . '.',
+            'url' => '/detail-propose/' . $this->propose->id,
         ]);
         Notification::create([
             'user_id' => Auth::id(),
-            'message' => 'Bạn đã từ chối ' . $this->propose->name . ' của ' . User::find($this->propose->id)->name . '.',
+            'message' => 'Bạn đã từ chối ' . $this->propose->name . ' của ' . User::find($this->propose->created_by)->name . '.',
+            'url' => '/detail-propose/' . $this->propose->id,
         ]);
+
 
         return [
             'event' => 'propose.accepted',
