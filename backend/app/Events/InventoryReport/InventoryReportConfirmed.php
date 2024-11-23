@@ -36,7 +36,7 @@ class InventoryReportConfirmed implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('inventory-report'),
+            new PrivateChannel('global'),
         ];
     }
 

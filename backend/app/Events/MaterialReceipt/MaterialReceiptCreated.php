@@ -35,7 +35,7 @@ class MaterialReceiptCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('material-receipt'),
+            new PrivateChannel('global'),
         ];
     }
 

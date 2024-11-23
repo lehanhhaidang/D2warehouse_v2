@@ -34,7 +34,7 @@ class ProductExportCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('product-export'),
+            new PrivateChannel('global'),
         ];
     }
 

@@ -26,7 +26,7 @@ class MaterialCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('material'),
+            new PrivateChannel('global'),
         ];
     }
 

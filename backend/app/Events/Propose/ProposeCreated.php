@@ -33,7 +33,7 @@ class ProposeCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('propose'),
+            new PrivateChannel('global'),
         ];
     }
 

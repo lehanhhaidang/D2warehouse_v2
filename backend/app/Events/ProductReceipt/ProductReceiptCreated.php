@@ -36,7 +36,7 @@ class ProductReceiptCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('product-receipt'),
+            new PrivateChannel('global'),
         ];
     }
 
