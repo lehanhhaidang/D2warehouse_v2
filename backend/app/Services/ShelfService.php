@@ -87,8 +87,22 @@ class ShelfService
                 'name' => $request->name,
                 'number_of_levels' => $request->number_of_levels,
                 'storage_capacity' => $request->storage_capacity,
+                'category_id' => $request->category_id,
+                'warehouse_id' => $request->warehouse_id,
             ];
 
+            if ($data['warehouse_id'] != $shelf->warehouse_id) {
+                $shelfDetails = ShelfDetail::where('shelf_id', $id)->get();
+                if ($shelfDetails->count() > 0) {
+                    throw new \Exception('Kệ hàng đang chứa hàng, không thể chuyển sang kho hàng khác.');
+                }
+            }
+            if ($data['category_id'] != $shelf->category_id) {
+                $shelfDetails = ShelfDetail::where('shelf_id', $id)->get();
+                if ($shelfDetails->count() > 0) {
+                    throw new \Exception('Kệ hàng đang chứa hàng, không thể chuyển sang danh mục khác.');
+                }
+            }
             // Cập nhật kệ hàng
             $shelf->update($data);
 
@@ -108,6 +122,9 @@ class ShelfService
             $shelf = $this->shelfRepository->find($id);
             if (!$shelf) {
                 throw new ModelNotFoundException('Không tìm thấy kệ hàng.', 404);
+            }
+            if ($shelf->details->count() > 0) {
+                throw new \Exception('Kệ hàng đang chứa hàng, không thể xóa.');
             }
             // Xóa kệ hàng
             return $this->shelfRepository->delete($id);

@@ -97,7 +97,7 @@ class WarehouseService
                 'category_id' => $request->category_id,
             ];
 
-            return $this->warehouseRepository->update($id, $data);
+            return $this->warehouseRepository->update($data, $id);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -108,6 +108,9 @@ class WarehouseService
         $warehouse = $this->warehouseRepository->find($id);
         if (!$warehouse) {
             throw new ModelNotFoundException('Không tìm thấy kho.', 404);
+        }
+        if ($warehouse->shelves()->exists()) {
+            throw new \Exception('Không thể xóa kho vì vẫn còn dữ liệu liên quan.');
         }
         return $this->warehouseRepository->delete($id);
     }

@@ -31,7 +31,7 @@ class JwtMiddleware
         } catch (TokenExpiredException $e) {
             //Token hết hạn
 
-            return response()->json(['message' => 'Token đã hết hạn'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => 'Token đã hết hạn, vui lòng đăng nhập lại'], Response::HTTP_UNAUTHORIZED);
         } catch (JWTException $e) {
             //Token không hợp lệ
 

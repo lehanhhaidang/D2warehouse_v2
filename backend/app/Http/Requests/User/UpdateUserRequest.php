@@ -33,7 +33,7 @@ class UpdateUserRequest extends FormRequest
             ],
             'password' => 'required|string',
             'img_url' => 'nullable|string',
-            'phone' => 'required|string',
+            'phone' => 'required|string|unique:users,phone,' . $this->route('id'),
             'role_id' => 'required|exists:roles,id',
             'warehouse_ids' => 'nullable|array',
             'warehouse_ids.*' => 'exists:warehouses,id',
@@ -43,13 +43,14 @@ class UpdateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Name is required',
-            'email.unique' => 'This email has been taken by other user',
-            'email.required' => 'Email is requried',
-            'password.required' => 'Password is required',
-            'phone.required' => 'Phone is required',
-            'role_id.required' => 'Role is required',
-            'img_url.string' => 'Image url must be string',
+            'name.required' => 'Tên không được để trống',
+            'email.unique' => 'Email đã tồn tại',
+            'email.required' => 'Email không được để trống',
+            'password.required' => 'Mật khẩu không được để trống',
+            'phone.required' => 'Số điện thoại không được để trống',
+            'phone.unique' => 'Số điện thoại đã tồn tại',
+            'role_id.required' => 'Vai trò không được để trống',
+            'img_url.string' => 'Hình ảnh phải là chuỗi',
             'warehouse_ids.array' => 'Warehouse ids must be an array',
             'warehouse_ids.*.exists' => 'Warehouse id is invalid',
 

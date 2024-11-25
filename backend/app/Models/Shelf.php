@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Shelf extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -36,5 +37,10 @@ class Shelf extends Model
     public function cateogy()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function details()
+    {
+        return $this->hasMany(ShelfDetail::class);
     }
 }

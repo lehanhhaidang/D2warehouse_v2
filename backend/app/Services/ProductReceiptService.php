@@ -189,13 +189,10 @@ class ProductReceiptService
             // Tạo phiếu nhập kho
 
             $productReceipt = $this->productReceiptRepository->createProductReceipt($data);
-
-            // Duyệt qua từng detail để xử lý
             foreach ($data['details'] as $detail) {
                 $this->processProductReceiptDetail($detail, $productReceipt->id);
             }
 
-            // Commit transaction khi tất cả các thao tác thành công
             DB::commit();
 
             return $productReceipt;

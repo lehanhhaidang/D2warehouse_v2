@@ -23,8 +23,8 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:258',
-            'email' => 'required|string',
-            'phone' => 'required|string',
+            'email' => 'required|string|email|unique:users,email',
+            'phone' => 'required|string|unique:users,phone',
             'password' => 'string',
             'role_id' => 'required|exists:roles,id',
             'img_url' => 'nullable|string',
@@ -36,15 +36,18 @@ class StoreUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Name is required',
-            'email.required' => 'Email is requried',
-            'password.required' => 'Password is required',
-            'role_id.required' => 'Role is required',
-            'img_url.string' => 'Image url must be string',
-            'role_id.exists' => 'Role does not exist',
-            'phone.required' => 'Phone is required',
-            'warehouse_ids.array' => 'Warehouse ids must be an array',
-            'warehouse_ids.*.exists' => 'Warehouse id does not exist',
+            'name.required' => 'Tên là bắt buộc',
+            'email.required' => 'Email là bắt buộc',
+            'password.required' => 'Mật khẩu là bắt buộc',
+            'role_id.required' => 'Vai trò là bắt buộc',
+            'img_url.string' => 'Đường dẫn ảnh phải là chuỗi',
+            'role_id.exists' => 'Vai trò không tồn tại',
+            'phone.required' => 'Số điện thoại là bắt buộc',
+            'phone.unique' => 'Số điện thoại đã được sử dụng',
+            'warehouse_ids.array' => 'Danh sách kho phải là một mảng',
+            'warehouse_ids.*.exists' => 'Kho không tồn tại',
+            'email.unique' => 'Email đã được sử dụng',
+
 
         ];
     }

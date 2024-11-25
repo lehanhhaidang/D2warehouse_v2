@@ -7833,6 +7833,14 @@
                                     "storage_capacity": {
                                         "type": "integer",
                                         "example": 2000
+                                    },
+                                    "warehouse_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 5
                                     }
                                 },
                                 "type": "object"
@@ -7878,6 +7886,14 @@
                                                     "type": "string",
                                                     "format": "date-time",
                                                     "example": "2024-10-11T09:00:00.000000Z"
+                                                },
+                                                "warehouse_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 5
                                                 }
                                             },
                                             "type": "object"

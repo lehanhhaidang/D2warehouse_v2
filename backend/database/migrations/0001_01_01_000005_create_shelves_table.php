@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->integer('number_of_levels')->nullable(); //số tầng
             $table->integer('storage_capacity')->nullable(); //sức chứa
-
+            $table->softDeletes();
 
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');

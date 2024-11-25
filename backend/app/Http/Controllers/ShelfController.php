@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\Shelf\ShelfCreated;
+use App\Events\Shelf\ShelfDeleted;
+use App\Events\Shelf\ShelfUpdated;
 use App\Http\Requests\Shelf\StoreShelfRequest;
 use App\Http\Requests\Shelf\UpdateShelfRequest;
 use App\Repositories\Interface\ShelfRepositoryInterface;
@@ -239,7 +241,9 @@ class ShelfController extends Controller
      *             type="object",
      *             @OA\Property(property="name", type="string", example="Kệ hàng mới"),
      *             @OA\Property(property="number_of_levels", type="integer", example=10),
-     *             @OA\Property(property="storage_capacity", type="integer", example=2000)
+     *             @OA\Property(property="storage_capacity", type="integer", example=2000),
+     *             @OA\Property(property="warehouse_id", type="integer", example=2),
+     *             @OA\Property(property="category_id", type="integer", example=5),
      *         )
      *     ),
      *     @OA\Response(
@@ -256,7 +260,9 @@ class ShelfController extends Controller
      *                 @OA\Property(property="number_of_levels", type="integer", example=10),
      *                 @OA\Property(property="storage_capacity", type="integer", example=2000),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-11T08:58:00.000000Z"),
-     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-11T09:00:00.000000Z")
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-11T09:00:00.000000Z"),
+     *                 @OA\Property(property="warehouse_id", type="integer", example=2),
+     *                 @OA\Property(property="category_id", type="integer", example=5),
      *             )
      *         )
      *     ),
@@ -288,6 +294,8 @@ class ShelfController extends Controller
 
         try {
             $shelf = $this->shelfService->updateShelf($request, $id);
+
+            event(new ShelfUpdated($shelf));
             return response()->json([
                 'message' => 'Cập nhật kệ hàng thành công',
                 'data' => $shelf
@@ -353,6 +361,7 @@ class ShelfController extends Controller
         try {
 
             $this->shelfService->deleteShelf($id);
+            event(new ShelfDeleted($id));
 
             return response()->json([
                 'message' => 'Xóa kệ hàng thành công',

@@ -4,6 +4,7 @@ namespace App\Events\Shelf;
 
 use App\Models\Category;
 use App\Models\Notification;
+use App\Models\Shelf;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Broadcasting\Channel;
@@ -15,7 +16,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ShelfCreated implements ShouldBroadcastNow
+class ShelfDeleted implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -35,7 +36,7 @@ class ShelfCreated implements ShouldBroadcastNow
 
     public function broadcastAs(): string
     {
-        return 'shelf.created';
+        return 'shelf.deleted';
     }
 
     public function broadcastWith(): array
@@ -44,20 +45,20 @@ class ShelfCreated implements ShouldBroadcastNow
         foreach ($users as $user) {
             Notification::create([
                 'user_id' => $user,
-                'message' =>
-                $this->shelf->name .
-                    ' có danh mục ' . Category::find($this->shelf->category_id)->name .
-                    ' thuộc ' . Warehouse::find($this->shelf->warehouse_id)->name .
-                    ' đã được tạo',
+                'message' => Shelf::withTrashed()->find($this->shelf)->name .
+                    ' có danh mục ' . Category::find(Shelf::withTrashed()->find($this->shelf)->category_id)->name .
+                    ' thuộc ' . Warehouse::find(Shelf::withTrashed()->find($this->shelf)->warehouse_id)->name .
+                    ' đã bị xóa',
                 'url' => '/shelves'
             ]);
         }
         return [
-            'message' => $this->shelf->name .
-                ' có danh mục ' . Category::find($this->shelf->category_id)->name .
-                ' thuộc ' . Warehouse::find($this->shelf->warehouse_id)->name .
-                ' đã được tạo',
-            'shelf' => $this->shelf->id
+            'event' => 'shelf.deleted',
+            'message' => Shelf::withTrashed()->find($this->shelf)->name .
+                ' có danh mục ' . Category::find(Shelf::withTrashed()->find($this->shelf)->category_id)->name .
+                ' thuộc ' . Warehouse::find(Shelf::withTrashed()->find($this->shelf)->warehouse_id)->name .
+                ' đã bị xóa',
+            'shelf' => $this->shelf
         ];
     }
 }

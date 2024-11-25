@@ -8,6 +8,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Validation\ValidationException as ValidationValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +20,14 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     protected $userRepository;
+    protected $userService;
 
-    public function __construct(UserRepositoryInterface $userRepository)
-    {
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        UserService $userService
+    ) {
         $this->userRepository = $userRepository;
+        $this->userService = $userService;
     }
 
 
@@ -111,35 +116,20 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         try {
-            // Tạo user mới
-            $data = [
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-                'img_url' => $request->img_url,
-                'phone' => $request->phone,
-                'role_id' => $request->role_id,
-                'created_at' => now(),
-            ];
-            $user = $this->userRepository->create($data);
+            // Chuyển data từ request sang mảng để gọi service
+            $data = $request->only(['name', 'email', 'password', 'img_url', 'phone', 'role_id', 'warehouse_ids']);
 
-            // Gắn kho cho user nếu có warehouse_id trong request
-            if ($request->has('warehouse_ids')) {
-                foreach ($request->warehouse_ids as $warehouseId) {
-                    DB::table('warehouse_staff')->insert([
-                        'user_id' => $user->id,
-                        'warehouse_id' => $warehouseId,
-                        'assigned_at' => now(),
-                    ]);
-                }
-            }
+            // Gọi service để tạo user mới
+            $this->userService->store($data);
 
             return response()->json([
-                'message' => 'Tạo mới người dùng thành công'
+                'message' => 'Tạo mới người dùng thành công',
+                'status' => 200,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Có lỗi xảy ra, vui lòng thử lại sau',
+                'status' => 500,
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -271,37 +261,11 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         try {
-            // Cập nhật user
-            $user = $this->userRepository->update($id, [
-                'name' => $request->name,
-                'email' => $request->email,
-                'img_url' => $request->img_url,
-                'password' => bcrypt($request->password),
-                'phone' => $request->phone,
-                'role_id' => $request->role_id,
-            ]);
+            // Chuyển data từ request sang mảng để gọi service
+            $data = $request->only(['name', 'email', 'password', 'img_url', 'phone', 'role_id', 'warehouse_ids']);
 
-            if (!$user) {
-                return response()->json([
-                    'message' => 'Không tìm thấy người dùng này',
-                    'status' => 404,
-                ], 404);
-            }
-
-            // Cập nhật kho cho user nếu có warehouse_ids
-            if ($request->has('warehouse_ids')) {
-                // Xóa bản ghi cũ trong bảng warehouse_staff
-                DB::table('warehouse_staff')->where('user_id', $id)->delete();
-
-                // Thêm bản ghi mới
-                foreach ($request->warehouse_ids as $warehouseId) {
-                    DB::table('warehouse_staff')->insert([
-                        'user_id' => $id,
-                        'warehouse_id' => $warehouseId,
-                        'assigned_at' => now(),
-                    ]);
-                }
-            }
+            // Gọi service để cập nhật người dùng
+            $this->userService->update($data, $id);
 
             return response()->json([
                 'message' => 'Cập nhật người dùng thành công',
@@ -310,12 +274,11 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Có lỗi xảy ra, vui lòng thử lại sau',
-                'status' => 500,
                 'error' => $e->getMessage(),
+                'status' => 500,
             ], 500);
         }
     }
-
 
     /**
      * @OA\Delete(
@@ -355,11 +318,13 @@ class UserController extends Controller
         if (!$deleted) {
             return response()->json([
                 'message' => 'Không tìm thấy người dùng này',
+                'status' => 404,
             ], 404);
         }
 
         return response()->json([
             'message' => 'Xóa người dùng thành công',
+            'status' => 200,
         ], 200);
     }
 

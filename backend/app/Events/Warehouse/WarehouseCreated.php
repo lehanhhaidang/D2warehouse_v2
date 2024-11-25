@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Shelf;
+namespace App\Events\warehouse;
 
 use App\Models\Category;
 use App\Models\Notification;
@@ -15,14 +15,14 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ShelfCreated implements ShouldBroadcastNow
+class WarehouseCreated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $shelf;
-    public function __construct($shelf)
+    public $warehouse;
+    public function __construct($warehouse)
     {
-        $this->shelf = $shelf;
+        $this->warehouse = $warehouse;
     }
 
 
@@ -35,7 +35,7 @@ class ShelfCreated implements ShouldBroadcastNow
 
     public function broadcastAs(): string
     {
-        return 'shelf.created';
+        return 'warehouse.created';
     }
 
     public function broadcastWith(): array
@@ -44,20 +44,14 @@ class ShelfCreated implements ShouldBroadcastNow
         foreach ($users as $user) {
             Notification::create([
                 'user_id' => $user,
-                'message' =>
-                $this->shelf->name .
-                    ' có danh mục ' . Category::find($this->shelf->category_id)->name .
-                    ' thuộc ' . Warehouse::find($this->shelf->warehouse_id)->name .
-                    ' đã được tạo',
-                'url' => '/shelves'
+                'message' => $this->warehouse->name . ' vừa được tạo',
+                'url' => '/warehouses'
             ]);
         }
         return [
-            'message' => $this->shelf->name .
-                ' có danh mục ' . Category::find($this->shelf->category_id)->name .
-                ' thuộc ' . Warehouse::find($this->shelf->warehouse_id)->name .
-                ' đã được tạo',
-            'shelf' => $this->shelf->id
+            'event' => 'warehouse.created',
+            'message' => $this->warehouse->name . ' vừa được tạo',
+            'warehouse' => $this->warehouse->id
         ];
     }
 }

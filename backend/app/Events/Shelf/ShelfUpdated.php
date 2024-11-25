@@ -15,7 +15,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ShelfCreated implements ShouldBroadcastNow
+class ShelfUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -35,7 +35,7 @@ class ShelfCreated implements ShouldBroadcastNow
 
     public function broadcastAs(): string
     {
-        return 'shelf.created';
+        return 'shelf.updated';
     }
 
     public function broadcastWith(): array
@@ -44,19 +44,17 @@ class ShelfCreated implements ShouldBroadcastNow
         foreach ($users as $user) {
             Notification::create([
                 'user_id' => $user,
-                'message' =>
-                $this->shelf->name .
+                'message' => $this->shelf->name .
                     ' có danh mục ' . Category::find($this->shelf->category_id)->name .
                     ' thuộc ' . Warehouse::find($this->shelf->warehouse_id)->name .
-                    ' đã được tạo',
-                'url' => '/shelves'
+                    ' đã được cập nhật',
             ]);
         }
         return [
             'message' => $this->shelf->name .
                 ' có danh mục ' . Category::find($this->shelf->category_id)->name .
                 ' thuộc ' . Warehouse::find($this->shelf->warehouse_id)->name .
-                ' đã được tạo',
+                ' đã được cập nhật',
             'shelf' => $this->shelf->id
         ];
     }

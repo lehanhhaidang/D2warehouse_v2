@@ -112,7 +112,7 @@ class ProposeController extends Controller
                 'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
                 'error' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
-            ], $e->getCode() ?: 500);
+            ],  500);
         }
     }
 

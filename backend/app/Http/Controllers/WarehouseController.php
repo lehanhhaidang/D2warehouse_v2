@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\warehouse\WarehouseCreated;
+use App\Events\warehouse\WarehouseDeleted;
+use App\Events\warehouse\WarehouseUpdated;
 use App\Http\Requests\Warehouse\StoreWarehouseRequest;
 use App\Models\Warehouse;
 use App\Services\WarehouseService;
@@ -263,6 +266,7 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = $this->warehouseService->storeWarehouse($request);
+            event(new WarehouseCreated($warehouse));
             return response()->json([
                 'message' => 'Tạo kho thành công',
                 'status' => 200,
@@ -334,6 +338,7 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = $this->warehouseService->getAWarehouse($id);
+
             return response()->json(
                 [
                     'data' => $warehouse,
@@ -359,6 +364,7 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = $this->warehouseService->updateWarehouse($request, $id);
+            event(new WarehouseUpdated($warehouse));
             return response()->json([
                 'message' => 'Cập nhật kho thành công',
                 'status' => 200,
@@ -421,6 +427,7 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = $this->warehouseService->deleteWarehouse($id);
+            event(new WarehouseDeleted($warehouse));
             return response()->json([
                 'message' => 'Xóa kho thành công',
                 'status' => 200,
@@ -430,7 +437,7 @@ class WarehouseController extends Controller
                 'message' => 'Xóa kho thất bại',
                 'error' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500
-            ], $e->getCode() ?: 500);
+            ],  500);
         }
     }
 

@@ -9,7 +9,7 @@ class UserRepository implements UserRepositoryInterface
 {
     public function all()
     {
-        return User::with('role')->get()->map(function ($user) {
+        return User::with('role', 'warehouses')->get()->map(function ($user) {
             return [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -18,18 +18,26 @@ class UserRepository implements UserRepositoryInterface
                 'img_url' => $user->img_url,
                 'status' => $user->status,
                 'email_verified_at' => $user->email_verified_at,
+                'role_id' => $user->role_id,
                 'role_name' => $user->role->name, // Chỉ lấy tên vai trò
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
+                'warehouses' => $user->warehouses->map(function ($warehouse) {
+                    return [
+                        'id' => $warehouse->id,
+                        'name' => $warehouse->name,
+                    ];
+                }), // Thêm thông tin kho hàng
             ];
         });
     }
 
 
 
+
     public function find($id)
     {
-        $user = User::with('role')->where('id', $id)->first();
+        $user = User::with('role', 'warehouses')->where('id', $id)->first();
 
         if ($user) {
             return [
@@ -40,14 +48,23 @@ class UserRepository implements UserRepositoryInterface
                 'img_url' => $user->img_url,
                 'status' => $user->status,
                 'email_verified_at' => $user->email_verified_at,
+                'role_id' => $user->role_id,
                 'role_name' => $user->role->name, // Chỉ lấy tên vai trò
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
+                'warehouses' => $user->warehouses->map(function ($warehouse) {
+                    return [
+                        'id' => $warehouse->id,
+                        'name' => $warehouse->name,
+                        'assigned_at' => $warehouse->pivot->assigned_at,
+                    ];
+                }), // Thêm thông tin kho hàng
             ];
         }
 
         return null;
     }
+
 
 
     public function create(array $data)
