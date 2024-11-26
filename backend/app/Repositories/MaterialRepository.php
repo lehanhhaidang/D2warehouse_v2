@@ -12,6 +12,8 @@ class MaterialRepository implements MaterialRepositoryInterface
         return Material::select(
             'materials.id',
             'materials.name',
+            'categories.id as category_id',
+            'categories.name as category_name',
             'materials.unit',
             'materials.quantity',
             'materials.material_img',
@@ -20,7 +22,6 @@ class MaterialRepository implements MaterialRepositoryInterface
             'materials.updated_at',
 
         )->join('categories', 'materials.category_id', '=', 'categories.id')
-
             ->get();
     }
 

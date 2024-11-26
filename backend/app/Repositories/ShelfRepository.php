@@ -14,7 +14,9 @@ class ShelfRepository implements ShelfRepositoryInterface
         return Shelf::select(
             'shelves.id',
             'shelves.name',
+            'warehouses.id as warehouse_id',
             'warehouses.name as warehouse_name',
+            'categories.id as category_id',
             'categories.name as category_name',
             'shelves.number_of_levels',
             'shelves.storage_capacity',
@@ -31,7 +33,9 @@ class ShelfRepository implements ShelfRepositoryInterface
         return Shelf::select(
             'shelves.id',
             'shelves.name',
+            'warehouses.id as warehouse_id',
             'warehouses.name as warehouse_name',
+            'categories.id as category_id',
             'categories.name as category_name',
             'shelves.number_of_levels',
             'shelves.storage_capacity',
@@ -104,5 +108,95 @@ class ShelfRepository implements ShelfRepositoryInterface
                 'shelf_details.quantity'
             )
             ->get();
+    }
+
+    public function getShelvesWithDetails()
+    {
+        return Shelf::with([
+            'warehouse:id,name',
+            'category:id,name',
+            'details.product:id,name',
+            'details.materials:id,name',
+        ])->get()->map(function ($shelf) {
+            return [
+                'id' => $shelf->id,
+                'name' => $shelf->name,
+                'number_of_levels' => $shelf->number_of_levels,
+                'storage_capacity' => $shelf->storage_capacity,
+                'deleted_at' => $shelf->deleted_at,
+                'category_id' => $shelf->category_id,
+                'warehouse_id' => $shelf->warehouse_id,
+                'created_at' => $shelf->created_at,
+                'updated_at' => $shelf->updated_at,
+                'warehouse_name' => $shelf->warehouse->name ?? null,
+                'category_name' => $shelf->category->name ?? null,
+                'details' => $shelf->details->map(function ($detail) {
+                    return [
+                        'id' => $detail->id,
+                        'shelf_id' => $detail->shelf_id,
+                        'product_id' => $detail->product_id,
+                        'material_id' => $detail->material_id,
+                        'quantity' => $detail->quantity,
+                        'product_name' => $detail->product->name ?? null,
+                        'material_name' => $detail->material->name ?? null,
+                    ];
+                }),
+            ];
+        });
+    }
+
+
+    public function getShelfDetailsById($id)
+    {
+        return ShelfDetail::where('shelf_id', $id)
+            ->get()
+            ->map(function ($detail) {
+                return [
+                    'id' => $detail->id,
+                    'shelf_id' => $detail->shelf_id,
+                    'product_id' => $detail->product_id,
+                    'product_name' => $detail->product->name ?? null,
+                    'material_id' => $detail->material_id,
+                    'material_name' => $detail->material->name ?? null,
+                    'quantity' => $detail->quantity,
+                ];
+            });
+    }
+    public function getShelvesWithDetailsByWarehouseId($id)
+    {
+        return Shelf::with([
+            'warehouse:id,name',
+            'category:id,name',
+            'details.product:id,name',
+            'details.materials:id,name',
+        ])
+            ->where('warehouse_id', $id)
+            ->get()
+            ->map(function ($shelf) {
+                return [
+                    'id' => $shelf->id,
+                    'name' => $shelf->name,
+                    'number_of_levels' => $shelf->number_of_levels,
+                    'storage_capacity' => $shelf->storage_capacity,
+                    'deleted_at' => $shelf->deleted_at,
+                    'category_id' => $shelf->category_id,
+                    'warehouse_id' => $shelf->warehouse_id,
+                    'created_at' => $shelf->created_at,
+                    'updated_at' => $shelf->updated_at,
+                    'warehouse_name' => $shelf->warehouse->name ?? null,
+                    'category_name' => $shelf->category->name ?? null,
+                    'details' => $shelf->details->map(function ($detail) {
+                        return [
+                            'id' => $detail->id,
+                            'shelf_id' => $detail->shelf_id,
+                            'product_id' => $detail->product_id,
+                            'material_id' => $detail->material_id,
+                            'quantity' => $detail->quantity,
+                            'product_name' => $detail->product->name ?? null,
+                            'material_name' => $detail->material->name ?? null,
+                        ];
+                    }),
+                ];
+            });
     }
 }

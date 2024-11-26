@@ -353,8 +353,7 @@ class ProductController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Đã xảy ra lỗi khi xóa thành phẩm',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
             ], $e->getCode() ?: 500);
         }

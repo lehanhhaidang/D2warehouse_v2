@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Shelf;
+use App\Models\ShelfDetail;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Log;
@@ -113,6 +115,10 @@ class ProductService
 
             if (!$product) {
                 throw new \Exception('Không tìm thấy thành phẩm này', 404);
+            }
+            $productExits = ShelfDetail::where('product_id', $id)->first();
+            if ($productExits) {
+                throw new \Exception('Không thể xóa thành phẩm này vì đã có trong kệ hàng');
             }
             return $this->productRepository->delete($id);
         } catch (\Exception $e) {

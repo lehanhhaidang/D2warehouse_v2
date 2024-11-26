@@ -33,4 +33,14 @@ class Material extends Model
     {
         return $this->hasMany(MaterialExport::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function shelfDetails()
+    {
+        return $this->hasMany(ShelfDetail::class);
+    }
 }

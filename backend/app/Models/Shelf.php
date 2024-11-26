@@ -34,7 +34,7 @@ class Shelf extends Model
     }
 
 
-    public function cateogy()
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }

@@ -17,7 +17,9 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::select(
             'products.id',
             'products.name',
+            'categories.id as category_id',
             'categories.name as category_name',
+            'colors.id as color_id',
             'colors.name as color_name',
             'products.unit',
             'products.quantity',
@@ -37,7 +39,9 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::select(
             'products.id',
             'products.name',
+            'categories.id as category_id',
             'categories.name as category_name',
+            'colors.id as color_id',
             'colors.name as color_name',
             'products.unit',
             'products.quantity',

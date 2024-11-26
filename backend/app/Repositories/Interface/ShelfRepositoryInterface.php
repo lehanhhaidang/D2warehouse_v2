@@ -16,4 +16,9 @@ interface ShelfRepositoryInterface
     public function getShelvesWithProductsByWarehouseId($id);
 
     public function getShelvesWithMaterialsByWarehouseId($id);
+
+    public function getShelvesWithDetails();
+
+    public function getShelfDetailsById($id);
+    public function getShelvesWithDetailsByWarehouseId($id);
 }

@@ -107,4 +107,34 @@ class DashboardRepository implements DashboardRepositoryInterface
     {
         return InventoryReport::count();
     }
+
+    public function getProductCategoryCount()
+    {
+        // Tính tổng quantity của các sản phẩm theo danh mục
+        $categoryQuantities = Product::query()
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->selectRaw('categories.name as category_name, SUM(products.quantity) as total_quantity')
+            ->groupBy('categories.name')
+            ->get();
+
+        // Chuyển kết quả thành mảng
+        return $categoryQuantities->toArray();
+    }
+
+    public function getMaterialCategoryCount()
+    {
+        $categoryQuantities = Material::query()
+            ->join('categories', 'materials.category_id', '=', 'categories.id')
+            ->selectRaw('categories.name as category_name, SUM(materials.quantity) as total_quantity')
+            ->groupBy('categories.name')
+            ->get();
+
+        // Chuyển kết quả thành mảng
+        return $categoryQuantities->toArray();
+    }
+
+    public function totalReceiptExportNote()
+    {
+        return ProductReceipt::count() + ProductExport::count() + MaterialReceipt::count() + MaterialExport::count();
+    }
 }

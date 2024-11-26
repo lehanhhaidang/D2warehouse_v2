@@ -36,6 +36,9 @@ class DashboardService
                 'materialReceiptCount' => $this->dashboardRepository->getMaterialReceiptCount(),
                 'materialExportCount' => $this->dashboardRepository->getMaterialExportCount(),
                 'inventoryReportCount' => $this->dashboardRepository->getInventoryReportCount(),
+                'productCategoryCount' => $this->dashboardRepository->getProductCategoryCount(),
+                'materialCategoryCount' => $this->dashboardRepository->getMaterialCategoryCount(),
+                'totalReceptExportNote' => $this->dashboardRepository->totalReceiptExportNote(),
             ];
         } catch (Exception $e) {
             throw new Exception('Không thể lấy dữ liệu, vui lòng thử lại sau.');

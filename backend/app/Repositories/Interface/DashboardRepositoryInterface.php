@@ -20,4 +20,9 @@ interface DashboardRepositoryInterface
     public function getMaterialReceiptCount();
     public function getMaterialExportCount();
     public function getInventoryReportCount();
+    public function getProductCategoryCount();
+
+    public function getMaterialCategoryCount();
+
+    public function totalReceiptExportNote();
 }

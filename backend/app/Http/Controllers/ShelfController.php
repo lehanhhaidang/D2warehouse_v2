@@ -79,7 +79,7 @@ class ShelfController extends Controller
                 'error' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
 
-            ], $e->getCode() ?: 500);
+            ], 500);
         }
     }
 
@@ -143,8 +143,8 @@ class ShelfController extends Controller
             return response()->json([
                 'message' => 'Tạo kệ hàng thành công',
                 'data' => $shelf,
-                'status' => 201
-            ], 201);
+                'status' => 200
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Tạo kệ hàng thất bại',
@@ -215,8 +215,7 @@ class ShelfController extends Controller
             return response()->json($shelf, 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Lỗi khi lấy thông tin kệ hàng',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
             ], $e->getCode() ?: 500);
         }
@@ -298,12 +297,12 @@ class ShelfController extends Controller
             event(new ShelfUpdated($shelf));
             return response()->json([
                 'message' => 'Cập nhật kệ hàng thành công',
-                'data' => $shelf
+                'data' => $shelf,
+                'status' => 200
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Cập nhật kệ hàng thất bại',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
             ], $e->getCode() ?: 500);
         }
@@ -369,8 +368,7 @@ class ShelfController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Xóa kệ hàng thất bại',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
             ], $e->getCode() ?: 500);
         }
@@ -462,6 +460,44 @@ class ShelfController extends Controller
     }
 
 
+    public function getShelvesWithDetails()
+    {
+        try {
+            $shelves = $this->shelfService->getShelvesWithDetails();
+            return response()->json($shelves, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' =>  500,
+            ],  500);
+        }
+    }
+
+    public function getShelvesWithDetailsByWarehouseId($id)
+    {
+        try {
+            $shelves = $this->shelfService->getShelvesWithDetailsByWarehouseId($id);
+            return response()->json($shelves, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' =>  500,
+            ],  500);
+        }
+    }
+
+    public function getShelfDetailsById($id)
+    {
+        try {
+            $shelfDetails = $this->shelfService->getShelfDetailsById($id);
+            return response()->json($shelfDetails, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' =>  500,
+            ],  500);
+        }
+    }
     public function getShelfItemsByWarehouseId($warehouseId)
     {
         try {

@@ -110,7 +110,7 @@ class ShelfService
         } catch (ModelNotFoundException $e) {
             throw new \Exception('Không tìm thấy kệ hàng với ID: ' . $id, 404);
         } catch (\Exception $e) {
-            throw new \Exception('Cập nhật kệ hàng thất bại: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -129,7 +129,7 @@ class ShelfService
             // Xóa kệ hàng
             return $this->shelfRepository->delete($id);
         } catch (\Exception $e) {
-            throw new \Exception('Xóa kệ hàng thất bại: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -194,6 +194,48 @@ class ShelfService
             return $products;
         } else {
             throw new \Exception('Invalid warehouse category', 400);
+        }
+    }
+
+
+    public function getShelvesWithDetails()
+    {
+        try {
+            $shelves = $this->shelfRepository->getShelvesWithDetails();
+            if ($shelves->isEmpty()) {
+                throw new \Exception('Không tìm thấy kệ hàng nào.', 404);
+            }
+            return $shelves;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function getShelfDetailsById($id)
+    {
+        try {
+            $shelf = $this->shelfRepository->getShelfDetailsById($id);
+            if (Shelf::find($id) == null) {
+                throw new \Exception('Không tìm thấy kệ hàng này.', 404);
+            }
+            // if ($shelf->isEmpty()) {
+            //     throw new \Exception('Kệ hàng không chứa hàng nào.', 404);
+            // }
+            return $shelf;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+    public function getShelvesWithDetailsByWarehouseId($id)
+    {
+        try {
+            $shelves = $this->shelfRepository->getShelvesWithDetailsByWarehouseId($id);
+            if ($shelves->isEmpty()) {
+                throw new \Exception('Không tìm thấy kệ hàng nào.', 404);
+            }
+            return $shelves;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }

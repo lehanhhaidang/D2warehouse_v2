@@ -202,12 +202,11 @@ class ProposeController extends Controller
             return response()->json([
                 'message' => 'Tạo đề xuất thành công',
                 'data' => $propose,
-                'status' => 201,
-            ], 201);
+                'status' => 200,
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi tạo đề xuất',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
             ],  $e->getCode() ?: 500);
         }
