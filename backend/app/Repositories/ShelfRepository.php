@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Material;
 use App\Models\Shelf;
 use App\Models\ShelfDetail;
 use App\Repositories\Interface\ShelfRepositoryInterface;
@@ -157,7 +158,7 @@ class ShelfRepository implements ShelfRepositoryInterface
                     'product_id' => $detail->product_id,
                     'product_name' => $detail->product->name ?? null,
                     'material_id' => $detail->material_id,
-                    'material_name' => $detail->material->name ?? null,
+                    'material_name' => Material::find($detail->material_id)->name ?? null,
                     'quantity' => $detail->quantity,
                 ];
             });
