@@ -477,62 +477,62 @@ class ShelfSeeder extends Seeder
         DB::table('shelves')->insert($shelves);
 
 
-        // $shelvesDetails = [
-        //     //Ke cho kho san pham
-        //     [
-        //         'shelf_id' => 1,
-        //         'product_id' => 1,
-        //         'material_id' => null,
-        //         'quantity' => 100,
-        //     ],
-        //     [
-        //         'shelf_id' => 2,
-        //         'product_id' => 2,
-        //         'material_id' => null,
-        //         'quantity' => 100,
-        //     ],
-        //     [
-        //         'shelf_id' => 3,
-        //         'product_id' => 3,
-        //         'material_id' => null,
-        //         'quantity' => 100,
-        //     ],
-        //     [
-        //         'shelf_id' => 4,
-        //         'product_id' => 4,
-        //         'material_id' => null,
-        //         'quantity' => 100,
-        //     ],
+        $shelvesDetails = [
+            //Ke cho kho san pham
+            [
+                'shelf_id' => 1,
+                'product_id' => 1,
+                'material_id' => null,
+                'quantity' => 100,
+            ],
+            [
+                'shelf_id' => 2,
+                'product_id' => 2,
+                'material_id' => null,
+                'quantity' => 100,
+            ],
+            [
+                'shelf_id' => 3,
+                'product_id' => 3,
+                'material_id' => null,
+                'quantity' => 100,
+            ],
+            [
+                'shelf_id' => 4,
+                'product_id' => 4,
+                'material_id' => null,
+                'quantity' => 100,
+            ],
 
-        //     //Ke cho kho nguyen vat lieu
-        //     [
-        //         'shelf_id' => 7,
-        //         'product_id' => null,
-        //         'material_id' => 1,
-        //         'quantity' => 100,
-        //     ],
-        //     [
-        //         'shelf_id' => 8,
-        //         'product_id' => null,
-        //         'material_id' => 2,
-        //         'quantity' => 100,
-        //     ],
-        //     [
-        //         'shelf_id' => 9,
-        //         'product_id' => null,
-        //         'material_id' => 3,
-        //         'quantity' => 100,
-        //     ],
-        //     [
-        //         'shelf_id' => 10,
-        //         'product_id' => null,
-        //         'material_id' => 4,
-        //         'quantity' => 100,
-        //     ],
+            //Ke cho kho nguyen vat lieu
+            [
+                'shelf_id' => 7,
+                'product_id' => null,
+                'material_id' => 1,
+                'quantity' => 100,
+            ],
+            [
+                'shelf_id' => 8,
+                'product_id' => null,
+                'material_id' => 2,
+                'quantity' => 100,
+            ],
+            [
+                'shelf_id' => 9,
+                'product_id' => null,
+                'material_id' => 3,
+                'quantity' => 100,
+            ],
+            [
+                'shelf_id' => 10,
+                'product_id' => null,
+                'material_id' => 4,
+                'quantity' => 100,
+            ],
 
 
-        // ];
+        ];
 
-        // DB::table('shelf_details')->insert($shelvesDetails);
+        DB::table('shelf_details')->insert($shelvesDetails);
     }
 }
