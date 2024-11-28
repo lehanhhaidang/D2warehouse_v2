@@ -25,4 +25,6 @@ interface DashboardRepositoryInterface
     public function getMaterialCategoryCount();
 
     public function totalReceiptExportNote();
+
+    public function getAllReceiptExportWithDetails();
 }

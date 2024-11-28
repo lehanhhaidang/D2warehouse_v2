@@ -25,9 +25,9 @@ class MaterialExportService
         try {
             $materialExports = $this->materialExportRepository->getAllMaterialExportsWithDetails();
 
-            if ($materialExports->isEmpty()) {
-                throw new \Exception('Hiện tại chưa có phiếu xuất kho nào', 404);
-            }
+            // if ($materialExports->isEmpty()) {
+            //     throw new \Exception('Hiện tại chưa có phiếu xuất kho nào', 404);
+            // }
 
             return $materialExports->map(function ($materialExport) {
                 return [

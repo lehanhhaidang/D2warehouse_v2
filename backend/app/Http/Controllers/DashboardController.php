@@ -108,4 +108,23 @@ class DashboardController extends Controller
             ], 500);
         }
     }
+
+    public function notes()
+    {
+        try {
+            $data = $this->dashboardService->getAllReceiptExportWithDetails();
+
+            return response()->json([
+                'message' => 'Lấy dữ liệu thành công',
+                'data' => $data,
+                'status' => 200,
+            ], 200);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => 500,
+            ], 500);
+        }
+    }
 }

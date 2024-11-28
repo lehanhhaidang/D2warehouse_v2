@@ -89,6 +89,13 @@ class CategorySeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => null,
             ],
+            [
+                'name' => 'Can nhựa HDPE',
+                'type' => 'product',
+                'parent_id' => 2,
+                'created_at' => now(),
+                'updated_at' => null,
+            ],
         ]);
     }
 }

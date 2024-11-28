@@ -49,6 +49,7 @@ class MaterialExportCreated implements ShouldBroadcastNow
         Notification::create([
             'user_id' => $this->materialExport->created_by,
             'message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công',
+            'url' => '/notes?filter=xuất nguyên vật liệu',
         ]);
 
         $ids = User::where(function ($query) {
@@ -64,6 +65,7 @@ class MaterialExportCreated implements ShouldBroadcastNow
             Notification::create([
                 'user_id' => $id,
                 'message' => $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name,
+                'url' => '/notes?filter=xuất nguyên vật liệu',
             ]);
         }
         return [

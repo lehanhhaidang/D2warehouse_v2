@@ -48,6 +48,7 @@ class ProductExportCreated implements ShouldBroadcastNow
         Notification::create([
             'user_id' => $this->productExport->created_by,
             'message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công',
+            'url' => '/notes?filter=xuất thành phẩm',
         ]);
 
         $ids = User::where(function ($query) {
@@ -63,6 +64,7 @@ class ProductExportCreated implements ShouldBroadcastNow
             Notification::create([
                 'user_id' => $id,
                 'message' => $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name,
+                'url' => '/notes?filter=xuất thành phẩm',
             ]);
         }
         return [

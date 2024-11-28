@@ -49,6 +49,7 @@ class MaterialReceiptCreated implements ShouldBroadcastNow
         Notification::create([
             'user_id' => $this->materialReceipt->created_by,
             'message' => 'Bạn đã tạo ' . $this->materialReceipt->name . ' dựa trên ' . $this->materialReceipt->propose->name . ' thành công',
+            'url' => '/notes?filter=nhập nguyên vật liệu',
         ]);
 
         $ids = User::where(function ($query) {
@@ -64,6 +65,7 @@ class MaterialReceiptCreated implements ShouldBroadcastNow
             Notification::create([
                 'user_id' => $id,
                 'message' => $this->materialReceipt->user->name . ' đã tạo ' . $this->materialReceipt->name . ' dựa trên ' . $this->materialReceipt->propose->name,
+                'url' => '/notes?filter=nhập nguyên vật liệu',
             ]);
         }
         return [

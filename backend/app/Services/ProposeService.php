@@ -130,6 +130,10 @@ class ProposeService
             'quantity' => $detail['quantity'],
         ];
 
+        if ($proposeDetailData['quantity'] <= 0 || $proposeDetailData['quantity'] % 100 !== 0) {
+            throw new \Exception('Số lượng không hợp lệ', 400);
+        }
+
         // Kiểm tra loại propose để lưu product_id hoặc material_id
         if (isset($detail['product_id'])) {
             $proposeDetailData['product_id'] = $detail['product_id'];

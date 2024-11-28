@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Material;
 use App\Models\Propose;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationService
 {
@@ -53,5 +54,16 @@ class NotificationService
         }
 
         return ucfirst($resourceType) . " {$resource->name} {$action}";
+    }
+
+    public function updateStatus()
+    {
+        $notifications = Notification::where('user_id', Auth::id())->where('status', 0)->get();
+        foreach ($notifications as $notification) {
+            $notification->status = 1;
+            $notification->save();
+        }
+
+        return response()->json(['success' => true]);
     }
 }

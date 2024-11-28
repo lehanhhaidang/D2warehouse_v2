@@ -25,9 +25,9 @@ class MaterialReceiptService
         try {
             $materialReceipts = $this->materialReceiptRepository->getAllMaterialReceiptsWithDetails();
 
-            if ($materialReceipts->isEmpty()) {
-                throw new \Exception('Hiện tại chưa có phiếu nhập kho nào', 404);
-            }
+            // if ($materialReceipts->isEmpty()) {
+            //     throw new \Exception('Hiện tại chưa có phiếu nhập kho nào', 404);
+            // }
 
             return $materialReceipts->map(function ($materialReceipt) {
                 return [

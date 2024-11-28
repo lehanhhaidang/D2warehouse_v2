@@ -14,10 +14,27 @@ use App\Models\Shelf;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Repositories\Interface\DashboardRepositoryInterface;
+use App\Services\MaterialExportService;
+use App\Services\MaterialReceiptService;
+use App\Services\ProductExportService;
+use App\Services\ProductReceiptService;
 
 class DashboardRepository implements DashboardRepositoryInterface
 {
 
+    protected $productReceiptService, $productExportService, $materialReceiptService, $materialExportService;
+
+    public function __construct(
+        ProductReceiptService $productReceiptService,
+        ProductExportService $productExportService,
+        MaterialReceiptService $materialReceiptService,
+        MaterialExportService $materialExportService
+    ) {
+        $this->productReceiptService = $productReceiptService;
+        $this->productExportService = $productExportService;
+        $this->materialReceiptService = $materialReceiptService;
+        $this->materialExportService = $materialExportService;
+    }
     public function userCount()
     {
         return User::count();
@@ -136,5 +153,23 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function totalReceiptExportNote()
     {
         return ProductReceipt::count() + ProductExport::count() + MaterialReceipt::count() + MaterialExport::count();
+    }
+
+    public function getAllReceiptExportWithDetails()
+    {
+        $productReceipts = $this->productReceiptService->getAllProductReceiptsWithDetails();
+        $productExports = $this->productExportService->getAllProductExportsWithDetails();
+        $materialReceipts = $this->materialReceiptService->getAllMaterialReceiptsWithDetails();
+        $materialExports = $this->materialExportService->getAllMaterialExportsWithDetails();
+
+        // Gộp tất cả dữ liệu lại thành một mảng
+        $allReceiptsAndExports = array_merge(
+            $productReceipts->toArray(),
+            $productExports->toArray(),
+            $materialReceipts->toArray(),
+            $materialExports->toArray()
+        );
+
+        return $allReceiptsAndExports;
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Validation\ValidationException as ValidationValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -359,35 +360,27 @@ class UserController extends Controller
 
     public function sendResetLink(Request $request)
     {
-        // Validate email
-        $request->validate(['email' => 'required|email']);
+        try {
+            // Validate email
+            $validated = $request->validate([
+                'email' => 'required|email'
+            ]);
 
-        // Tìm người dùng với email đã cho
-        $user = User::where('email', $request->email)->first();
+            // Gửi reset link qua UserService
+            $this->userService->sendResetLink($validated['email']);
 
-        if (!$user) {
-            return response()->json(['message' => 'Email bạn vừa nhập không tồn tại'], 404);
+            return response()->json([
+                'message' => 'Link reset mật khẩu đã được gửi đến email của bạn',
+                'status' => 200
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ], $e->getCode() ?: 500);
         }
-
-        // Tạo token mới cho reset mật khẩu
-        $token = Str::random(60);
-
-        // Lưu token vào bảng password_reset_tokens
-        DB::table('password_reset_tokens')->updateOrInsert(
-            ['email' => $request->email],
-            ['token' => $token, 'created_at' => now()]
-        );
-
-        // Tạo URL để reset mật khẩu
-        $resetUrl = env("VITE_BASE_URL") . '/reset-password/' . '?token=' . $token . '?email=' . urlencode($request->email);
-
-        // Gửi email với link reset mật khẩu
-        Mail::to($request->email)->send(new ResetPasswordMail($token, $resetUrl));
-
-        return response()->json([
-            'message' => 'Link reset mật khẩu đã được gửi đến email của bạn',
-        ]);
     }
+
 
     // Reset mật khẩu
     public function resetPassword(Request $request)

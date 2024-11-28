@@ -401,6 +401,12 @@ Route::group(
     ],
     function ($router) {
         Route::get('dashboard', [DashboardController::class, 'index']);
+        Route::get('notes', [DashboardController::class, 'notes'])->middleware([
+            'check.permission:view_product_receipts',
+            'check.permission:view_product_exports',
+            'check.permission:view_material_receipts',
+            'check.permission:view_material_exports'
+        ]);
     }
 );
 
@@ -416,5 +422,6 @@ Route::group(
     ],
     function ($router) {
         Route::get('noti', [NotificationController::class, 'index']);
+        Route::patch('noti/update-status', [NotificationController::class, 'updateStatus']);
     }
 );

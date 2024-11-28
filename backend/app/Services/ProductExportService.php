@@ -25,9 +25,9 @@ class ProductExportService
         try {
             $productExports = $this->productExportRepository->getAllProductExportsWithDetails();
 
-            if ($productExports->isEmpty()) {
-                throw new \Exception('Hiện tại chưa có phiếu xuất kho nào', 404);
-            }
+            // if ($productExports->isEmpty()) {
+            //     throw new \Exception('Hiện tại chưa có phiếu xuất kho nào', 404);
+            // }
 
             return $productExports->map(function ($productExport) {
                 return [

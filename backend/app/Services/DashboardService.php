@@ -60,4 +60,9 @@ class DashboardService
 
         return $shelfCounts;
     }
+
+    public function getAllReceiptExportWithDetails()
+    {
+        return $this->dashboardRepository->getAllReceiptExportWithDetails();
+    }
 }

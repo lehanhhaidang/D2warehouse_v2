@@ -25,9 +25,9 @@ class ProductReceiptService
         try {
             $productReceipts = $this->productReceiptRepository->getAllProductReceiptsWithDetails();
 
-            if ($productReceipts->isEmpty()) {
-                throw new \Exception('Hiện tại chưa có phiếu nhập kho nào', 404);
-            }
+            // if ($productReceipts->isEmpty()) {
+            //     throw new \Exception('Hiện tại chưa có phiếu nhập kho nào', 404);
+            // }
 
             return $productReceipts->map(function ($productReceipt) {
                 return [

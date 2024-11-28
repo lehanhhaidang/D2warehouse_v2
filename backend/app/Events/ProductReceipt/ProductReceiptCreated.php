@@ -50,6 +50,7 @@ class ProductReceiptCreated implements ShouldBroadcastNow
         Notification::create([
             'user_id' => $this->productReceipt->created_by,
             'message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công',
+            'url' => '/notes?filter=nhập thành phẩm',
         ]);
 
         $ids = User::where(function ($query) {
@@ -65,6 +66,7 @@ class ProductReceiptCreated implements ShouldBroadcastNow
             Notification::create([
                 'user_id' => $id,
                 'message' => $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name,
+                'url' => '/notes?filter=nhập thành phẩm',
             ]);
         }
         return [

@@ -299,13 +299,11 @@ class CategoryController extends Controller
 
             return response()->json([
                 'message' => 'Tạo danh mục thành công',
-                'data' => $category,
-                'status' => 201
+                'status' => 200
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Tạo danh mục thất bại',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500
             ], $e->getCode() ?: 500);
         }
@@ -447,8 +445,7 @@ class CategoryController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Cập nhật danh mục thất bại',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500
             ], $e->getCode() ?: 500);
         }
@@ -511,8 +508,7 @@ class CategoryController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Xóa danh mục thất bại',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500
             ], $e->getCode() ?: 500);
         }

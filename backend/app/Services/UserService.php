@@ -2,10 +2,14 @@
 
 namespace App\Services;
 
+use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use App\Repositories\Interface\UserRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 
 class UserService
 {
@@ -87,5 +91,31 @@ class UserService
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), 0, $e);
         }
+    }
+
+
+    public function sendResetLink(string $email)
+    {
+        // Kiểm tra xem email có tồn tại hay không
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            throw new Exception('Email bạn vừa nhập không tồn tại', 404);
+        }
+        $token = Str::random(60);
+        $insertSuccess = DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $email],
+            ['token' => $token, 'created_at' => now()]
+        );
+        if (!$insertSuccess) {
+            throw new Exception('Lỗi khi lưu token vào cơ sở dữ liệu', 500);
+        }
+        $resetUrl = env("VITE_BASE_URL") . '/reset-password?token=' . $token . '&email=' . urlencode($email);
+        try {
+            Mail::to($email)->send(new ResetPasswordMail($token, $resetUrl));
+        } catch (Exception $e) {
+            throw new Exception('Lỗi khi gửi email reset mật khẩu', 500);
+        }
+
+        return true;
     }
 }

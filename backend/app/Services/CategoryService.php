@@ -145,13 +145,17 @@ class CategoryService
                 throw new ModelNotFoundException('Không tìm thấy danh mục.', 404);
             }
 
+            if ($category->products->count() > 0 || $category->materials->count() > 0) {
+                throw new \Exception('Danh mục này đang được sử dụng, không thể xóa.');
+            }
+
             $category->delete();
 
             return $category;
         } catch (ModelNotFoundException $e) {
             throw new \Exception('Không tìm thấy danh mục với ID: ' . $id);
         } catch (\Exception $e) {
-            throw new \Exception('Lỗi khi xóa danh mục: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 }
