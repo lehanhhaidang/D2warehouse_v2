@@ -506,25 +506,25 @@ class ShelfSeeder extends Seeder
 
             //Ke cho kho nguyen vat lieu
             [
-                'shelf_id' => 7,
+                'shelf_id' => 31,
                 'product_id' => null,
                 'material_id' => 1,
                 'quantity' => 100,
             ],
             [
-                'shelf_id' => 8,
+                'shelf_id' => 31,
                 'product_id' => null,
                 'material_id' => 2,
                 'quantity' => 100,
             ],
             [
-                'shelf_id' => 9,
+                'shelf_id' => 33,
                 'product_id' => null,
-                'material_id' => 3,
+                'material_id' => 1,
                 'quantity' => 100,
             ],
             [
-                'shelf_id' => 10,
+                'shelf_id' => 34,
                 'product_id' => null,
                 'material_id' => 4,
                 'quantity' => 100,
