@@ -1269,6 +1269,10 @@
                                                                 "type": "integer",
                                                                 "example": 1
                                                             },
+                                                            "material_id": {
+                                                                "type": "integer",
+                                                                "example": null
+                                                            },
                                                             "shelf_id": {
                                                                 "type": "integer",
                                                                 "example": 1
@@ -8137,6 +8141,167 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Lỗi khi lọc kệ hàng"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/shelves/details-filter/{warehouseId}": {
+            "get": {
+                "tags": [
+                    "Shelf"
+                ],
+                "summary": "Lấy danh sách kệ hàng theo ID kho hàng",
+                "description": "Lấy thông tin chi tiết của các kệ hàng trong một kho cụ thể, bao gồm thông tin sản phẩm, nguyên vật liệu.",
+                "operationId": "de3a10bd3fdef056f920ff20588f29b7",
+                "parameters": [
+                    {
+                        "name": "warehouseId",
+                        "in": "path",
+                        "description": "ID của kho hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Danh sách kệ hàng và chi tiết",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Kệ 1"
+                                                    },
+                                                    "number_of_levels": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "storage_capacity": {
+                                                        "type": "integer",
+                                                        "example": 5000
+                                                    },
+                                                    "deleted_at": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "category_id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "warehouse_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2024-11-28T13:07:58.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "warehouse_name": {
+                                                        "type": "string",
+                                                        "example": "Kho thành phẩm 1"
+                                                    },
+                                                    "category_name": {
+                                                        "type": "string",
+                                                        "example": "Chai nhựa HDPE"
+                                                    },
+                                                    "details": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "shelf_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "product_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "material_id": {
+                                                                    "type": "integer",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "product_name": {
+                                                                    "type": "string",
+                                                                    "example": "Chai 1 lít TRONG HDPE( TN )"
+                                                                },
+                                                                "material_name": {
+                                                                    "type": "string",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi khi lấy thông tin kệ hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi khi lấy thông tin kệ hàng"
                                         },
                                         "error": {
                                             "type": "string",

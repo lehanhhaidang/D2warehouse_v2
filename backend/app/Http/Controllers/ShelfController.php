@@ -498,12 +498,88 @@ class ShelfController extends Controller
             ],  500);
         }
     }
+
+    /**
+     * @OA\Get(
+     *     path="/v1/shelves/details-filter/{warehouseId}",
+     *     summary="Lấy danh sách kệ hàng theo ID kho hàng",
+     *     description="Lấy thông tin chi tiết của các kệ hàng trong một kho cụ thể, bao gồm thông tin sản phẩm, nguyên vật liệu.",
+     *     tags={"Shelf"},
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="warehouseId",
+     *         in="path",
+     *         required=true,
+     *         description="ID của kho hàng",
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=2
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách kệ hàng và chi tiết",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Kệ 1"),
+     *                     @OA\Property(property="number_of_levels", type="integer", example=5),
+     *                     @OA\Property(property="storage_capacity", type="integer", example=5000),
+     *                     @OA\Property(property="deleted_at", type="string", nullable=true, example=null),
+     *                     @OA\Property(property="category_id", type="integer", example=5),
+     *                     @OA\Property(property="warehouse_id", type="integer", example=2),
+     *                     @OA\Property(property="created_at", type="string", example="2024-11-28T13:07:58.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", nullable=true, example=null),
+     *                     @OA\Property(property="warehouse_name", type="string", example="Kho thành phẩm 1"),
+     *                     @OA\Property(property="category_name", type="string", example="Chai nhựa HDPE"),
+     *                     @OA\Property(
+     *                         property="details",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="id", type="integer", example=1),
+     *                             @OA\Property(property="shelf_id", type="integer", example=1),
+     *                             @OA\Property(property="product_id", type="integer", example=1),
+     *                             @OA\Property(property="material_id", type="integer", nullable=true, example=null),
+     *                             @OA\Property(property="quantity", type="integer", example=100),
+     *                             @OA\Property(property="product_name", type="string", example="Chai 1 lít TRONG HDPE( TN )"),
+     *                             @OA\Property(property="material_name", type="string", nullable=true, example=null)
+     *                         )
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(property="status", type="integer", example=200)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi khi lấy thông tin kệ hàng",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Lỗi khi lấy thông tin kệ hàng"),
+     *             @OA\Property(property="error", type="string", example="Chi tiết lỗi"),
+     *             @OA\Property(property="status", type="integer", example=500)
+     *         )
+     *     )
+     * )
+     */
+
     public function getShelfItemsByWarehouseId($warehouseId)
     {
         try {
             $shelfItems = $this->shelfService->getShelfItemsByWarehouseId($warehouseId);
 
-            return response()->json($shelfItems);
+            return response()->json([
+                'data' => $shelfItems,
+                'status' => 200
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy thông tin kệ hàng',

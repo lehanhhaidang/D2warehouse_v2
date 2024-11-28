@@ -133,6 +133,7 @@ class InventoryReportService
                 'note' => $detail['note'],
             ];
 
+
             if (isset($detail['product_id'])) {
                 $inventoryReportDetailData['product_id'] = $detail['product_id'];
             } elseif (isset($detail['material_id'])) {

@@ -147,6 +147,7 @@ class InventoryReportController extends Controller
      *                 @OA\Property(property="description", type="string", example="ádgasdgfasdfsafs"),
      *                 @OA\Property(property="details", type="array", @OA\Items(
      *                     @OA\Property(property="product_id", type="integer", example=1),
+     *                     @OA\Property(property="material_id", type="integer", example=null),
      *                     @OA\Property(property="shelf_id", type="integer", example=1),
      *                     @OA\Property(property="expected_quantity", type="integer", example=100),
      *                     @OA\Property(property="actual_quantity", type="integer", example=0),
