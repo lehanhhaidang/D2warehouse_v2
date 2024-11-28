@@ -512,7 +512,7 @@ class ShelfSeeder extends Seeder
                 'quantity' => 100,
             ],
             [
-                'shelf_id' => 31,
+                'shelf_id' => 32,
                 'product_id' => null,
                 'material_id' => 2,
                 'quantity' => 100,
