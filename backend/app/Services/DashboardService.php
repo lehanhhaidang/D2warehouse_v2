@@ -39,6 +39,7 @@ class DashboardService
                 'productCategoryCount' => $this->dashboardRepository->getProductCategoryCount(),
                 'materialCategoryCount' => $this->dashboardRepository->getMaterialCategoryCount(),
                 'totalReceptExportNote' => $this->dashboardRepository->totalReceiptExportNote(),
+                'mostFrequentCreatedByName' => $this->dashboardRepository->getMostFrequentCreatedByName(),
             ];
         } catch (Exception $e) {
             throw new Exception('Không thể lấy dữ liệu, vui lòng thử lại sau.');

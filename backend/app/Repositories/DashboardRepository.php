@@ -172,4 +172,38 @@ class DashboardRepository implements DashboardRepositoryInterface
 
         return $allReceiptsAndExports;
     }
+    public function getMostFrequentCreatedByName()
+    {
+        // Gọi hàm để lấy tất cả dữ liệu receipt và export
+        $allReceiptsAndExports = $this->getAllReceiptExportWithDetails();
+
+        // Mảng để lưu trữ số lần xuất hiện của từng created_by_name
+        $createdByNames = [];
+
+        // Lặp qua tất cả các item và đếm số lần xuất hiện của created_by_name
+        foreach ($allReceiptsAndExports as $item) {
+            $createdByName = $item['created_by_name']; // Giả sử trường này có tên là 'created_by_name'
+            if (!empty($createdByName)) {
+                if (isset($createdByNames[$createdByName])) {
+                    $createdByNames[$createdByName]++;
+                } else {
+                    $createdByNames[$createdByName] = 1;
+                }
+            }
+        }
+
+        // Tìm ra created_by_name xuất hiện nhiều nhất
+        $mostFrequentName = null;
+        $highestCount = 0;
+
+        foreach ($createdByNames as $name => $count) {
+            if ($count > $highestCount) {
+                $highestCount = $count;
+                $mostFrequentName = $name;
+            }
+        }
+
+        // Trả về thông tin tên và số lần xuất hiện
+        return $mostFrequentName . ' (' . $highestCount . ')';
+    }
 }

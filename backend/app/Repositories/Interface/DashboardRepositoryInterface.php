@@ -27,4 +27,6 @@ interface DashboardRepositoryInterface
     public function totalReceiptExportNote();
 
     public function getAllReceiptExportWithDetails();
+
+    public function getMostFrequentCreatedByName();
 }
