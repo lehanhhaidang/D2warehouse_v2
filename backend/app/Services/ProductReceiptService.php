@@ -13,11 +13,15 @@ use Illuminate\Support\Facades\DB;
 class ProductReceiptService
 {
     protected $productReceiptRepository;
+    protected $proposeService;
 
     public function __construct(
-        ProductReceiptRepositoryInterface $productReceiptRepository
+        ProductReceiptRepositoryInterface $productReceiptRepository,
+        ProposeService $proposeService
+
     ) {
         $this->productReceiptRepository = $productReceiptRepository;
+        $this->proposeService = $proposeService;
     }
 
     public function getAllProductReceiptsWithDetails()
@@ -192,6 +196,9 @@ class ProductReceiptService
             foreach ($data['details'] as $detail) {
                 $this->processProductReceiptDetail($detail, $productReceipt->id);
             }
+
+            $this->proposeService->handlePropose($data['propose_id'], 4);
+
 
             DB::commit();
 

@@ -16,7 +16,7 @@ class ProposeSeeder extends Seeder
     {
         $proposes = [
             [
-                'name' => "Phiếu đề xuất nhập thành phẩm 01",
+                'name' => "Đề xuất nhập thành phẩm 01",
                 'type' => "DXNTP",
                 'status' => 0,
                 'order_id' => null,
@@ -27,7 +27,7 @@ class ProposeSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'name' => "Phiếu đề xuất xuất thành phẩm 01",
+                'name' => "Đề xuất xuất thành phẩm 01",
                 'type' => "DXXTP",
                 'status' => 0,
                 'order_id' => 1,
@@ -39,7 +39,7 @@ class ProposeSeeder extends Seeder
 
             ],
             [
-                'name' => "Phiếu đề xuất nhập nguyên vật liệu 01",
+                'name' => "Đề xuất nhập nguyên vật liệu 01",
                 'type' => "DXNNVL",
                 'status' => 0,
                 'order_id' => null,
@@ -51,7 +51,7 @@ class ProposeSeeder extends Seeder
 
             ],
             [
-                'name' => "Phiếu đề xuất xuất nguyên vật liệu 01",
+                'name' => "Đề xuất xuất nguyên vật liệu 01",
                 'type' => "DXXNVL",
                 'status' => 0,
                 'order_id' => null,

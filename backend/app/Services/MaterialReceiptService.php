@@ -13,11 +13,14 @@ use Illuminate\Support\Facades\DB;
 class MaterialReceiptService
 {
     protected $materialReceiptRepository;
+    protected $proposeService;
 
     public function __construct(
-        MaterialReceiptRepositoryInterface $materialReceiptRepository
+        MaterialReceiptRepositoryInterface $materialReceiptRepository,
+        ProposeService $proposeService
     ) {
         $this->materialReceiptRepository = $materialReceiptRepository;
+        $this->proposeService = $proposeService;
     }
 
     public function getAllMaterialReceiptsWithDetails()
@@ -188,6 +191,7 @@ class MaterialReceiptService
                 $this->processMaterialReceiptDetail($detail, $MaterialReceipt->id);
             }
 
+            $this->proposeService->handlePropose($data['propose_id'], 4);
             // Commit transaction khi tất cả các thao tác thành công
             DB::commit();
 

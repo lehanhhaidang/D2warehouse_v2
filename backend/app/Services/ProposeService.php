@@ -131,7 +131,7 @@ class ProposeService
         ];
 
         if ($proposeDetailData['quantity'] <= 0 || $proposeDetailData['quantity'] % 100 !== 0) {
-            throw new \Exception('Số lượng không hợp lệ', 400);
+            throw new \Exception('Số lượng phải là bội số của 100 ', 400);
         }
 
         // Kiểm tra loại propose để lưu product_id hoặc material_id
@@ -322,12 +322,12 @@ class ProposeService
             abort_if(!$propose, 404, 'Không tìm thấy đề xuất!');
             abort_if($propose->status < 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này chưa được gửi đi.');
             abort_if(
-                ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3]) ||
+                ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3, 4]) ||
                     ($propose->type === 'DXNNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,
                 403,
                 'Vai trò của bạn không phù hợp để xử lý đề xuất này!'
             );
-            abort_if($propose->status > 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
+            abort_if($propose->status == 4, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
             if ($propose->type === 'DXNTP') {
             }
 

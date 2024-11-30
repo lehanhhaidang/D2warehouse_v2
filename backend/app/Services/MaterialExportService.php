@@ -12,11 +12,14 @@ class MaterialExportService
 {
 
     protected $materialExportRepository;
+    protected $proposeService;
 
     public function __construct(
-        MaterialExportRepositoryInterface $materialExportRepository
+        MaterialExportRepositoryInterface $materialExportRepository,
+        ProposeService $proposeService
     ) {
         $this->materialExportRepository = $materialExportRepository;
+        $this->proposeService = $proposeService;
     }
 
 
@@ -176,6 +179,8 @@ class MaterialExportService
             foreach ($data['details'] as $detail) {
                 $this->processMaterialExportDetail($detail, $materialExport->id);
             }
+
+            $this->proposeService->handlePropose($data['propose_id'], 4);
 
             // Commit transaction khi tất cả các thao tác thành công
             DB::commit();

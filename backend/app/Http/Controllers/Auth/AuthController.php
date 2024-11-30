@@ -28,12 +28,14 @@ class AuthController extends Controller
 
         $user = auth()->user();
 
+        $cookie = cookie('access_token', $token, 60 * 24);
+
         return response()->json([
             'user' => $user,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        ])->withCookie($cookie);
     }
 
     public function me()
