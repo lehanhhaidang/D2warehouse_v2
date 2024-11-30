@@ -31,6 +31,7 @@ class InventoryReportService
                 return [
                     'id' => $inventoryReport->id,
                     'name' => $inventoryReport->name,
+                    'warehouse_id' => $inventoryReport->warehouse_id,
                     'warehouse_name' => $inventoryReport->warehouse ? $inventoryReport->warehouse->name : null,
                     'status' => $inventoryReport->status,
                     'description' => $inventoryReport->description,
@@ -71,6 +72,7 @@ class InventoryReportService
             return [
                 'id' => $inventoryReport->id,
                 'name' => $inventoryReport->name,
+                'warehouse_id' => $inventoryReport->warehouse_id,
                 'warehouse_name' => $inventoryReport->warehouse ? $inventoryReport->warehouse->name : null,
                 'status' => $inventoryReport->status,
                 'description' => $inventoryReport->description,
