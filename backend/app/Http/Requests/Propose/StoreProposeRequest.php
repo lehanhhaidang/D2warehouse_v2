@@ -84,18 +84,18 @@ class StoreProposeRequest extends FormRequest
                 if ($categoryId === 1) {
                     // Nếu category_id là 1, chỉ cho phép material_id
                     if (empty($detail['material_id'])) {
-                        $validator->errors()->add("details.$index.material_id", 'Vui lòng chọn nguyên vật liệu.');
+                        $validator->errors()->add("details.$index.material_id", 'Vui lòng chọn kho thành phẩm.');
                     }
                     if (!empty($detail['product_id'])) {
-                        $validator->errors()->add("details.$index.product_id", 'Không thể chọn thành phẩm cho kho nguyên vật liệu.');
+                        $validator->errors()->add("details.$index.product_id", 'Không thể chọn nguyên vật liệu cho kho thành phẩm.');
                     }
                 } elseif ($categoryId === 2) {
                     // Nếu category_id là 2, chỉ cho phép product_id
                     if (empty($detail['product_id'])) {
-                        $validator->errors()->add("details.$index.product_id", 'Vui lòng chọn thành phẩm.');
+                        $validator->errors()->add("details.$index.product_id", 'Vui lòng chọn kho nguyên vật liệu.');
                     }
                     if (!empty($detail['material_id'])) {
-                        $validator->errors()->add("details.$index.material_id", 'Không thể chọn nguyên vật liệu cho kho thành phẩm.');
+                        $validator->errors()->add("details.$index.material_id", 'Không thể chọn thành phẩm cho kho nguyên vật liệu.');
                     }
                 }
             }
