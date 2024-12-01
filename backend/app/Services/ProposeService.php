@@ -323,7 +323,7 @@ class ProposeService
             abort_if($propose->status < 1, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này chưa được gửi đi.');
             abort_if(
                 ($propose->type === 'DXNTP' || $propose->type === 'DXXTP') && !in_array($roleId, [2, 3, 4]) ||
-                    ($propose->type === 'DXNNVL' || $propose->type === 'DXXNVL') && $roleId !== 3,
+                    ($propose->type === 'DXNNVL' || $propose->type === 'DXXNVL') && $roleId !== 3 && $roleId !== 4,
                 403,
                 'Vai trò của bạn không phù hợp để xử lý đề xuất này!'
             );

@@ -347,6 +347,7 @@ class UserController extends Controller
             ]);
         }
 
+
         // Cập nhật mật khẩu mới
         $user->password = Hash::make($request->new_password);
 
