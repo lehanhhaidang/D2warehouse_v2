@@ -161,6 +161,67 @@ class ShelfService
         // Gọi repository để lọc kệ dựa trên warehouse_id và category_id
         $shelves = $this->shelfRepository->filterShelves($warehouseId, $categoryId);
 
+        $quantities = [];
+
+        // Tính tổng quantity cho từng shelf_id, bỏ qua product_id và material_id
+        foreach ($shelves as $shelf) {
+            // Nếu chưa tính tổng quantity cho shelf_id này thì tính
+            if (!isset($quantities[$shelf['id']])) {
+                $quantities[$shelf['id']] = ShelfDetail::where('shelf_id', $shelf['id'])
+                    ->sum('quantity');
+            }
+        }
+
+        // Cập nhật lại quantity cho tất cả các shelf có cùng shelf_id
+        foreach ($shelves as &$shelf) {
+            // Lấy tổng quantity của shelf_id hiện tại
+            $quantity = $quantities[$shelf['id']] ?? 0;  // Nếu không có thì gán mặc định là 0
+            $shelf['name'] .= " ({$quantity})";
+        }
+        // foreach ($shelves as &$shelf) {
+        //     $quantity = ShelfDetail::where('shelf_id', $shelf['id'])
+        //         ->when($productId, function ($query) use ($productId) {
+        //             $query->where('product_id', $productId);
+        //         })
+        //         ->when($materialId, function ($query) use ($materialId) {
+        //             $query->where('material_id', $materialId);
+        //         })
+        //         ->sum('quantity');
+
+        //     $shelf['name'] .= " ({$quantity})";
+        // }
+
+        return $shelves;
+    }
+
+    public function filterShelvesExport($warehouseId, $productId = null, $materialId = null)
+    {
+        $categoryId = null;
+
+        // Kiểm tra product_id để lấy category_id
+        if ($productId) {
+            $product = Product::find($productId);
+            if ($product) {
+                $categoryId = $product->category_id;
+            }
+        }
+
+        // Kiểm tra material_id để lấy category_id
+        if ($materialId) {
+            $material = Material::find($materialId);
+            if ($material) {
+                $categoryId = $material->category_id;
+            }
+        }
+
+        // Nếu không tìm thấy category_id từ cả product và material thì return null
+        if (!$categoryId) {
+            return [];
+        }
+
+        // Gọi repository để lọc kệ dựa trên warehouse_id và category_id
+        $shelves = $this->shelfRepository->filterShelves($warehouseId, $categoryId);
+
         // Thêm thông tin tổng quantity vào name
         foreach ($shelves as &$shelf) {
             $quantity = ShelfDetail::where('shelf_id', $shelf['id'])
@@ -177,7 +238,6 @@ class ShelfService
 
         return $shelves;
     }
-
 
     public function getShelfItemsByWarehouseId($id)
     {

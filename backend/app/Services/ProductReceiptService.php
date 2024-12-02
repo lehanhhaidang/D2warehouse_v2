@@ -128,6 +128,7 @@ class ProductReceiptService
             $currentTotalQuantity += $existingDetail->quantity; // Cộng dồn số lượng hiện có
         }
 
+
         // Lấy số lượng hiện có cho sản phẩm đang nhập
         $existingShelfDetail = $this->productReceiptRepository->findShelfDetail($detail['shelf_id'], $detail['product_id']);
         $currentQuantity = $existingShelfDetail ? $existingShelfDetail->quantity : 0;
@@ -138,7 +139,7 @@ class ProductReceiptService
         // Kiểm tra tổng số lượng nếu sản phẩm mới được thêm vào
         $totalQuantityAfterAdd = $currentTotalQuantity + $detail['quantity'];
         if ($totalQuantityAfterAdd > $shelf->storage_capacity) {
-            throw new \Exception('Số lượng lưu trữ vượt quá giới hạn của kệ(' . $shelf->storage_capacity . '), tổng số lượng hiện có: ' . $currentTotalQuantity, 400);
+            throw new \Exception('Số lượng lưu trữ vượt quá giới hạn của kệ (' . $shelf->storage_capacity . '),', 400);
         }
 
         // Cập nhật hoặc tạo mới chi tiết sản phẩm trên kệ (shelf_details)

@@ -306,6 +306,7 @@ Route::group(
         Route::patch('shelf/update/{id}', [ShelfController::class, 'update'])->middleware('check.permission:update_shelves');
         Route::delete('shelf/delete/{id}', [ShelfController::class, 'destroy'])->middleware('check.permission:delete_shelves');
         Route::get('/shelves/filter', [ShelfController::class, 'filterShelves'])->middleware('check.permission:view_shelves');
+        Route::get('/shelves/filter-export', [ShelfController::class, 'filterShelvesExport'])->middleware('check.permission:view_shelves');
         Route::get('/shelves/items/{warehouseId}', [ShelfController::class, 'getShelfItemsByWarehouseId'])->middleware('check.permission:view_shelves');
         Route::get('shelves/details', [ShelfController::class, 'getShelvesWithDetails'])->middleware('check.permission:view_shelves');
         Route::get('shelf/details/{id}', [ShelfController::class, 'getShelfDetailsById'])->middleware('check.permission:view_shelves');

@@ -112,8 +112,7 @@ class ProductReceiptController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -205,8 +204,7 @@ class ProductReceiptController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -294,13 +292,12 @@ class ProductReceiptController extends Controller
 
             return response()->json([
                 'message' => 'Tạo phiếu nhập kho thành công',
-                'status' => 201,
+                'status' => 200,
                 'data' => $productReceipt,
-            ], 201);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra trong quá trình tạo phiếu nhập kho',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }

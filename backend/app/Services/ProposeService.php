@@ -134,6 +134,10 @@ class ProposeService
             throw new \Exception('Số lượng phải là bội số của 100 ', 400);
         }
 
+        if ($proposeDetailData['quantity'] > 5000) {
+            throw new \Exception('Số lượng sản phẩm không được vượt quá 5000', 400);
+        }
+
         // Kiểm tra loại propose để lưu product_id hoặc material_id
         if (isset($detail['product_id'])) {
             $proposeDetailData['product_id'] = $detail['product_id'];
@@ -239,6 +243,10 @@ class ProposeService
             // Kiểm tra xem người dùng hiện tại có phải là người tạo ra propose này không
             if ($propose->created_by !== Auth::id()) {
                 throw new \Exception("Bạn không có quyền xóa đề xuất này", 403);
+            }
+
+            if ($propose->status !== 0) {
+                throw new \Exception("Không thể xóa đề xuất đã được gửi đi", 403);
             }
 
 

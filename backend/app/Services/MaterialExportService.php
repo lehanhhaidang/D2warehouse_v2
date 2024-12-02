@@ -117,7 +117,7 @@ class MaterialExportService
         // Lấy chi tiết sản phẩm trên kệ
         $existingShelfDetail = $this->materialExportRepository->findShelfDetail($detail['shelf_id'], $detail['material_id']);
         if (!$existingShelfDetail || $existingShelfDetail->quantity < $detail['quantity']) {
-            throw new \Exception('Số lượng nguyên vật liệu không đủ trên kệ để xuất');
+            throw new \Exception('Số lượng nguyên vật liệu không đủ trên kệ để xuất', 400);
         } else {
             $shelfDetails = [
                 'shelf_id' => $detail['shelf_id'],

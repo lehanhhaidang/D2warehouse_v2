@@ -40,6 +40,11 @@ class StoreProductReceiptRequest extends FormRequest
                     if ($value % 100 !== 0) {
                         $fail('Số lượng sản phẩm phải là bội số của 100.');
                     }
+                },
+                function ($attribute, $value, $fail) {
+                    if ($value > 5000) {
+                        $fail('Số lượng sản phẩm không được lớn hơn số lượng tồn kho.');
+                    }
                 }
             ],
             'propose_id' => 'nullable|exists:proposes,id'
@@ -70,17 +75,22 @@ class StoreProductReceiptRequest extends FormRequest
     }
 
 
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            foreach ($this->details as $detail) {
-                $product = Product::find($detail['product_id']);
-                $shelf = Shelf::find($detail['shelf_id']);
+    // public function withValidator($validator)
+    // {
+    //     $validator->after(function ($validator) {
+    //         foreach ($this->details as $index => $detail) {
+    //             // Kiểm tra nếu không có shelf_id
+    //             if (!isset($detail['shelf_id'])) {
+    //                 $validator->errors()->add('details.' . $index . '.shelf_id', 'Vui lòng chọn kệ.');
+    //             } else {
+    //                 $product = Product::find($detail['product_id']);
+    //                 $shelf = Shelf::find($detail['shelf_id']);
 
-                if ($product->category_id !== $shelf->category_id) {
-                    $validator->errors()->add('details.' . $detail['product_id'], 'Sản phẩm và kệ không có cùng loại danh mục. ');
-                }
-            }
-        });
-    }
+    //                 if ($product && $shelf && $product->category_id !== $shelf->category_id) {
+    //                     $validator->errors()->add('details.' . $index . '.shelf_id', 'Sản phẩm và kệ không có cùng loại danh mục.');
+    //                 }
+    //             }
+    //         }
+    //     });
+    // }
 }

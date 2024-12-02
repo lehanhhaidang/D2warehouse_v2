@@ -460,6 +460,31 @@ class ShelfController extends Controller
     }
 
 
+    public function filterShelvesExport(Request $request)
+    {
+        try {
+            $warehouseId = $request->input('warehouse_id');
+            $productId = $request->input('product_id');
+            $materialId = $request->input('material_id');
+
+            // Gọi service để lọc kệ
+            $shelves = $this->shelfService->filterShelvesExport($warehouseId, $productId, $materialId);
+
+            return response()->json([
+                'data' => $shelves,
+                'status' => 200
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Lỗi khi lọc kệ hàng',
+                'error' => $e->getMessage(),
+                'status' => $e->getCode() ?: 500,
+            ],  500);
+        }
+    }
+
+
+
     public function getShelvesWithDetails()
     {
         try {

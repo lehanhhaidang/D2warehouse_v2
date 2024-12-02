@@ -189,13 +189,12 @@ class ProductExportController extends Controller
 
             return response()->json([
                 'message' => 'Tạo phiếu xuất kho thành công',
-                'status' => 201,
+                'status' => 200,
                 'data' => $productExport,
-            ], 201);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra trong quá trình tạo phiếu xuất kho',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode() ?: 500,
             ], 500);
         }

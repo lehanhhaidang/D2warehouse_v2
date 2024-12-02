@@ -134,7 +134,7 @@ class MaterialReceiptService
         // Kiểm tra tổng số lượng nếu nguyên vật liệu mới được thêm vào
         $totalQuantityAfterAdd = $currentTotalQuantity + $detail['quantity'];
         if ($totalQuantityAfterAdd > $shelf->storage_capacity) {
-            throw new \Exception('Số lượng lưu trữ vượt quá giới hạn của kệ(' . $shelf->storage_capacity . '), tổng số lượng hiện có: ' . $currentTotalQuantity);
+            throw new \Exception('Số lượng lưu trữ vượt quá giới hạn của kệ (' . $shelf->storage_capacity . '),  ', 400);
         }
 
         // Cập nhật hoặc tạo mới chi tiết nguyên vật liệu trên kệ (shelf_details)
