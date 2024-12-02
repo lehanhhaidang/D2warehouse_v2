@@ -92,8 +92,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -182,8 +181,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi tạo phiếu kiểm kê kho',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -263,8 +261,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi lấy dữ liệu',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -374,8 +371,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi cập nhật phiếu kiểm kê kho',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -446,8 +442,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi xóa phiếu kiểm kê kho',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -528,8 +523,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi gửi phiếu kiểm kê',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -610,8 +604,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi xác nhận phiếu kiểm kê',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
@@ -692,8 +685,7 @@ class InventoryReportController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Có lỗi xảy ra khi từ chối phiếu kiểm kê',
-                'error' => $e->getMessage(),
+                'message' => $e->getMessage(),
                 'status' => $e->getCode(),
             ],  500);
         }
