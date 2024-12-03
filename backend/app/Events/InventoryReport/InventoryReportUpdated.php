@@ -3,6 +3,7 @@
 namespace App\Events\InventoryReport;
 
 use App\Models\InventoryReport;
+use App\Models\Notification;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -45,6 +46,11 @@ class InventoryReportUpdated implements ShouldBroadcastNow
 
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => InventoryReport::find($this->inventoryReport)->created_by,
+            'message' => InventoryReport::find($this->inventoryReport)->name . ' đã được cập nhật thành công.',
+            'url' => '/inventory-detail/' . $this->inventoryReport,
+        ]);
         return [
             'event' => 'inventory-report.updated',
             'owner_message' => InventoryReport::find($this->inventoryReport)->name . ' đã được cập nhật thành công.',

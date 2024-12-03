@@ -18,7 +18,7 @@ class InventoryReportSeeder extends Seeder
                 'name' => 'Báo cáo kiểm kê thành phẩm 11/02/2024',
                 'status' => 0,
                 'description' => 'Báo cáo kiểm kê kho thành phẩm 1 ngày 11/02/2024',
-                'created_by' => 1,
+                'created_by' => 4,
                 'warehouse_id' => 2,
                 'created_at' => now(),
             ],

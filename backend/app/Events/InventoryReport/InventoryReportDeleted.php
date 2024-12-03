@@ -3,6 +3,7 @@
 namespace App\Events\InventoryReport;
 
 use App\Models\InventoryReport;
+use App\Models\Notification;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -45,6 +46,11 @@ class InventoryReportDeleted implements ShouldBroadcastNow
 
     public function broadcastWith(): array
     {
+        Notification::create([
+            'user_id' => InventoryReport::withTrashed()->find($this->inventoryReport)->created_by,
+            'message' => InventoryReport::withTrashed()->find($this->inventoryReport)->name . ' đã được xóa thành công.',
+            'url' => '/inventory-reports',
+        ]);
         return [
             'event' => 'inventory-report.deleted',
             'owner_message' => InventoryReport::withTrashed()->find($this->inventoryReport)->name . ' đã được xóa thành công.',

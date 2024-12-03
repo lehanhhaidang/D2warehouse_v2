@@ -194,7 +194,7 @@ class ShelfRepository implements ShelfRepositoryInterface
                             'material_id' => $detail->material_id,
                             'quantity' => $detail->quantity,
                             'product_name' => $detail->product->name ?? null,
-                            'material_name' => $detail->material->name ?? null,
+                            'material_name' => Material::find($detail->material_id)->name ?? null,
                         ];
                     }),
                 ];
