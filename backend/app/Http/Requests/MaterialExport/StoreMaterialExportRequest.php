@@ -74,17 +74,17 @@ class StoreMaterialExportRequest extends FormRequest
         ];
     }
 
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            foreach ($this->details as $detail) {
-                $Material = Material::find($detail['material_id']);
-                $shelf = Shelf::find($detail['shelf_id']);
+    // public function withValidator($validator)
+    // {
+    //     $validator->after(function ($validator) {
+    //         foreach ($this->details as $detail) {
+    //             $Material = Material::find($detail['material_id']);
+    //             $shelf = Shelf::find($detail['shelf_id']);
 
-                if ($Material->category_id !== $shelf->category_id) {
-                    $validator->errors()->add('details.' . $detail['material_id'], 'Nguyên vật liệu và kệ không có cùng loại danh mục. ');
-                }
-            }
-        });
-    }
+    //             if ($Material->category_id !== $shelf->category_id) {
+    //                 $validator->errors()->add('details.' . $detail['material_id'], 'Nguyên vật liệu và kệ không có cùng loại danh mục. ');
+    //             }
+    //         }
+    //     });
+    // }
 }

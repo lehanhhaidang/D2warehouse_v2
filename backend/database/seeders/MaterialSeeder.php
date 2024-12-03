@@ -16,7 +16,7 @@ class MaterialSeeder extends Seeder
         DB::table('materials')->insert([
             [
                 'name' => 'Nhựa HDPE',
-                'unit' => 'bao',
+                'unit' => 'KG',
                 'quantity' => 0,
                 'category_id' => 3,
                 'status' => 1,
@@ -25,7 +25,7 @@ class MaterialSeeder extends Seeder
             ],
             [
                 'name' => 'Nhựa PET',
-                'unit' => 'bao',
+                'unit' => 'KG',
                 'quantity' => 0,
                 'category_id' => 4,
                 'status' => 1,

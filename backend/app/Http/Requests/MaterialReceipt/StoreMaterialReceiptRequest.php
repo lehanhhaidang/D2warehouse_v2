@@ -60,17 +60,17 @@ class StoreMaterialReceiptRequest extends FormRequest
     }
 
 
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            foreach ($this->details as $detail) {
-                $material = Material::find($detail['material_id']);
-                $shelf = Shelf::find($detail['shelf_id']);
+    // public function withValidator($validator)
+    // {
+    //     $validator->after(function ($validator) {
+    //         foreach ($this->details as $detail) {
+    //             $material = Material::find($detail['material_id']);
+    //             $shelf = Shelf::find($detail['shelf_id']);
 
-                if ($material->category_id !== $shelf->category_id) {
-                    $validator->errors()->add('details.' . $detail['material_id'], 'Sản phẩm và kệ không có cùng loại danh mục. ');
-                }
-            }
-        });
-    }
+    //             if ($material->category_id !== $shelf->category_id) {
+    //                 $validator->errors()->add('details.' . $detail['material_id'], 'Sản phẩm và kệ không có cùng loại danh mục. ');
+    //             }
+    //         }
+    //     });
+    // }
 }
