@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\warehouse;
+namespace App\Events\Warehouse;
 
 use App\Models\Category;
 use App\Models\Notification;

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\warehouse\WarehouseCreated;
-use App\Events\warehouse\WarehouseDeleted;
-use App\Events\warehouse\WarehouseUpdated;
+use App\Events\Warehouse\WarehouseCreated;
+use App\Events\Warehouse\WarehouseDeleted;
+use App\Events\Warehouse\WarehouseUpdated;
 use App\Http\Requests\Warehouse\StoreWarehouseRequest;
 use App\Models\Warehouse;
 use App\Services\WarehouseService;
@@ -425,7 +425,7 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = $this->warehouseService->deleteWarehouse($id);
-            event(new WarehouseDeleted($warehouse));
+            event(new WarehouseDeleted($id));
             return response()->json([
                 'message' => 'Xóa kho thành công',
                 'status' => 200,
