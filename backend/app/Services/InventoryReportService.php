@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Models\InventoryReport;
+use App\Models\Material;
+use App\Models\Product;
+use App\Models\ShelfDetail;
 use App\Models\User;
 use App\Repositories\InventoryReportRepository;
 use Illuminate\Support\Facades\Auth;
@@ -318,6 +321,91 @@ class InventoryReportService
                 throw new \Exception('Không thể từ chối phiếu kiểm kê chưa được gửi', 400);
             }
             $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 3]);
+            return $inventoryReport;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function acceptAndUpdateQuantityByInventoryReportId($id)
+    {
+        try {
+            // Tìm báo cáo kiểm kê
+            $inventoryReport = InventoryReport::find($id);
+            $roleId = Auth::user()->role_id;
+
+            if ($roleId !== 3) {
+                throw new \Exception('Bạn không có quyền xác nhận phiếu kiểm kê', 403);
+            }
+            if (!$inventoryReport) {
+                throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
+            }
+
+            if ($inventoryReport->status !== 2) {
+                throw new \Exception('Trạng thái phiếu kiểm kê không hợp lệ, có vẻ phiếu chưa được xác nhận', 400);
+            }
+
+            // Lấy chi tiết kiểm kê
+            $details = $inventoryReport->inventoryReportDetails;
+
+            foreach ($details as $detail) {
+                $shelf = ShelfDetail::find($detail->shelf_id);
+
+                // Kiểm tra và cập nhật số lượng cho sản phẩm hoặc nguyên vật liệu
+                if (!is_null($detail->product_id)) {
+                    $product = Product::find($detail->product_id);
+                    if (!$product || !$shelf) {
+                        continue;
+                    }
+
+                    // Tính toán và cập nhật chênh lệch
+                    $quantityDiscrepancy = $detail->expected_quantity - $detail->actual_quantity;
+                    $shelf->quantity -= $quantityDiscrepancy; // Giảm số lượng trên kệ
+                    $product->quantity -= $quantityDiscrepancy; // Giảm số lượng sản phẩm
+                    $shelf->save();
+                    $product->save();
+                } elseif (!is_null($detail->material_id)) {
+                    $material = Material::find($detail->material_id);
+                    if (!$material || !$shelf) {
+                        continue;
+                    }
+
+                    // Tính toán và cập nhật chênh lệch
+                    $quantityDiscrepancy = $detail->expected_quantity - $detail->actual_quantity;
+                    $shelf->quantity -= $quantityDiscrepancy; // Giảm số lượng trên kệ
+                    $material->quantity -= $quantityDiscrepancy; // Giảm số lượng nguyên vật liệu
+                    $shelf->save();
+                    $material->save();
+                }
+            }
+
+            // Cập nhật trạng thái báo cáo kiểm kê
+            $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 4]);
+
+            return $inventoryReport;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function cancelInventoryReport($id)
+    {
+        try {
+            $inventoryReport = InventoryReport::find($id);
+            $roleId = Auth::user()->role_id;
+
+            if (!$inventoryReport) {
+                throw new \Exception('Không tìm thấy phiếu kiểm kê', 404);
+            }
+
+            if ($roleId !== 3) {
+                throw new \Exception('Bạn không có quyền xử lý phiếu kiểm kê', 403);
+            }
+
+            if ($inventoryReport->status < 1) {
+                throw new \Exception('Không thể từ chối phiếu kiểm kê chưa được gửi', 400);
+            }
+            $inventoryReport = $this->inventoryReportRepository->updateInventoryReport($id, ['status' => 5]);
             return $inventoryReport;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode());

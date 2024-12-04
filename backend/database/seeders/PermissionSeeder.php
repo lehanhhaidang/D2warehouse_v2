@@ -131,6 +131,7 @@ class PermissionSeeder extends Seeder
             'send_inventory_report',
             'confirm_inventory_report',
             'reject_inventory_report',
+            'confirm_change_quantity_inventory_report'
 
 
 

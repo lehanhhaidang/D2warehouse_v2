@@ -118,13 +118,16 @@ class RoleSeeder extends Seeder
 
             //Products
             'view_products',
+            'update_products',
 
             //Materials
             'view_materials',
+            'update_materials',
 
             //SHevles
 
             'view_shelves',
+            'update_shelves',
 
             //Product Receipts
             'view_product_receipts',
@@ -140,6 +143,8 @@ class RoleSeeder extends Seeder
 
             //Inventory Reports
             'view_inventory_reports',
+            'confirm_inventory_report',
+            'reject_inventory_report',
 
             //Proposes
             'view_proposes',

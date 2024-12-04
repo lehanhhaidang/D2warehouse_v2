@@ -386,6 +386,8 @@ Route::group(
         Route::patch('inventory-report/send/{id}', [InventoryReportController::class, 'sendInventoryReport'])->middleware('check.permission:send_inventory_report');
         Route::patch('inventory-report/confirm/{id}', [InventoryReportController::class, 'confirmInventoryReport'])->middleware('check.permission:confirm_inventory_report');
         Route::patch('inventory-report/reject/{id}', [InventoryReportController::class, 'rejectInventoryReport'])->middleware('check.permission:reject_inventory_report');
+        Route::patch('inventory-report/accept/{id}', [InventoryReportController::class, 'confirmAndUpdateQuantity'])->middleware('check.permission:confirm_inventory_report');
+        Route::patch('inventory-report/cancel/{id}', [InventoryReportController::class, 'cancelInventoryReport'])->middleware('check.permission:reject_inventory_report');
     }
 );
 

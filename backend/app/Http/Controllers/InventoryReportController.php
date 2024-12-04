@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InventoryReport\InventoryReportCancelled;
 use App\Events\InventoryReport\InventoryReportConfirmed;
 use App\Events\InventoryReport\InventoryReportCreated;
 use App\Events\InventoryReport\InventoryReportDeleted;
+use App\Events\InventoryReport\InventoryReportPassed;
 use App\Events\InventoryReport\InventoryReportRejected;
 use App\Events\InventoryReport\InventoryReportSent;
 use App\Events\InventoryReport\InventoryReportUpdated;
@@ -678,6 +680,43 @@ class InventoryReportController extends Controller
         try {
             $inventoryReport = $this->inventoryReportService->rejectInventoryReport($id);
             event(new InventoryReportRejected($inventoryReport->id));
+
+            return response()->json([
+                'message' => 'Từ chối phiếu kiểm kê thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => $e->getCode(),
+            ],  500);
+        }
+    }
+
+    public function confirmAndUpdateQuantity($id)
+    {
+        try {
+            $this->inventoryReportService->acceptAndUpdateQuantityByInventoryReportId($id);
+
+            event(new InventoryReportPassed($id));
+            return response()->json([
+                'message' => 'Xác nhận phiếu kiểm kê và cập nhật số lượng thành công',
+                'status' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => $e->getCode(),
+            ], 500);
+        }
+    }
+
+    public function cancelInventoryReport($id)
+    {
+        try {
+            $this->inventoryReportService->cancelInventoryReport($id);
+
+            event(new InventoryReportCancelled($id));
 
             return response()->json([
                 'message' => 'Từ chối phiếu kiểm kê thành công',
