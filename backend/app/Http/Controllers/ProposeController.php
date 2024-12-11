@@ -198,6 +198,7 @@ class ProposeController extends Controller
         try {
             $propose = $this->proposeService->createProposeWithDetails($request->all());
 
+
             event(new ProposeCreated($propose));
             return response()->json([
                 'message' => 'Tạo đề xuất thành công',

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ManufacturingPlan;
 use App\Models\Propose;
 use App\Models\Shelf;
 use App\Repositories\Interface\MaterialExportRepositoryInterface;
@@ -13,13 +14,16 @@ class MaterialExportService
 
     protected $materialExportRepository;
     protected $proposeService;
+    protected $manufacturingPlanService;
 
     public function __construct(
         MaterialExportRepositoryInterface $materialExportRepository,
-        ProposeService $proposeService
+        ProposeService $proposeService,
+        ManufacturingPlanService $manufacturingPlanService
     ) {
         $this->materialExportRepository = $materialExportRepository;
         $this->proposeService = $proposeService;
+        $this->manufacturingPlanService = $manufacturingPlanService;
     }
 
 
@@ -42,6 +46,8 @@ class MaterialExportService
                     'note' => $materialExport->note,
                     'propose_id' => $materialExport->propose_id,
                     'propose_name' => $materialExport->propose ? $materialExport->propose->name : null,
+                    'manufacturing_plan_id' => $materialExport->propose ? $materialExport->propose->manufacturing_plan_id : null,
+                    'manufacturing_plan_name' => $materialExport->propose->manufacturingPlan ? $materialExport->propose->manufacturingPlan->name : null,
                     'created_by' => $materialExport->created_by,
                     'created_by_name' => $materialExport->user ? $materialExport->user->name : null,
                     'created_at' => $materialExport->created_at,
@@ -84,6 +90,8 @@ class MaterialExportService
                 'note' => $materialExport->note,
                 'propose_id' => $materialExport->propose_id,
                 'propose_name' => $materialExport->propose ? $materialExport->propose->name : null,
+                'manufacturing_plan_id' => $materialExport->propose ? $materialExport->propose->manufacturing_plan_id : null,
+                'manufacturing_plan_name' => $materialExport->propose->manufacturingPlan ? $materialExport->propose->manufacturingPlan->name : null,
                 'created_by' => $materialExport->created_by,
                 'created_by_name' => $materialExport->user ? $materialExport->user->name : null,
                 'created_at' => $materialExport->created_at,
@@ -181,6 +189,11 @@ class MaterialExportService
             }
 
             $this->proposeService->handlePropose($data['propose_id'], 4);
+
+            $manufacturingPlanId = Propose::find($data['propose_id'])->manufacturing_plan_id;
+
+            $this->manufacturingPlanService->updateStatusManufacturingPlan($manufacturingPlanId, ['status' => '4']);
+
 
             // Commit transaction khi tất cả các thao tác thành công
             DB::commit();

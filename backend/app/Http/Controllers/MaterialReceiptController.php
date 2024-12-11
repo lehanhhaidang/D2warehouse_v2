@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\MaterialReceipt\MaterialReceiptCreated;
 use App\Http\Requests\MaterialReceipt\StoreMaterialReceiptRequest;
+use App\Models\ManufacturingPlan;
 use App\Models\MaterialReceipt;
+use App\Models\Propose;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Services\MaterialReceiptService;
 use Illuminate\Http\Request;

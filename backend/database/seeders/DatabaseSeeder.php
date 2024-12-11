@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             // MaterialExportSeeder::class,
             InventoryReportSeeder::class,
             WarehouseStaffSeeder::class,
+            ProductMaterialFormula::class,
 
 
         ]);

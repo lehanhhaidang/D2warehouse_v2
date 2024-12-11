@@ -48,7 +48,7 @@ class MaterialExportCreated implements ShouldBroadcastNow
     {
         Notification::create([
             'user_id' => $this->materialExport->created_by,
-            'message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công',
+            'message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công. Kế hoạch tương ứng đã được cập nhật và sẵn sàng để bắt đàu sản xuất.',
             'url' => '/notes?filter=xuất nguyên vật liệu',
         ]);
 
@@ -64,14 +64,16 @@ class MaterialExportCreated implements ShouldBroadcastNow
         foreach ($ids as $id) {
             Notification::create([
                 'user_id' => $id,
-                'message' => $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name,
+                'message' => $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name .
+                    ' thành công. Kế hoạch tương ứng  đã được cập nhật và sẵn sàng để bắt đầu sản xuất',
                 'url' => '/notes?filter=xuất nguyên vật liệu',
             ]);
         }
         return [
             'event' => 'material-export.created',
-            'manager_message' =>  $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name,
-            'employee_message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công',
+            'manager_message' =>  $this->materialExport->user->name . ' đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name .
+                ' thành công. Kế hoạch tương ứng  đã được cập nhật và sẵn sàng để bắt đầu sản xuất',
+            'employee_message' => 'Bạn đã tạo ' . $this->materialExport->name . ' dựa trên ' . $this->materialExport->propose->name . ' thành công. Kế hoạch tương ứng đã được cập nhật và sẵn sàng để bắt đầu sản xuất.',
             'product_receipt_id' => $this->materialExport->id,
             'product_receipt_created_by' => $this->materialExport->created_by,
         ];

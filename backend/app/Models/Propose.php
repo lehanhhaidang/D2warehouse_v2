@@ -20,6 +20,7 @@ class Propose extends Model
         'description',
         'created_by',
         'assigned_to',
+        'manufacturing_plan_id',
 
     ];
 
@@ -48,5 +49,10 @@ class Propose extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function manufacturingPlan()
+    {
+        return $this->belongsTo(ManufacturingPlan::class);
     }
 }

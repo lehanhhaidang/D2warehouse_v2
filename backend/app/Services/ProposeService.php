@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ManufacturingPlan;
 use App\Models\Propose;
 use App\Models\ProposeDetail;
 use App\Models\User;
@@ -14,9 +15,14 @@ class ProposeService
 {
     protected $proposeRepository;
 
-    public function __construct(ProposeRepositoryInterface $proposeRepository)
-    {
+    protected $manufacturingPlanService;
+
+    public function __construct(
+        ProposeRepositoryInterface $proposeRepository,
+        ManufacturingPlanService $manufacturingPlanService
+    ) {
         $this->proposeRepository = $proposeRepository;
+        $this->manufacturingPlanService = $manufacturingPlanService;
     }
 
     public function getAllProposeWithDetails()
@@ -43,6 +49,8 @@ class ProposeService
                     'description' => $propose->description,
                     'created_by' => $propose->created_by,
                     'created_by_name' => $propose->user->name ?? null,
+                    'manufacturing_plan_id' => $propose->manufacturing_plan_id,
+                    'manufacturing_plan_name' => ManufacturingPlan::find($propose->manufacturing_plan_id)->name ?? null,
                     'created_at' => $propose->created_at,
                     'updated_at' => $propose->updated_at,
                     'details' => $propose->details->map(function ($detail) {
@@ -86,6 +94,8 @@ class ProposeService
                 'description' => $propose->description,
                 'created_by' => $propose->created_by,
                 'created_by_name' => $propose->user->name ?? null,
+                'manufacturing_plan_id' => $propose->manufacturing_plan_id,
+                'manufacturing_plan_name' => ManufacturingPlan::find($propose->manufacturing_plan_id)->name ?? null,
                 'created_at' => $propose->created_at,
                 'updated_at' => $propose->updated_at,
                 'details' => $propose->details->map(function ($detail) {
@@ -116,6 +126,7 @@ class ProposeService
             'created_by' => Auth::id(),
             'assigned_to' => $data['assigned_to'] ?? null,
             'order_id' => $data['order_id'] ?? null,
+            'manufacturing_plan_id' => $data['manufacturing_plan_id'] ?? null,
         ];
 
         return $this->proposeRepository->createPropose($proposeData);
@@ -130,8 +141,10 @@ class ProposeService
             'quantity' => $detail['quantity'],
         ];
 
-        if ($proposeDetailData['quantity'] <= 0 || $proposeDetailData['quantity'] % 100 !== 0) {
-            throw new \Exception('Số lượng phải là bội số của 100 ', 400);
+        if (Propose::find($proposeId)->type !== 'DXXNVL') {
+            if ($proposeDetailData['quantity'] <= 0 || $proposeDetailData['quantity'] % 100 !== 0) {
+                throw new \Exception('Số lượng phải là bội số của 100 ', 400);
+            }
         }
 
         if ($proposeDetailData['quantity'] > 5000) {
@@ -336,9 +349,12 @@ class ProposeService
                 'Vai trò của bạn không phù hợp để xử lý đề xuất này!'
             );
             abort_if($propose->status == 4, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
-            if ($propose->type === 'DXNTP') {
-            }
 
+            if ($propose->type === 'DXXNVL') {
+                $manufacturingPlanId = Propose::find($propose->id)->manufacturing_plan_id;
+
+                $this->manufacturingPlanService->updateStatusManufacturingPlan($manufacturingPlanId, ['status' => 3]);
+            }
             return $this->proposeRepository->updatePropose($id, ['status' => $status]);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode());

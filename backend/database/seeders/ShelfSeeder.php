@@ -735,9 +735,7 @@ class ShelfSeeder extends Seeder
                 'quantity' => 200,
             ],
 
-
-
-            //Ke cho kho nguyen vat lieu
+            //Kệ cho kho nguyên vật liệu
             [
                 'shelf_id' => 36,
                 'product_id' => null,
@@ -748,20 +746,9 @@ class ShelfSeeder extends Seeder
                 'shelf_id' => 37,
                 'product_id' => null,
                 'material_id' => 2,
-                'quantity' => 1000,
+                'quantity' => 2000,
             ],
-            [
-                'shelf_id' => 38,
-                'product_id' => null,
-                'material_id' => 1,
-                'quantity' => 3000,
-            ],
-            [
-                'shelf_id' => 39,
-                'product_id' => null,
-                'material_id' => 2,
-                'quantity' => 1000,
-            ],
+
 
 
         ];

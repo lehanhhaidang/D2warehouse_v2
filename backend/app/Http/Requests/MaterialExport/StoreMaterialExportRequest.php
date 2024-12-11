@@ -33,16 +33,17 @@ class StoreMaterialExportRequest extends FormRequest
             'details.*.material_id' => 'required|exists:materials,id',
             'details.*.shelf_id' => 'required|exists:shelves,id',
             'details.*.unit' => 'required|string',
-            'details.*.quantity' => [
-                'required',
-                'integer',
-                'min:1',
-                function ($attribute, $value, $fail) {
-                    if ($value % 100 !== 0) {
-                        $fail('Số lượng nguyên vật liệu phải là bội số của 100.');
-                    }
-                },
-            ],
+            // 'details.*.quantity' => [
+            //     'required',
+            //     'integer',
+            //     'min:1',
+            //     function ($attribute, $value, $fail) {
+            //         if ($value % 100 !== 0) {
+            //             $fail('Số lượng nguyên vật liệu phải là bội số của 100.');
+            //         }
+            //     },
+            // ],
+            'details.*.quantity' => 'required|integer',
             'propose_id' => 'required|exists:proposes,id',
         ];
     }
@@ -68,7 +69,7 @@ class StoreMaterialExportRequest extends FormRequest
             'details.*.quantity.min' => 'Số lượng xuất phải lớn hơn 0.',
             'details.*.quantity.integer' => 'Số lượng xuất phải là số nguyên.',
             'details.*.quantity.required' => 'Số lượng xuất không được để trống.',
-            'details.*.quantity.exists' => 'Số lượng xuất phải nhỏ hơn hoặc bằng số lượng hiện có trên kệ.',
+            // 'details.*.quantity.exists' => 'Số lượng xuất phải nhỏ hơn hoặc bằng số lượng hiện có trên kệ.',
             'propose_id.required' => 'Đề xuất không được để trống.',
 
         ];

@@ -15,13 +15,17 @@ class ProductReceiptService
     protected $productReceiptRepository;
     protected $proposeService;
 
+    protected $manufacturingPlanService;
+
     public function __construct(
         ProductReceiptRepositoryInterface $productReceiptRepository,
-        ProposeService $proposeService
+        ProposeService $proposeService,
+        ManufacturingPlanService $manufacturingPlanService
 
     ) {
         $this->productReceiptRepository = $productReceiptRepository;
         $this->proposeService = $proposeService;
+        $this->manufacturingPlanService = $manufacturingPlanService;
     }
 
     public function getAllProductReceiptsWithDetails()
@@ -46,6 +50,8 @@ class ProductReceiptService
                     'propose_name' => $productReceipt->propose ? $productReceipt->propose->name : null,
                     'created_by' => $productReceipt->created_by,
                     'created_by_name' => $productReceipt->user ? $productReceipt->user->name : null,
+                    'manufacturing_plan_id' => $productReceipt->propose ? $productReceipt->propose->manufacturing_plan_id : null,
+                    'manufacturing_plan_name' => $productReceipt->propose->manufacturingPlan ? $productReceipt->propose->manufacturingPlan->name : null,
                     'created_at' => $productReceipt->created_at,
                     'updated_at' => $productReceipt->updated_at,
                     'details' => $productReceipt->details->map(function ($detail) {
@@ -89,6 +95,8 @@ class ProductReceiptService
                 'propose_name' => $productReceipt->propose ? $productReceipt->propose->name : null,
                 'created_by' => $productReceipt->created_by,
                 'created_by_name' => $productReceipt->user ? $productReceipt->user->name : null,
+                'manufacturing_plan_id' => $productReceipt->propose ? $productReceipt->propose->manufacturing_plan_id : null,
+                'manufacturing_plan_name' => $productReceipt->propose->manufacturingPlan ? $productReceipt->propose->manufacturingPlan->name : null,
                 'created_at' => $productReceipt->created_at,
                 'updated_at' => $productReceipt->updated_at,
                 'details' => $productReceipt->details->map(function ($detail) {
@@ -199,6 +207,10 @@ class ProductReceiptService
             }
 
             $this->proposeService->handlePropose($data['propose_id'], 4);
+
+            $manufacturingPlanId = Propose::find($data['propose_id'])->manufacturing_plan_id;
+
+            $this->manufacturingPlanService->updateStatusManufacturingPlan($manufacturingPlanId, ['status' => 7]);
 
 
             DB::commit();

@@ -12,12 +12,14 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryReportController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\ManufacturingPlanController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialExportController;
 use App\Http\Controllers\MaterialReceiptController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductExportController;
+use App\Http\Controllers\ProductMaterialFormulaController;
 use App\Http\Controllers\ProductReceiptController;
 use App\Http\Controllers\ProposeController;
 use App\Http\Controllers\ShelfController;
@@ -426,5 +428,40 @@ Route::group(
     function ($router) {
         Route::get('noti', [NotificationController::class, 'index']);
         Route::patch('noti/update-status', [NotificationController::class, 'updateStatus']);
+    }
+);
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        Route::post('calculate-material', [ProductMaterialFormulaController::class, 'calculateMaterials']);
+    }
+);
+
+Route::group(
+    [
+        'middleware' => [
+            'api',
+            'jwt',
+        ],
+        'prefix' => 'v1'
+    ],
+    function ($router) {
+        Route::get('manufacturing-plans', [ManufacturingPlanController::class, 'index']);
+        Route::get('manufacturing-plan/{id}', [ManufacturingPlanController::class, 'show']);
+        Route::post('manufacturing-plan/add', [ManufacturingPlanController::class, 'store']);
+        Route::patch('manufacturing-plan/update/{id}', [ManufacturingPlanController::class, 'update']);
+        Route::delete('manufacturing-plan/delete/{id}', [ManufacturingPlanController::class, 'destroy']);
+        Route::patch('manufacturing-plan/send/{id}', [ManufacturingPlanController::class, 'sendManufacturingPlan']);
+        Route::patch('manufacturing-plan/confirm/{id}', [ManufacturingPlanController::class, 'confirmManufacturingPlan']);
+        Route::patch('manufacturing-plan/reject/{id}', [ManufacturingPlanController::class, 'rejectManufacturingPlan']);
+        Route::patch('manufacturing-plan/begin/{id}', [ManufacturingPlanController::class, 'beginManufacturing']);
+        Route::patch('manufacturing-plan/finish/{id}', [ManufacturingPlanController::class, 'finishManufacturing']);
     }
 );

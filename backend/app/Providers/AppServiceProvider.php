@@ -9,6 +9,7 @@ use App\Repositories\DashboardRepository;
 use App\Repositories\Interface\CategoryRepositoryInterface;
 use App\Repositories\Interface\ColorRepositoryInterface;
 use App\Repositories\Interface\DashboardRepositoryInterface;
+use App\Repositories\Interface\ManufacturingPlanRepositoryInterface;
 use App\Repositories\Interface\MaterialExportRepositoryInterface;
 use App\Repositories\Interface\MaterialReceiptRepositoryInterface;
 use App\Repositories\Interface\MaterialRepositoryInterface;
@@ -16,6 +17,7 @@ use App\Repositories\Interface\NotificationRepositoryInterface;
 use App\Repositories\Interface\ProductExportRepositoryInterface;
 use App\Repositories\Interface\ProductReceiptRepositoryInterface;
 use App\Repositories\Interface\UserRepositoryInterface;
+use App\Repositories\ManufacturingPlanRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\Interface\ProductRepositoryInterface;
 use App\Repositories\Interface\ProposeRepositoryInterface;
@@ -23,6 +25,7 @@ use App\Repositories\Interface\RoleRepositoryInterface;
 use App\Repositories\Interface\ShelfRepositoryInterface;
 use App\Repositories\Interface\WarehouseRepositoryInterface;
 use App\Repositories\Interface\OrderRepositoryInterface;
+use App\Repositories\Interface\ProductMaterialFormulaRepositoryInterface;
 use App\Repositories\MaterialExportRepository;
 use App\Repositories\MaterialReceiptRepository;
 use App\Repositories\ShelfRepository;
@@ -30,6 +33,7 @@ use App\Repositories\MaterialRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductExportRepository;
+use App\Repositories\ProductMaterialFormulaRepository;
 use App\Repositories\ProductReceiptRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProposeRepository;
@@ -75,6 +79,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
 
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
+
+        $this->app->bind(ProductMaterialFormulaRepositoryInterface::class, ProductMaterialFormulaRepository::class);
+
+        $this->app->bind(ManufacturingPlanRepositoryInterface::class, ManufacturingPlanRepository::class);
     }
 
     /**

@@ -70,7 +70,7 @@ class InventoryReportService
             $inventoryReport = $this->inventoryReportRepository->getInventoryReportWithDetails($id);
 
             if (!$inventoryReport) {
-                throw new \Exception('Hiện tại chưa có phiếu kiểm kê kho nào', 404);
+                throw new \Exception('Không tìm thấy phiếu kiểm kê này', 404);
             }
             return [
                 'id' => $inventoryReport->id,
@@ -349,10 +349,9 @@ class InventoryReportService
             $details = $inventoryReport->inventoryReportDetails;
 
             foreach ($details as $detail) {
-                $shelf = ShelfDetail::find($detail->shelf_id);
-
+                $shelf = ShelfDetail::where('shelf_id', $detail->shelf_id)->first();
                 // Kiểm tra và cập nhật số lượng cho sản phẩm hoặc nguyên vật liệu
-                if (!is_null($detail->product_id)) {
+                if ($detail->product_id !== null) {
                     $product = Product::find($detail->product_id);
                     if (!$product || !$shelf) {
                         continue;
@@ -364,7 +363,9 @@ class InventoryReportService
                     $product->quantity -= $quantityDiscrepancy; // Giảm số lượng sản phẩm
                     $shelf->save();
                     $product->save();
-                } elseif (!is_null($detail->material_id)) {
+
+                    // dd($shelf, $product, $quantityDiscrepancy);
+                } elseif ($detail->material_id !== null) {
                     $material = Material::find($detail->material_id);
                     if (!$material || !$shelf) {
                         continue;

@@ -20,11 +20,13 @@ return new class extends Migration
             $table->string('description');
             $table->unsignedBigInteger('assigned_to')->nullable();
             $table->unsignedBigInteger('order_id')->nullable();
+            $table->unsignedBigInteger('manufacturing_plan_id')->nullable();
             $table->unsignedbigInteger('warehouse_id');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('manufacturing_plan_id')->references('id')->on('manufacturing_plans');
             $table->foreign('assigned_to')->references('id')->on('users');
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('created_by')->references('id')->on('users');

@@ -49,7 +49,7 @@ class ProductReceiptCreated implements ShouldBroadcastNow
     {
         Notification::create([
             'user_id' => $this->productReceipt->created_by,
-            'message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công',
+            'message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công. Kế hoạch sản xuất tương ứng đã hoàn thành.',
             'url' => '/notes?filter=nhập thành phẩm',
         ]);
 
@@ -65,14 +65,14 @@ class ProductReceiptCreated implements ShouldBroadcastNow
         foreach ($ids as $id) {
             Notification::create([
                 'user_id' => $id,
-                'message' => $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name,
+                'message' => $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . '. Kế hoạch sản xuất tương ứng đã hoàn thành.',
                 'url' => '/notes?filter=nhập thành phẩm',
             ]);
         }
         return [
             'event' => 'product-receipt.created',
-            'manager_message' =>  $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name,
-            'employee_message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công',
+            'manager_message' =>  $this->productReceipt->user->name . ' đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . '. Kế hoạch sản xuất tương ứng đã hoàn thành.',
+            'employee_message' => 'Bạn đã tạo ' . $this->productReceipt->name . ' dựa trên ' . $this->productReceipt->propose->name . ' thành công. Kế hoạch sản xuất tương ứng đã hoàn thành.',
             'product_receipt_id' => $this->productReceipt->id,
             'product_receipt_created_by' => $this->productReceipt->created_by,
         ];
