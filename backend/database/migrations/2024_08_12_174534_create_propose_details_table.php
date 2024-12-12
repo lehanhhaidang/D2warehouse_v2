@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('material_id')->nullable();
             $table->string('unit');
             $table->integer('quantity');
+            $table->string('note')->nullable();
 
             $table->timestamps();
 

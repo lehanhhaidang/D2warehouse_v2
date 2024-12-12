@@ -62,6 +62,7 @@ class ProposeService
                             'material_name' => $detail->material->name ?? null,
                             'unit' => $detail->unit,
                             'quantity' => $detail->quantity,
+                            'note' => $detail->note ?? null,
                         ];
                     }),
                 ];
@@ -107,6 +108,7 @@ class ProposeService
                         'material_name' => $detail->material->name ?? null,
                         'unit' => $detail->unit,
                         'quantity' => $detail->quantity,
+                        'note' => $detail->note ?? null,
                     ];
                 }),
             ];
@@ -139,6 +141,7 @@ class ProposeService
             'propose_id' => $proposeId,
             'unit' => $detail['unit'],
             'quantity' => $detail['quantity'],
+            'note' => $detail['note'] ?? null,
         ];
 
         if (Propose::find($proposeId)->type !== 'DXXNVL') {

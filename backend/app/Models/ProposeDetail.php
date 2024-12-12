@@ -16,6 +16,7 @@ class ProposeDetail extends Model
         'quantity',
         'unit',
         'status',
+        'note',
     ];
 
     public $timestamps = false;
