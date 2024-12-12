@@ -27,6 +27,7 @@ class OrderService
             return $oders->map(function ($order) {
                 return [
                     'id' => $order->id,
+                    'name' => $order->name,
                     'customer_name' => $order->customer_name,
                     'customer_email' => $order->customer_email,
                     'customer_phone' => $order->customer_phone,
@@ -66,6 +67,7 @@ class OrderService
 
             return [
                 'id' => $order->id,
+                'name' => $order->name,
                 'customer_name' => $order->customer_name,
                 'customer_email' => $order->customer_email,
                 'customer_phone' => $order->customer_phone,
@@ -106,7 +108,7 @@ class OrderService
         }
     }
 
-    public function completeOrder($id)
+    public function startProcessingOrder($id)
     {
         try {
             $order = $this->findOrder($id);
@@ -119,12 +121,25 @@ class OrderService
         }
     }
 
-    public function cancelOrder($id)
+    public function completeOrder($id)
     {
         try {
             $order = $this->findOrder($id);
 
             $order = $this->orderRepository->update($id, ['status' => 3]);
+
+            return $order;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function cancelOrder($id)
+    {
+        try {
+            $order = $this->findOrder($id);
+
+            $order = $this->orderRepository->update($id, ['status' => 4]);
 
             return $order;
         } catch (\Exception $e) {
@@ -142,5 +157,14 @@ class OrderService
         }
 
         return $order;
+    }
+
+    public function updateStatusOrder(int $orderId, array $data)
+    {
+        $data = [
+            'status' => $data['status'],
+        ];
+
+        return $this->orderRepository->update($orderId, $data);
     }
 }

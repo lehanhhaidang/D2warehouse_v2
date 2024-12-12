@@ -354,15 +354,16 @@ Route::group(
     ],
     function ($router) {
         //Order Routes
-        Route::get('orders', [OrderController::class, 'index'])->middleware('check.permission:view_orders');
-        Route::get('order/{id}', [OrderController::class, 'show'])->middleware('check.permission:view_orders');
-        Route::post('order/add', [OrderController::class, 'store'])->middleware('check.permission:create_orders');
-        Route::patch('order/update/{id}', [OrderController::class, 'update'])->middleware('check.permission:update_orders');
-        Route::delete('order/delete/{id}', [OrderController::class, 'destroy'])->middleware('check.permission:delete_orders');
+        Route::get('orders', [OrderController::class, 'index']);
+        Route::get('order/{id}', [OrderController::class, 'show']);
+        Route::post('order/add', [OrderController::class, 'store']);
+        Route::patch('order/update/{id}', [OrderController::class, 'update']);
+        Route::delete('order/delete/{id}', [OrderController::class, 'destroy']);
 
-        Route::patch('order/confirm/{id}', action: [OrderController::class, 'confirmOrder'])->middleware('check.permission:update_orders');
-        Route::patch('order/complete/{id}', [OrderController::class, 'completeOrder'])->middleware('check.permission:update_orders');
-        Route::patch('order/cancel/{id}', [OrderController::class, 'cancelOrder'])->middleware('check.permission:update_orders');
+        Route::patch('order/confirm/{id}', action: [OrderController::class, 'confirmOrder']);
+        Route::patch('order/start-process/{id}', action: [OrderController::class, 'startProcessingOrder']);
+        Route::patch('order/complete/{id}', [OrderController::class, 'completeOrder']);
+        Route::patch('order/cancel/{id}', [OrderController::class, 'cancelOrder']);
     }
 );
 

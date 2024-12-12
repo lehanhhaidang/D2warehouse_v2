@@ -14,12 +14,16 @@ class ProductExportService
     protected $productExportRepository;
     protected $proposeService;
 
+    protected $orderService;
+
     public function __construct(
         ProductExportRepositoryInterface $productExportRepository,
-        ProposeService $proposeService
+        ProposeService $proposeService,
+        OrderService $orderService
     ) {
         $this->productExportRepository = $productExportRepository;
         $this->proposeService = $proposeService;
+        $this->orderService = $orderService;
     }
 
 
@@ -42,6 +46,8 @@ class ProductExportService
                     'note' => $productExport->note,
                     'propose_id' => $productExport->propose_id,
                     'propose_name' => $productExport->propose ? $productExport->propose->name : null,
+                    'order_id' => $productExport->propose ? $productExport->propose->order_id : null,
+                    'order_name' => $productExport->propose ? $productExport->propose->order->name : null,
                     'created_by' => $productExport->created_by,
                     'created_by_name' => $productExport->user ? $productExport->user->name : null,
                     'created_at' => $productExport->created_at,
@@ -84,6 +90,8 @@ class ProductExportService
                 'note' => $productExport->note,
                 'propose_id' => $productExport->propose_id,
                 'propose_name' => $productExport->propose ? $productExport->propose->name : null,
+                'order_id' => $productExport->propose ? $productExport->propose->order_id : null,
+                'order_name' => $productExport->propose ? $productExport->propose->order->name : null,
                 'created_by' => $productExport->created_by,
                 'created_by_name' => $productExport->user ? $productExport->user->name : null,
                 'created_at' => $productExport->created_at,
@@ -178,6 +186,10 @@ class ProductExportService
             }
 
             $this->proposeService->handlePropose($data['propose_id'], 4);
+
+            $orderId = Propose::find($data['propose_id'])->order_id;
+
+            $this->orderService->updateStatusOrder($orderId, ['status' => 3]);
 
             // Commit transaction khi tất cả các thao tác thành công
             DB::commit();

@@ -49,7 +49,7 @@ class OrderSeeder extends Seeder
             [
                 'order_id' => 1,
                 'product_id' => 3,
-                'quantity' => 3,
+                'quantity' => 300,
                 'price' => '100',
                 'total_price' => '800000',
             ],

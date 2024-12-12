@@ -47,7 +47,7 @@ class ProductExportCreated implements ShouldBroadcastNow
     {
         Notification::create([
             'user_id' => $this->productExport->created_by,
-            'message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công',
+            'message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công. Đơn hàng tương ứng đã hoàn thành.',
             'url' => '/notes?filter=xuất thành phẩm',
         ]);
 
@@ -63,14 +63,14 @@ class ProductExportCreated implements ShouldBroadcastNow
         foreach ($ids as $id) {
             Notification::create([
                 'user_id' => $id,
-                'message' => $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name,
+                'message' => $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . '. Đơn hàng tương ứng đã hoàn thành.',
                 'url' => '/notes?filter=xuất thành phẩm',
             ]);
         }
         return [
             'event' => 'product-export.created',
-            'manager_message' =>  $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name,
-            'employee_message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công',
+            'manager_message' =>  $this->productExport->user->name . ' đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . '. Đơn hàng tương ứng đã hoàn thành.',
+            'employee_message' => 'Bạn đã tạo ' . $this->productExport->name . ' dựa trên ' . $this->productExport->propose->name . ' thành công. Đơn hàng tương ứng đã hoàn thành.',
             'product_receipt_id' => $this->productExport->id,
             'product_receipt_created_by' => $this->productExport->created_by,
         ];
