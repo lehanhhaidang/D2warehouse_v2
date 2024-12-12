@@ -22,7 +22,7 @@ class InventoryReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'details.*.actual_quantity' => 'required|numeric|min:0',
+            'details.*.actual_quantity' => 'required|numeric|min:0|max:5000',
         ];
     }
 
@@ -32,6 +32,7 @@ class InventoryReportRequest extends FormRequest
             'details.*.actual_quantity.required' => 'Vui lòng nhập số lượng thực tế',
             'details.*.actual_quantity.numeric' => 'Số lượng thực tế phải là số',
             'details.*.actual_quantity.min' => 'Số lượng thực tế phải lớn hơn hoặc bằng 0',
+            'details.*.actual_quantity.max' => 'Số lượng thực tế phải nhỏ hơn hoặc bằng 5000',
         ];
     }
 }
