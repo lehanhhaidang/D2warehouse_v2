@@ -353,11 +353,6 @@ class ProposeService
             );
             abort_if($propose->status == 4, 403, 'Trạng thái đề xuất không hợp lệ, có vẻ đề xuất này đã được xử lý.');
 
-            if ($propose->type === 'DXXNVL') {
-                $manufacturingPlanId = Propose::find($propose->id)->manufacturing_plan_id;
-
-                $this->manufacturingPlanService->updateStatusManufacturingPlan($manufacturingPlanId, ['status' => 3]);
-            }
             return $this->proposeRepository->updatePropose($id, ['status' => $status]);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode());
@@ -366,6 +361,11 @@ class ProposeService
 
     public function acceptPropose($id)
     {
+        if (Propose::find($id)->type === 'DXXNVL') {
+            $manufacturingPlanId = Propose::find($id)->manufacturing_plan_id;
+
+            $this->manufacturingPlanService->updateStatusManufacturingPlan($manufacturingPlanId, ['status' => 3]);
+        }
         return $this->handlePropose($id, 2);
     }
 

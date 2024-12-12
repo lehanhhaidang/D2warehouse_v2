@@ -49,7 +49,7 @@ class ManufacturingPlanConfirmed implements ShouldBroadcastNow
     public function broadcastWith()
     {
         $userToNotify = User::whereIn('role_id', [2, 3, 4])
-            ->where('id', '!=', Auth::id())
+            ->where('id', '!=', ManufacturingPlan::find($this->manufacturingPlan->id)->created_by)
             ->get();
         foreach ($userToNotify as $user) {
             Notification::create([
