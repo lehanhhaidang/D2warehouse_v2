@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Order;
+use App\Models\User;
 use App\Repositories\Interface\OrderRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class OrderService
 {
@@ -101,6 +103,11 @@ class OrderService
             $order = $this->findOrder($id);
 
             $order = $this->orderRepository->update($id, ['status' => 1]);
+
+            $roleId = User::find(Auth::id())->role_id;
+            if (!$roleId === 2) {
+                throw new \Exception('Bạn không có quyền thực hiện hành động này', 403);
+            }
 
             return $order;
         } catch (\Exception $e) {

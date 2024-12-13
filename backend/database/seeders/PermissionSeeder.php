@@ -131,7 +131,18 @@ class PermissionSeeder extends Seeder
             'send_inventory_report',
             'confirm_inventory_report',
             'reject_inventory_report',
-            'confirm_change_quantity_inventory_report'
+            'confirm_change_quantity_inventory_report',
+
+            //Manufacturing
+
+            'view_manufacturing_plans',
+            'create_manufacturing_plans',
+            'update_manufacturing_plans',
+            'delete_manufacturing_plans',
+            'send_manufacturing_plan',
+            'accept_manufacturing_plan',
+            'reject_manufacturing_plan',
+
 
 
 

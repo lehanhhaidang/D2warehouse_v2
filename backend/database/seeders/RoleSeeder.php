@@ -107,6 +107,8 @@ class RoleSeeder extends Seeder
             'send_propose',
 
             //Orders
+            'view_orders',
+            'update_orders',
 
 
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Order\OrderCancelled;
+use App\Events\Order\OrderConfirmed;
+use App\Events\Order\OrderStart;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -257,6 +260,8 @@ class OrderController extends Controller
         try {
             $order = $this->orderService->confirmOrder($id);
 
+            event(new OrderConfirmed($id));
+
             return response()->json([
                 'message' => 'Xác nhận đơn hàng thành công',
                 'status' => 200,
@@ -317,6 +322,8 @@ class OrderController extends Controller
     {
         try {
             $order = $this->orderService->startProcessingOrder($id);
+
+            event(new OrderStart($id));
 
             return response()->json([
                 'message' => 'Bắt đầu xử lý đơn hàng thành công',
@@ -396,6 +403,8 @@ class OrderController extends Controller
     {
         try {
             $order = $this->orderService->cancelOrder($id);
+
+            event(new OrderCancelled($id));
 
             return response()->json([
                 'message' => 'Hủy đơn hàng thành công',
