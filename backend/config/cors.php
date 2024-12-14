@@ -33,7 +33,7 @@ return [
 
     'paths' => ['api/*', 'broadcasting/auth'], // Thêm 'broadcasting/auth' vào đây
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['http://localhost:5173'], // Cho phép domain của bạn
+    'allowed_origins' => ['*'], // Cho phép domain của bạn
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],

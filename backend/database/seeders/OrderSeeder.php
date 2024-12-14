@@ -48,7 +48,7 @@ class OrderSeeder extends Seeder
                 'customer_address' => 'Hải Phòng',
                 'order_date' => '2024-08-12 17:45:14',
                 'delivery_date' => '2024-08-12 17:45:14',
-                'status' => 1,
+                'status' => 0,
                 'note' => 'Giao hàng sớm',
                 'total_price' => '1550000',
 
@@ -61,7 +61,7 @@ class OrderSeeder extends Seeder
             [
                 'order_id' => 1,
                 'product_id' => 1,
-                'quantity' => 100,
+                'quantity' => 1000,
                 'price' => '5000',
                 'total_price' => '500000',
             ],
@@ -109,8 +109,8 @@ class OrderSeeder extends Seeder
             ],
             [
                 'order_id' => 3,
-                'product_id' => 2,
-                'quantity' => 100,
+                'product_id' => 17,
+                'quantity' => 1000,
                 'price' => '7500',
                 'total_price' => '750000',
             ],

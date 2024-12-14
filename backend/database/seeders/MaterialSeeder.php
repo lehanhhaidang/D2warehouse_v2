@@ -26,7 +26,7 @@ class MaterialSeeder extends Seeder
             [
                 'name' => 'Nhựa PET',
                 'unit' => 'KG',
-                'quantity' => 2000,
+                'quantity' => 1000,
                 'category_id' => 4,
                 'status' => 1,
                 'created_at' => now(),
