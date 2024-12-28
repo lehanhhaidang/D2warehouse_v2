@@ -1,0 +1,158 @@
+.w-45{
+    width: 45%;
+}
+.ant-divider-horizontal{
+    margin : 15px 0px;
+}
+.w-45 {
+    width: 45%;
+}
+
+.ant-divider-horizontal {
+    margin: 15px 0px;
+}
+
+/* style.css */
+.responsive-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    
+}
+.scrollable-content {
+    overflow-y: auto;
+    height: calc(85vh - 4rem); /* Adjust this value based on your header/footer height */
+}
+.highlighted-image {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng đổ */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi */
+}
+
+.highlighted-image:hover {
+    transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Bóng đổ khi hover */
+}
+.scrollable-content {
+    overflow-y: auto;
+  }
+/* For screens with a maximum width of 768px */
+@media (max-width: 768px) {
+    .responsive-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .responsive-item {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .responsive-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .responsive-table {
+        width: 100%;
+        min-width: 600px; /* Adjust this value based on your table's minimum width */
+    }
+
+    .responsive-item input,
+    .responsive-item select {
+        width: 100%;
+    }
+
+    .responsive-item p {
+        text-align: center;
+    }
+}
+
+/* For screens with a maximum width of 480px */
+@media (max-width: 480px) {
+    .responsive-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .responsive-item {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .responsive-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .responsive-table {
+        width: 100%;
+        min-width: 600px; /* Adjust this value based on your table's minimum width */
+    }
+
+    .responsive-item input,
+    .responsive-item select {
+        width: 100%;
+    }
+
+    .responsive-item p {
+        text-align: center;
+    }
+}
+
+/* For screens with a maximum width of 320px */
+@media (max-width: 320px) {
+    .responsive-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .responsive-item {
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+
+    .responsive-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .responsive-table {
+        width: 100%;
+        min-width: 600px; /* Adjust this value based on your table's minimum width */
+    }
+
+    .responsive-item input,
+    .responsive-item select {
+        width: 100%;
+    }
+
+    .responsive-item p {
+        text-align: center;
+    }
+}
+@media (min-width: 640px) {
+  .responsive-item {
+    flex: 1 1 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-item {
+    flex: 1 1 33.3333%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-item {
+    flex: 1 1 25%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-item {
+    flex: 1 1 20%;
+  }
+}
